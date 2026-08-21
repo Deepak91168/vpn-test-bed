@@ -1,0 +1,14 @@
+# One domain per line (or "rank,domain"). Randomly selected each request.
+# Swap in a Tranco / Umbrella top-100 list for a bigger pool.
+example.com
+wikipedia.org
+bbc.com
+github.com
+apache.org
+python.org
+mozilla.org
+cloudflare.com
+nytimes.com
+reddit.com
+stackoverflow.com
+amazon.com
