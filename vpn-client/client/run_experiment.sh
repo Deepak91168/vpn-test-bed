@@ -12,10 +12,22 @@ cd "$HERE"
 [ -f config.env ] || { echo "config.env not found in $HERE"; exit 1; }
 set -a; . ./config.env; set +a
 
+# --- transport mode: `./run_experiment.sh [udp|tcp]` -------------------------
+# No argument => unchanged behaviour (uses OVPN_CONFIG from config.env).
+MODE="${1:-}"
+case "$MODE" in
+  udp) export OVPN_CONFIG=./client.ovpn;     export CAPTURE_LABEL=udp ;;
+  tcp) export OVPN_CONFIG=./client-tcp.ovpn; export CAPTURE_LABEL=tcp ;;
+  "")  : ;;  # keep config.env's OVPN_CONFIG (backward compatible)
+  *)   echo "usage: $0 [udp|tcp]"; exit 1 ;;
+esac
+[ -f "$OVPN_CONFIG" ] || { echo "profile not found: $OVPN_CONFIG (create it — see README TCP section)"; exit 1; }
+[ -n "$MODE" ] && echo "[run] transport mode: $MODE  profile: $OVPN_CONFIG"
+
 NETNS="${NETNS:-vpn}"
 OUTPUT_DIR="${OUTPUT_DIR:-./experiment_out}"
 RUN_DIR="$OUTPUT_DIR/run"
-mkdir -p "$OUTPUT_DIR/captures" "$OUTPUT_DIR/results" "$RUN_DIR"
+mkdir -p "$OUTPUT_DIR" "$RUN_DIR"
 
 # exported for the openvpn up/down scripts
 export VPNLAB_NETNS="$NETNS"

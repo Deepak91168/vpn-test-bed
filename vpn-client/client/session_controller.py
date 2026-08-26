@@ -194,7 +194,8 @@ def count_packets(pcap):
 
 def main():
     # --- one unique, independent directory per capture run --------------------
-    capture_id = "capture_" + datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    _label = os.environ.get("CAPTURE_LABEL", "")
+    capture_id = "capture_" + (f"{_label}_" if _label else "") + datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     capture_dir = CAPTURES_ROOT / capture_id
     _n = 1
     while capture_dir.exists():          # guarantee a brand-new dir (never reuse)
@@ -232,6 +233,7 @@ def main():
 
     capture_meta = {
         "capture_id": capture_id,
+        "transport": proto,          # "udp" | "tcp" — explicit transport label
         "start_time": datetime.now(timezone.utc).isoformat(),
         "end_time": None,
         "duration_s": None,
@@ -262,7 +264,8 @@ def main():
         ovpn_log = sess_dir / f"{sid}_openvpn.log"
         t0 = time.time()
         meta = {"session_id": i, "start_time": datetime.now(timezone.utc).isoformat(),
-                "vpn_server": server_ip, "vpn_protocol": "OpenVPN", "proto": proto, "port": port,
+                "vpn_server": server_ip, "vpn_protocol": "OpenVPN", "transport": proto,
+                "proto": proto, "port": port,
                 "seed": seed, "planned_duration_s": sdur, "traffic_start_delay_s": tsd,
                 "inter_session_delay_s": isd, "planned_requests": nreq,
                 "connection_success": False, "assigned_vpn_ip": None,

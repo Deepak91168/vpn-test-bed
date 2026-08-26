@@ -24,7 +24,7 @@ for each session:  capture on -> OpenVPN up -> wait til ESTABLISHED
 
 ## Isolation: why a network namespace (the important correction)
 
-Your draft listed netns / dedicated user / policy routing as options. The
+Your draft listed netns / dedicated user / policy routing adees options. The
 **network namespace is the simplest AND safest**, and it fixes a real hazard in
 the naive approach:
 
