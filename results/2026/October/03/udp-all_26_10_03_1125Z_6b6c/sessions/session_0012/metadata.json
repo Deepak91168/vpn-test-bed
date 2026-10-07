@@ -1,0 +1,180 @@
+{
+  "session_id": 12,
+  "transport": "udp",
+  "control_protection": "tls-crypt",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-crypt/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T11:37:45.644875+00:00",
+  "vpn_established_time": "2026-10-03T11:37:47.081745+00:00",
+  "web_start_time": "2026-10-03T11:37:47.081941+00:00",
+  "web_end_time": "2026-10-03T11:38:42.083290+00:00",
+  "end_time": "2026-10-03T11:38:47.826484+00:00",
+  "post_session_delay_s": 2.34,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 10,
+  "web_successes": 10,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://wordpress.org/",
+    "https://adobe.io/",
+    "https://skype.com/",
+    "https://base.org/",
+    "https://criteo.com/",
+    "https://mozilla.org/",
+    "https://t.me/",
+    "https://dropbox.com/",
+    "https://registrar-servers.com/",
+    "https://skype.com/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 40,
+  "session_seconds_planned": 60.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://wordpress.org/",
+      "effective_url": "https://wordpress.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 165094,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://adobe.io/",
+      "effective_url": "https://developer.adobe.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 18379,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://skype.com/",
+      "effective_url": "https://teams.live.com/free?source=skype",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 61987,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://base.org/",
+      "effective_url": "https://www.base.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 242735,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://criteo.com/",
+      "effective_url": "https://www.criteo.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 465018,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://mozilla.org/",
+      "effective_url": "https://www.mozilla.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 47775,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://t.me/",
+      "effective_url": "https://telegram.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 19919,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://dropbox.com/",
+      "effective_url": "https://www.dropbox.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 598366,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://registrar-servers.com/",
+      "effective_url": "https://registrar-servers.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 2031,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://skype.com/",
+      "effective_url": "https://teams.live.com/free?source=skype",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 61987,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.437,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 60.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 62.182,
+  "capture_duration_s": 60.997,
+  "renegotiation_events": 1,
+  "renegotiation_log_times": [
+    "2026-10-03 12:38:26 us=720258"
+  ],
+  "stats": {
+    "packet_count": 1296,
+    "captured_bytes": 643123,
+    "pcap_size": 682027,
+    "client_to_server_packets": 613,
+    "client_to_server_bytes": 118891,
+    "server_to_client_packets": 683,
+    "server_to_client_bytes": 524232,
+    "capture_duration_s": 56.625,
+    "packets_per_sec": 22.89,
+    "bytes_per_sec": 11357.61,
+    "packet_size": {
+      "mean": 496.24,
+      "median": 143.0,
+      "min": 82,
+      "max": 1492,
+      "p25": 104,
+      "p75": 1094,
+      "p90": 1492,
+      "p95": 1492
+    }
+  }
+}

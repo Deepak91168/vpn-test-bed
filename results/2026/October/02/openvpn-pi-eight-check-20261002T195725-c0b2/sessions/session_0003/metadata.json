@@ -1,0 +1,105 @@
+{
+  "session_id": 3,
+  "transport": "tcp",
+  "control_protection": "tls-crypt",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 443,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and tcp port 443",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-crypt/profiles/tcp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-02T18:58:00.391575+00:00",
+  "vpn_established_time": "2026-10-02T18:58:01.763047+00:00",
+  "web_start_time": "2026-10-02T18:58:01.763279+00:00",
+  "web_end_time": "2026-10-02T18:58:10.364459+00:00",
+  "end_time": "2026-10-02T18:58:14.494883+00:00",
+  "post_session_delay_s": 3.376,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 3,
+  "web_successes": 3,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://www.wikipedia.org/",
+    "https://www.wikipedia.org/",
+    "https://www.wikipedia.org/"
+  ],
+  "reneg_sec": 3,
+  "session_seconds_planned": 12.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://www.wikipedia.org/",
+      "effective_url": "https://www.wikipedia.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 93955,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://www.wikipedia.org/",
+      "effective_url": "https://www.wikipedia.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 93955,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://www.wikipedia.org/",
+      "effective_url": "https://www.wikipedia.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 93955,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.371,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 12.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 14.103,
+  "capture_duration_s": 12.985,
+  "renegotiation_events": 4,
+  "renegotiation_log_times": [
+    "2026-10-02 19:58:04 us=318052",
+    "2026-10-02 19:58:07 us=498719",
+    "2026-10-02 19:58:10 us=167694",
+    "2026-10-02 19:58:12 us=283321"
+  ],
+  "stats": {
+    "packet_count": 423,
+    "captured_bytes": 181759,
+    "pcap_size": 194473,
+    "client_to_server_packets": 199,
+    "client_to_server_bytes": 48656,
+    "server_to_client_packets": 224,
+    "server_to_client_bytes": 133103,
+    "capture_duration_s": 11.823,
+    "packets_per_sec": 35.78,
+    "bytes_per_sec": 15373.44,
+    "packet_size": {
+      "mean": 429.69,
+      "median": 130,
+      "min": 52,
+      "max": 1400,
+      "p25": 52,
+      "p75": 605,
+      "p90": 1400,
+      "p95": 1400
+    }
+  }
+}

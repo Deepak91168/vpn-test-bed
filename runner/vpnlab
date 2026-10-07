@@ -1,0 +1,535 @@
+#!/usr/bin/env python3
+"""Sequential OpenVPN web experiment runner. Run with sudo from any directory."""
+import argparse
+import csv
+import hashlib
+import getpass
+import json
+import os
+import pwd
+import random
+import re
+import shutil
+import signal
+import socket
+import statistics
+import subprocess
+import sys
+import time
+import uuid
+from datetime import datetime, timezone
+from pathlib import Path
+from urllib.parse import urlsplit
+from zoneinfo import ZoneInfo
+
+ROOT = Path(__file__).resolve().parents[1]
+CLIENT = ROOT / 'client/openvpn'
+STOP = False
+ACTIVE = []
+MODES = ('vanilla', 'tls-auth', 'tls-crypt', 'tls-crypt-v2')
+DEFAULT_CONFIG = ROOT / 'experiments/openvpn/run.json'
+RESULT_TIMEZONE = ZoneInfo('Asia/Kolkata')
+SSH_HOME = Path(pwd.getpwnam(os.environ.get('SUDO_USER', pwd.getpwuid(os.getuid()).pw_name)).pw_dir) / '.ssh'
+SSH_OPTS = ['-o','BatchMode=yes','-o','ConnectTimeout=8','-o','StrictHostKeyChecking=yes',
+            '-o',f'UserKnownHostsFile={SSH_HOME / "known_hosts"}','-i',str(SSH_HOME / 'id_ed25519')]
+RSYNC_SSH = 'ssh ' + ' '.join(SSH_OPTS)
+
+def now(): return datetime.now(timezone.utc).isoformat()
+def write(path, obj): path.write_text(json.dumps(obj, indent=2) + '\n')
+def cmd(args, **kw): return subprocess.run(args, text=True, capture_output=True, **kw)
+def handler(signum, frame):
+    global STOP
+    STOP = True
+signal.signal(signal.SIGINT, handler)
+signal.signal(signal.SIGTERM, handler)
+
+def stop_process(p, timeout=8):
+    if not p: return
+    if p.poll() is None:
+        p.terminate()
+        try: p.wait(timeout=timeout)
+        except subprocess.TimeoutExpired:
+            p.kill(); p.wait()
+
+def sleep(seconds):
+    end=time.monotonic()+seconds
+    while not STOP and time.monotonic()<end:
+        time.sleep(min(.25, end-time.monotonic()))
+
+def profile(transport, control):
+    group=Path('vanilla') if control=='vanilla' else Path('control-protection')/control
+    return CLIENT/group/'profiles'/f'{transport}.ovpn'
+
+def parse_profile(path):
+    values={}
+    for line in path.read_text().splitlines():
+        parts=line.split()
+        if parts and not parts[0].startswith('#'): values[parts[0]]=parts[1:]
+    host,port=values['remote'][:2]
+    proto='tcp' if values['proto'][0].startswith('tcp') else 'udp'
+    return host,int(port),proto
+
+def plan_schedule(combos, total, per_config, shuffle, rng):
+    counts={mode:per_config for mode in combos}
+    if total is not None:
+        base, extra=divmod(total,len(combos))
+        counts={mode:base for mode in combos}
+        for mode in rng.sample(combos,extra): counts[mode]+=1
+    schedule=[mode for mode in combos for _ in range(counts[mode])]
+    if shuffle: rng.shuffle(schedule)
+    return schedule,counts
+
+def mixed_rekey_plan(combos, schedule, counts, rng, hold_seconds):
+    """Balance 0/1/2 renewal targets within each configuration."""
+    per_mode={}
+    starts=[i%3 for i in range(len(combos))]
+    rng.shuffle(starts)
+    for mode, start in zip(combos, starts):
+        n=counts[mode]
+        targets=[0,1,2]*(n//3)+[(start+j)%3 for j in range(n%3)]
+        rng.shuffle(targets)
+        per_mode[mode]=iter(targets)
+    targets=[next(per_mode[mode]) for mode in schedule]
+    intervals={0:None, 1:round(hold_seconds*.75), 2:round(hold_seconds*.5)}
+    return targets,[intervals[target] for target in targets]
+
+def result_label(args, mixed_rekeys):
+    if args.purpose not in ('auto','standard'): return args.purpose
+    if args.transport=='all' and args.control=='all':
+        return 'mixed-rekeys' if mixed_rekeys or args.reneg_sec is not None else 'mixed'
+    if args.transport=='all': return f'both-{args.control}'
+    if args.control=='all': return f'{args.transport}-all'
+    return f'{args.transport}-{args.control}'
+
+def result_path(label, total, local_time, short_id):
+    day=ROOT/'results'/str(local_time.year)/local_time.strftime('%B')/local_time.strftime('%d')
+    return day/f'{label}_{local_time:%y_%m_%d_%H%M}_{total}_{short_id}'
+
+def environment():
+    def version(args):
+        try: return cmd(args, timeout=5).stdout.splitlines()[0]
+        except (OSError, IndexError, subprocess.TimeoutExpired): return None
+    osrel={}
+    for line in Path('/etc/os-release').read_text().splitlines():
+        if '=' in line:
+            k,v=line.split('=',1); osrel[k]=v.strip('"')
+    git=cmd(['git','-C',str(ROOT),'rev-parse','HEAD'])
+    return {'hostname':socket.gethostname(),'os_release':osrel.get('PRETTY_NAME'),
+        'kernel_version':os.uname().release,'architecture':os.uname().machine,
+        'openvpn_version':version(['openvpn','--version']),'tcpdump_version':version(['tcpdump','--version']),
+        'browser_version':None,'playwright_version':None,
+        'git_commit':git.stdout.strip() if git.returncode==0 else None,
+        'git_state':('dirty' if cmd(['git','-C',str(ROOT),'status','--porcelain']).stdout else 'clean') if git.returncode==0 else None}
+
+def capture_stats(pcap, host):
+    out={'packet_count':0,'captured_bytes':0,'pcap_size':pcap.stat().st_size if pcap.exists() else 0,
+         'client_to_server_packets':0,'client_to_server_bytes':0,'server_to_client_packets':0,'server_to_client_bytes':0}
+    if not pcap.exists() or not out['pcap_size']: return out
+    r=cmd(['tcpdump','-nn','-tt','-v','-r',str(pcap)],timeout=60)
+    if r.returncode: return out
+    sizes=[]; times=[]
+    lines=r.stdout.splitlines()
+    for j,line in enumerate(lines):
+        m=re.match(r'^(\d+\.\d+) IP .*? length (\d+)\)',line)
+        if not m: continue
+        size=int(m.group(2)); sizes.append(size); times.append(float(m.group(1)))
+        out['packet_count']+=1; out['captured_bytes']+=size
+        detail=lines[j+1] if j+1<len(lines) else ''
+        direction='server_to_client' if re.search(r'^\s*'+re.escape(host)+r'\.',detail) else 'client_to_server'
+        out[direction+'_packets']+=1; out[direction+'_bytes']+=size
+    if times:
+        dur=max(times)-min(times); out['capture_duration_s']=round(dur,3)
+        out['packets_per_sec']=round(len(times)/dur,2) if dur else None
+        out['bytes_per_sec']=round(sum(sizes)/dur,2) if dur else None
+        ss=sorted(sizes)
+        def pct(q): return ss[round((len(ss)-1)*q)]
+        out['packet_size']={'mean':round(statistics.mean(ss),2),'median':statistics.median(ss),
+            'min':ss[0],'max':ss[-1],'p25':pct(.25),'p75':pct(.75),'p90':pct(.9),'p95':pct(.95)}
+    return out
+
+def remote_sudo(desktop, password, action, *parts):
+    return subprocess.run(['ssh','-T',*SSH_OPTS,desktop,
+        'sudo','-S','-p','VPNLAB:','/home/deepaksingh/vpn-testbed-v2/server/openvpn/scripts/select_profile.sh',action,*parts],
+        input=password+'\n',text=True,capture_output=True,timeout=40)
+
+def run_session(i,total,transport,control,exp,ns,web_plan,args,desktop_password,rekey_target,reneg_sec):
+    path=profile(transport,control); host,port,proto=parse_profile(path)
+    route=cmd(['ip','route','get',host])
+    parts=route.stdout.split()
+    if route.returncode or 'dev' not in parts: raise RuntimeError('server_unreachable: route lookup failed')
+    iface=args.capture_interface or parts[parts.index('dev')+1]
+    bpf=f'host {host} and {proto} port {port}'
+    sdir=exp/'sessions'/f'session_{i:04d}'; sdir.mkdir(parents=True)
+    link=exp/'by-configuration'/transport/control/f'session_{i:04d}'
+    link.parent.mkdir(parents=True,exist_ok=True); link.symlink_to(os.path.relpath(sdir,link.parent), target_is_directory=True)
+    ready=exp/f'.ready_{i}'; tuninfo=exp/f'.tuninfo_{i}'
+    meta={'session_id':i,'transport':transport,'control_protection':control,'obfuscation':'none',
+          'server_ip':host,'server_port':port,'capture_interface':iface,'capture_filter':bpf,
+          'profile':str(path),'host':socket.gethostname(),'start_time':now(),'vpn_established_time':None,
+          'web_start_time':None,'web_end_time':None,'end_time':None,'post_session_delay_s':None,
+          'status':'started','failure_category':None,'failure_reason':None,
+          'connection_success':False,'web_attempts':0,'web_successes':0,'web_failures':0,
+          'web_sites_planned':web_plan,'rekey_target':rekey_target,'reneg_sec':reneg_sec,
+          'session_seconds_planned':args.session_seconds}
+    cap=ov=web=None; files=[]; t0=time.monotonic(); cap_start=None; server_selected=False; established_mono=None
+    response_path=sdir/'web-response.tmp'
+    meta['web_visit_results']=[]
+    target_label=f' | target rekeys={rekey_target}' if rekey_target is not None else ''
+    print(f'[{i:03d}/{total:03d}] OpenVPN {transport.upper()} / {control}{target_label}',flush=True)
+    try:
+        if STOP: raise InterruptedError('manual interrupt')
+        for f in (ready,tuninfo): f.unlink(missing_ok=True)
+        select=remote_sudo(args.desktop,desktop_password,'select',transport,control,
+                           str(reneg_sec) if reneg_sec is not None else 'default')
+        if select.returncode: raise RuntimeError('server_unreachable: '+select.stderr.strip())
+        server_selected=True
+        caplog=open(sdir/'capture.log','w'); files.append(caplog)
+        cap=subprocess.Popen(['tcpdump','-i',iface,'-U','-w',str(sdir/'client.pcap'),bpf],stdout=caplog,stderr=caplog)
+        sleep(.8)
+        if STOP: raise InterruptedError('manual interrupt')
+        if cap.poll() is not None: raise RuntimeError('capture_failure: tcpdump exited')
+        cap_start=time.monotonic()
+        ovlog=open(sdir/'openvpn-client.log','w'); files.append(ovlog)
+        ov_cmd=['openvpn','--cd',str(CLIENT),'--config',str(path),'--dev','tunvpn',
+            '--ifconfig-noexec','--route-noexec','--script-security','2',
+            '--setenv','VPNLAB_NETNS',ns,'--setenv','VPNLAB_READY',str(ready),
+            '--setenv','VPNLAB_TUNINFO',str(tuninfo),'--up',str(CLIENT/'hooks/netns_up.sh'),
+            '--down',str(CLIENT/'hooks/netns_down.sh')]
+        if reneg_sec is not None:
+            ov_cmd.extend(['--reneg-sec',str(reneg_sec),str(reneg_sec),'--verb','4'])
+        ov=subprocess.Popen(ov_cmd,stdout=ovlog,stderr=subprocess.STDOUT)
+        deadline=time.monotonic()+args.connect_timeout
+        while not STOP and time.monotonic()<deadline and ov.poll() is None:
+            if ready.exists() and 'inet ' in cmd(['ip','-n',ns,'-4','addr','show','tunvpn']).stdout: break
+            sleep(.25)
+        if STOP: raise InterruptedError('manual interrupt')
+        if not ready.exists():
+            raise RuntimeError('openvpn_process_crash: OpenVPN exited' if ov.poll() is not None else 'vpn_timeout: connection timeout')
+        meta['vpn_established_time']=now(); meta['vpn_connect_time_s']=round(time.monotonic()-t0,3)
+        meta['connection_success']=True
+        established_mono=time.monotonic()
+        if tuninfo.exists(): meta['tunnel_info']=dict(line.split('=',1) for line in tuninfo.read_text().splitlines() if '=' in line)
+        attempts=successes=0
+        with open(sdir/'web.log','w') as weblog:
+            for visit_index,url in enumerate(web_plan):
+                if args.session_seconds:
+                    sleep(max(0,established_mono + visit_index*args.session_seconds/len(web_plan)
+                              - time.monotonic()))
+                if STOP: raise InterruptedError('manual interrupt')
+                if ov.poll() is not None: raise RuntimeError('openvpn_process_crash: tunnel dropped')
+                if meta['web_start_time'] is None: meta['web_start_time']=now()
+                attempts+=1; meta['web_attempts']=attempts
+                web_env={k:v for k,v in os.environ.items()
+                         if k.lower() not in ('http_proxy','https_proxy','all_proxy','no_proxy')}
+                proxy_args=['--proxy',args.web_proxy,'--noproxy',''] if args.web_proxy else ['--noproxy','*']
+                response_path.unlink(missing_ok=True)
+                web=subprocess.Popen(['ip','netns','exec',ns,'curl',*proxy_args,'-L',
+                    '--compressed','--max-time',str(args.web_timeout),'-o',str(response_path),'-sS',
+                    '-w','%{http_code}\t%{url_effective}\t%{remote_ip}',url],
+                    stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,env=web_env)
+                web_deadline=time.monotonic()+args.web_timeout+3
+                while web.poll() is None and not STOP and time.monotonic()<web_deadline:
+                    time.sleep(.2)
+                if STOP:
+                    stop_process(web); raise InterruptedError('manual interrupt')
+                if web.poll() is None:
+                    stop_process(web); output='000\t'+url+'\t'; error='request timeout'
+                else:
+                    output,error=web.communicate()
+                code,effective,remote_ip=(output.strip().split('\t')+['',''])[:3]
+                with response_path.open('rb') if response_path.exists() else open(os.devnull,'rb') as bodyfile:
+                    body_head=bodyfile.read(16384).lower()
+                proxy_host=urlsplit(args.web_proxy).hostname if args.web_proxy else None
+                final=urlsplit(effective)
+                proxy_login=bool(b'iit delhi proxy login' in body_head or
+                    b'proxy authentication required' in body_head or
+                    (proxy_host and final.hostname==proxy_host and 'proxy.cgi' in final.path))
+                if proxy_login: reason='proxy_login_page'
+                elif args.web_proxy and 'CONNECT tunnel failed' in error: reason='proxy_connect_failed'
+                elif web.returncode!=0: reason='request_timeout' if 'timeout' in error.lower() else 'curl_error'
+                elif not code.startswith(('2','3')): reason='http_error'
+                elif url.startswith('https://') and final.scheme!='https': reason='insecure_redirect'
+                else: reason=None
+                success=reason is None
+                visit={'requested_url':url,'effective_url':effective,'remote_ip':remote_ip,
+                       'http_code':code,'curl_exit_code':web.returncode,
+                       'response_bytes':response_path.stat().st_size if response_path.exists() else 0,
+                       'success':success,'failure_reason':reason}
+                meta['web_visit_results'].append(visit)
+                if success:
+                    successes+=1; meta['web_successes']=successes
+                weblog.write(f'{url} http={code} effective={effective} exit={web.returncode} '
+                             f'result={reason or "ok"}\n')
+                if error: weblog.write(error.strip()+'\n')
+                weblog.flush()
+                response_path.unlink(missing_ok=True)
+                web=None
+        meta['web_end_time']=now()
+        if args.session_seconds:
+            sleep(max(0,established_mono+args.session_seconds-time.monotonic()))
+        if STOP: raise InterruptedError('manual interrupt')
+        if ov.poll() is not None: raise RuntimeError('openvpn_process_crash: tunnel dropped')
+        meta['web_attempts']=attempts; meta['web_successes']=successes
+        meta['web_failures']=attempts-successes; meta['web_success_rate']=round(successes/attempts,4) if attempts else 0
+        meta['status']='successful' if successes==attempts else 'failed'
+        if successes!=attempts:
+            reasons=[v['failure_reason'] for v in meta['web_visit_results'] if not v['success']]
+            meta['failure_category']='proxy_auth_required' if 'proxy_login_page' in reasons else 'web_failure'
+            meta['failure_reason']=', '.join(sorted(set(reasons)))
+    except InterruptedError as e:
+        meta['status']='interrupted'; meta['failure_category']='manual_interrupt'; meta['failure_reason']=str(e)
+    except Exception as e:
+        msg=str(e); cat,_,reason=msg.partition(': ')
+        meta['status']='failed'; meta['failure_category']=cat if cat in ('capture_failure','vpn_timeout','namespace_failure','web_failure','server_unreachable','openvpn_process_crash') else 'unknown'
+        meta['failure_reason']=reason or msg
+    finally:
+        stop_process(web); stop_process(ov)
+        response_path.unlink(missing_ok=True)
+        meta['tunnel_duration_s']=round(time.monotonic()-established_mono,3) if established_mono is not None else None
+        if meta['web_start_time'] and not meta['web_end_time']: meta['web_end_time']=now()
+        meta['web_failures']=meta['web_attempts']-meta['web_successes']
+        meta['web_success_rate']=round(meta['web_successes']/meta['web_attempts'],4) if meta['web_attempts'] else 0
+        if server_selected:
+            remote_stop=remote_sudo(args.desktop,desktop_password,'stop')
+            meta['server_stop_ok']=remote_stop.returncode==0
+        stop_process(cap)
+        meta['openvpn_exit_code']=ov.returncode if ov else None
+        meta['end_time']=now(); meta['session_duration_s']=round(time.monotonic()-t0,3)
+        meta['capture_duration_s']=round(time.monotonic()-cap_start,3) if cap_start else 0
+        for f in files: f.close()
+        log_path=sdir/'openvpn-client.log'
+        tls_lines=[line for line in log_path.read_text().splitlines() if 'Control Channel: TLS' in line] if log_path.exists() else []
+        # Either peer may initiate a renewal, so the client need not log "TLS: soft reset".
+        # The first control-channel handshake is the connection; later ones are renewals.
+        meta['renegotiation_events']=max(0,len(tls_lines)-1)
+        meta['renegotiation_log_times']=[line.split(' Control Channel: TLS',1)[0] for line in tls_lines[1:]]
+        meta['stats']=capture_stats(sdir/'client.pcap',host)
+        session_stats={'vpn':{'connection_success':meta['connection_success'],
+            'connect_time_s':meta.get('vpn_connect_time_s'),'session_duration_s':meta['session_duration_s'],
+            'tunnel_duration_s':meta['tunnel_duration_s'],
+            'openvpn_exit_code':meta['openvpn_exit_code'],'failure_category':meta['failure_category'],
+            'failure_reason':meta['failure_reason'],'rekey_target':rekey_target,'reneg_sec':reneg_sec,
+            'renegotiation_events':meta['renegotiation_events']},
+            'web':{'attempts':meta['web_attempts'],'successes':meta['web_successes'],
+            'failures':meta['web_failures'],'success_rate':meta['web_success_rate']},
+            'capture':meta['stats']}
+        write(sdir/'metadata.json',meta); write(sdir/'stats.json',session_stats)
+        ready.unlink(missing_ok=True); tuninfo.unlink(missing_ok=True)
+        print(f"          {meta['status'].upper()} | {meta['stats']['packet_count']} packets | {meta['session_duration_s']}s | rekeys={meta['renegotiation_events']}",flush=True)
+    return meta
+
+def aggregate(rows, planned, status, start, delays):
+    counts={k:sum(r['status']==k for r in rows) for k in ('successful','failed','interrupted')}
+    totals={k:sum(r.get('stats',{}).get(k,0) for r in rows) for k in ('packet_count','captured_bytes','client_to_server_packets','client_to_server_bytes','server_to_client_packets','server_to_client_bytes')}
+    durations=[r['session_duration_s'] for r in rows]; connects=[r['vpn_connect_time_s'] for r in rows if 'vpn_connect_time_s' in r]
+    return {'status':status,'planned':planned,'started':len(rows),'completed':counts['successful']+counts['failed'],**counts,
+            'success_rate':round(counts['successful']/len(rows),4) if rows else 0,**totals,
+            'median_session_duration_s':statistics.median(durations) if durations else None,
+            'median_vpn_connect_time_s':statistics.median(connects) if connects else None,
+            'web_attempts':sum(r.get('web_attempts',0) for r in rows),
+            'web_successes':sum(r.get('web_successes',0) for r in rows),
+            'web_failures':sum(r.get('web_failures',0) for r in rows),
+            'renegotiation_events':sum(r.get('renegotiation_events',0) for r in rows),
+            'delay_min_s':min(delays) if delays else None,'delay_mean_s':statistics.mean(delays) if delays else None,
+            'delay_max_s':max(delays) if delays else None,'elapsed_s':round(time.monotonic()-start,2)}
+
+def csvfile(path, rows, fields):
+    with path.open('w',newline='') as f:
+        w=csv.DictWriter(f,fieldnames=fields,extrasaction='ignore'); w.writeheader(); w.writerows(rows)
+
+def checksums(exp):
+    lines=[]
+    for p in sorted(exp.rglob('*')):
+        if p.is_file() and not p.is_symlink() and p.name!='checksums.sha256':
+            lines.append(f'{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.relative_to(exp)}')
+    (exp/'checksums.sha256').write_text('\n'.join(lines)+'\n')
+
+def transfer(exp, desktop):
+    remote=f'{desktop}:/home/deepaksingh/VPN-Storage/experiments/openvpn/{exp.parents[2].name}/{exp.parents[1].name}/{exp.parent.name}/{exp.name}/'
+    base=remote[:-len(exp.name)-1]
+    mk=cmd(['ssh',*SSH_OPTS,desktop,'mkdir','-p',base.split(':',1)[1]],timeout=20)
+    if mk.returncode: return False,False,mk.stderr.strip(),remote
+    r=cmd(['rsync','-a','-e',RSYNC_SSH,'--',str(exp)+'/',remote],timeout=300)
+    if r.returncode: return False,False,r.stderr.strip(),remote
+    check=cmd(['ssh',*SSH_OPTS,desktop,
+               'cd '+remote.split(':',1)[1]+' && sha256sum -c checksums.sha256 >/dev/null'],timeout=300)
+    return True,check.returncode==0,check.stderr.strip(),remote
+
+def main():
+    ap=argparse.ArgumentParser()
+    sub=ap.add_subparsers(dest='command',required=True); run=sub.add_parser('run')
+    run.add_argument('protocol',choices=['openvpn']); run.add_argument('--transport',choices=['udp','tcp','all'],default='all')
+    run.add_argument('--control',choices=[*MODES,'all'],default='all')
+    run.add_argument('--sessions',type=int,help='total sessions, balanced across selected configurations')
+    run.add_argument('--sessions-per-config',type=int,default=1,help='sessions for each selected configuration when --sessions is absent')
+    run.add_argument('--shuffle',action=argparse.BooleanOptionalAction); run.add_argument('--seed',type=int)
+    run.add_argument('--delay-min',type=float,default=2); run.add_argument('--delay-max',type=float,default=6)
+    run.add_argument('--visits',type=int,default=3); run.add_argument('--web-timeout',type=int,default=20)
+    run.add_argument('--sites-file',type=Path,default=ROOT/'traffic/web/sites.txt')
+    run.add_argument('--reneg-sec',type=int,metavar='R',help='renew data-channel keys every R seconds on both peers')
+    run.add_argument('--mixed-rekeys',action=argparse.BooleanOptionalAction,default=True,
+                     help='when all eight modes are selected without --reneg-sec, balance 0/1/2 renewal targets')
+    run.add_argument('--session-seconds',type=float,default=0,metavar='S',help='minimum connected time; spread web visits across S seconds')
+    run.add_argument('--connect-timeout',type=int,default=60); run.add_argument('--capture-interface')
+    run.add_argument('--desktop',default='deepaksingh@10.208.23.185')
+    run.add_argument('--purpose',default='auto',help='short result label; auto derives it from selected modes')
+    run.add_argument('--host-config',default=str(ROOT/'hosts/laptop.env'))
+    run.add_argument('--config',type=Path,default=DEFAULT_CONFIG,
+                     help='experiment settings JSON; command-line options override it')
+    pre=argparse.ArgumentParser(add_help=False)
+    pre.add_argument('--config',type=Path,default=DEFAULT_CONFIG)
+    config_path=pre.parse_known_args()[0].config
+    try:
+        settings=json.loads(config_path.read_text())
+    except (OSError,json.JSONDecodeError) as e:
+        ap.error(f'cannot read experiment config {config_path}: {e}')
+    allowed={a.dest for a in run._actions}-{'help','protocol','config'}
+    if not isinstance(settings,dict) or set(settings)-allowed:
+        ap.error(f'config must be an object with known settings; invalid keys: {set(settings)-allowed if isinstance(settings,dict) else "not an object"}')
+    for key in ('host_config','sites_file'):
+        if key in settings:
+            path=Path(settings[key]).expanduser()
+            settings[key]=path if path.is_absolute() else ROOT/path
+    run.set_defaults(**settings)
+    args=ap.parse_args()
+    cli_total=any(x=='--sessions' or x.startswith('--sessions=') for x in sys.argv[1:])
+    cli_per_config=any(x=='--sessions-per-config' or x.startswith('--sessions-per-config=') for x in sys.argv[1:])
+    if cli_total and cli_per_config: ap.error('choose --sessions or --sessions-per-config')
+    if cli_per_config: args.sessions=None
+    if os.geteuid()!=0: ap.error('run with sudo')
+    if args.transport not in ('udp','tcp','all') or args.control not in (*MODES,'all'):
+        ap.error('invalid transport or control in config')
+    if not re.fullmatch(r'[a-z0-9-]+',args.purpose):
+        ap.error('purpose must use lowercase letters, digits, and hyphens')
+    host_config={}
+    for line in Path(args.host_config).read_text().splitlines():
+        if '=' in line and not line.lstrip().startswith('#'):
+            k,v=line.split('=',1); host_config[k.strip()]=v.strip()
+    args.dns=host_config.get('VPN_DNS','1.1.1.1')
+    args.web_proxy=host_config.get('WEB_PROXY','')
+    global SSH_OPTS, RSYNC_SSH
+    identity=Path(host_config.get('SSH_IDENTITY',str(SSH_HOME/'id_ed25519'))).expanduser()
+    SSH_OPTS=['-o','BatchMode=yes','-o','ConnectTimeout=8','-o','StrictHostKeyChecking=yes',
+              '-o',f'UserKnownHostsFile={SSH_HOME / "known_hosts"}','-i',str(identity)]
+    RSYNC_SSH='ssh '+' '.join(SSH_OPTS)
+    if not isinstance(args.sessions_per_config,int) or isinstance(args.sessions_per_config,bool) or args.sessions_per_config<1: ap.error('--sessions-per-config must be positive')
+    if args.sessions is not None and (not isinstance(args.sessions,int) or isinstance(args.sessions,bool) or args.sessions<1): ap.error('--sessions must be positive')
+    if args.visits<1 or args.delay_min<0 or args.delay_max<args.delay_min: ap.error('invalid visit count or delay')
+    if args.reneg_sec is not None and args.reneg_sec<1: ap.error('--reneg-sec must be a positive whole number')
+    if args.session_seconds<0: ap.error('--session-seconds must be nonnegative')
+    sites=[x.strip() for x in args.sites_file.read_text().splitlines() if x.strip() and not x.startswith('#')]
+    if not sites or any(not x.startswith(('http://','https://')) for x in sites):
+        ap.error('sites file needs absolute http(s) URLs')
+    transports=('udp','tcp') if args.transport=='all' else (args.transport,)
+    controls=MODES if args.control=='all' else (args.control,)
+    combos=[(t,c) for t in transports for c in controls]
+    if args.sessions is not None and args.sessions<len(combos):
+        ap.error(f'--sessions must be at least {len(combos)} to include every selected configuration')
+    seed=args.seed if args.seed is not None else random.SystemRandom().randrange(2**32)
+    rng=random.Random(seed)
+    schedule,planned_by_config=plan_schedule(combos,args.sessions,args.sessions_per_config,args.shuffle,rng)
+    web_plans=[[rng.choice(sites) for _ in range(args.visits)] for _ in schedule]
+    mixed_rekeys=args.mixed_rekeys and args.transport=='all' and args.control=='all' and args.reneg_sec is None
+    if mixed_rekeys:
+        if args.session_seconds==0: args.session_seconds=12
+        if args.session_seconds<9: ap.error('mixed rekey targets require --session-seconds >= 9 (or 0 for default 12)')
+        rekey_targets,session_reneg_secs=mixed_rekey_plan(combos,schedule,planned_by_config,rng,args.session_seconds)
+    else:
+        rekey_targets=[None]*len(schedule)
+        session_reneg_secs=[args.reneg_sec]*len(schedule)
+    for t,c in combos:
+        p=profile(t,c)
+        if not p.exists(): ap.error(f'missing profile: {p}')
+    for dependency in ('openvpn','tcpdump','ip','curl','rsync','ssh'):
+        if not shutil.which(dependency): ap.error(f'missing dependency: {dependency}')
+    print(f"plan={len(schedule)} sessions seed={seed} | " +
+          ', '.join(f'{t}/{c}={planned_by_config[(t,c)]}' for t,c in combos),flush=True)
+    desktop_password=getpass.getpass('Desktop sudo password (used only in memory): ')
+    ts=datetime.now(timezone.utc); local_ts=ts.astimezone(RESULT_TIMEZONE)
+    label=result_label(args,mixed_rekeys)
+    for _ in range(16):
+        exp=result_path(label,len(schedule),local_ts,uuid.uuid4().hex[:4])
+        try: exp.mkdir(parents=True)
+        except FileExistsError: continue
+        break
+    else: raise RuntimeError('could not allocate a unique experiment directory')
+    eid=exp.name
+    ns='vpnlabv2'; rows=[]; delays=[]; start=time.monotonic(); status='completed'; transfer_state={}; ns_created=False
+    write(exp/'experiment.yaml',{'experiment_id':eid,'label':label,'seed':seed,'protocol':'openvpn','schedule_count':len(schedule),
+        'sessions_requested':args.sessions,'sessions_per_config':None if args.sessions is not None else args.sessions_per_config,
+        'transport':args.transport,'control_protection':args.control,'obfuscation':'none',
+        'web_workload':{'sites_file':str(args.sites_file),'sites_sha256':hashlib.sha256(args.sites_file.read_bytes()).hexdigest(),
+                        'visits':args.visits,'proxy':args.web_proxy or None,'dns':args.dns},
+        'reneg_sec':args.reneg_sec,'mixed_rekeys':mixed_rekeys,'session_seconds':args.session_seconds,
+        'delay_range_s':[args.delay_min,args.delay_max],'start_time':ts.isoformat(),
+        'result_timezone':'Asia/Kolkata'})
+    write(exp/'environment.json',environment())
+    shutil.copyfile(args.sites_file,exp/'sites.txt')
+    csvfile(exp/'schedule.csv',[{'session':i,'transport':t,'control_protection':c,
+                                  'rekey_target':rekey_targets[i-1],
+                                  'reneg_sec':session_reneg_secs[i-1],
+                                  'web_sites_json':json.dumps(web_plans[i-1])} for i,(t,c) in enumerate(schedule,1)],
+            ['session','transport','control_protection','rekey_target','reneg_sec','web_sites_json'])
+    (exp/'README.md').write_text('V2 OpenVPN experiment. PCAPs are captured on the client physical interface with the recorded BPF filter.\n')
+    try:
+        if ns in cmd(['ip','netns','list']).stdout.split(): raise RuntimeError('namespace_failure: vpnlabv2 already exists')
+        r=cmd(['ip','netns','add',ns]);
+        if r.returncode: raise RuntimeError('namespace_failure: '+r.stderr.strip())
+        ns_created=True
+        cmd(['ip','-n',ns,'link','set','lo','up'])
+        dns=Path('/etc/netns')/ns; dns.mkdir(parents=True,exist_ok=True)
+        (dns/'resolv.conf').write_text(f'nameserver {args.dns}\n')
+        for i,(t,c) in enumerate(schedule,1):
+            if STOP: status='interrupted'; break
+            row=run_session(i,len(schedule),t,c,exp,ns,web_plans[i-1],args,desktop_password,
+                            rekey_targets[i-1],session_reneg_secs[i-1]); rows.append(row)
+            if row['status']=='interrupted' or STOP: status='interrupted'; break
+            if i<len(schedule):
+                delay=round(rng.uniform(args.delay_min,args.delay_max),3)
+                print(f'          next session in {delay:.1f}s',flush=True)
+                delay_start=time.monotonic(); sleep(delay)
+                actual_delay=round(min(delay,time.monotonic()-delay_start),3)
+                row['post_session_delay_s']=actual_delay
+                write(exp/'sessions'/f'session_{i:04d}'/'metadata.json',row)
+                delays.append(actual_delay)
+        if STOP: status='interrupted'
+    except Exception as e:
+        status='failed'; print(f'run error: {e}',file=sys.stderr)
+    finally:
+        if ns_created:
+            for pid in cmd(['ip','netns','pids',ns]).stdout.split():
+                try: os.kill(int(pid),signal.SIGTERM)
+                except ProcessLookupError: pass
+            cmd(['ip','netns','del',ns])
+        dns=Path('/etc/netns')/ns
+        if ns_created and dns.exists() and dns.is_dir():
+            (dns/'resolv.conf').unlink(missing_ok=True)
+            try: dns.rmdir()
+            except OSError: pass
+        summary=aggregate(rows,len(schedule),status,start,delays); summary['experiment_id']=eid
+        write(exp/'summary.json',summary)
+        csvfile(exp/'summary.csv',[summary],list(summary))
+        groups=[]
+        for t,c in combos:
+            rr=[x for x in rows if x['transport']==t and x['control_protection']==c]
+            d=aggregate(rr,planned_by_config[(t,c)],status,start,[]); d.update(transport=t,control_protection=c); groups.append(d)
+        csvfile(exp/'configuration_summary.csv',groups,list(groups[0]))
+        csvfile(exp/'failures.csv',[r for r in rows if r['status']!='successful'],['session_id','transport','control_protection','status','failure_category','failure_reason'])
+        summary['total_result_size_bytes']=sum(p.stat().st_size for p in exp.rglob('*') if p.is_file() and not p.is_symlink())
+        write(exp/'summary.json',summary); csvfile(exp/'summary.csv',[summary],list(summary))
+        checksums(exp)
+        try: tx,verified,error,remote=transfer(exp,args.desktop)
+        except Exception as e: tx=verified=False; error=str(e); remote=None
+        transfer_state={'transfer_success':tx,'checksum_verification_success':verified,'error':error,'remote_path':remote}
+        write(exp/'transfer.json',transfer_state)
+        if tx:
+            cmd(['rsync','-a','-e',RSYNC_SSH,'--',str(exp/'transfer.json'),remote+'transfer.json'],timeout=30)
+        print(f"experiment={eid} status={status} planned={len(schedule)} started={len(rows)} successful={summary['successful']} failed={summary['failed']} interrupted={summary['interrupted']}")
+        for group in groups:
+            print(f"  {group['transport']}/{group['control_protection']}: planned={group['planned']} "
+                  f"started={group['started']} successful={group['successful']} "
+                  f"failed={group['failed']} interrupted={group['interrupted']}")
+        print(f"local={exp} remote={remote} transfer={tx} verified={verified}")
+    return 0 if status=='completed' and all(r['status']=='successful' for r in rows) and transfer_state.get('checksum_verification_success') else 1
+
+if __name__=='__main__': sys.exit(main())

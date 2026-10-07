@@ -1,0 +1,5 @@
+session_id,transport,control_protection,status,failure_category,failure_reason
+5,udp,tls-crypt-v2,failed,web_failure,http_error
+6,udp,tls-auth,failed,web_failure,curl_error
+16,udp,tls-auth,failed,web_failure,http_error
+31,udp,vanilla,interrupted,manual_interrupt,manual interrupt

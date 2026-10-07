@@ -1,0 +1,25 @@
+session_id,transport,control_protection,status,failure_category,failure_reason
+1,tcp,tls-auth,failed,web_failure,proxy_connect_failed
+2,udp,tls-crypt-v2,failed,web_failure,proxy_connect_failed
+3,udp,tls-crypt-v2,failed,web_failure,proxy_connect_failed
+4,tcp,vanilla,failed,web_failure,proxy_connect_failed
+5,udp,vanilla,failed,web_failure,proxy_connect_failed
+6,udp,vanilla,failed,web_failure,proxy_connect_failed
+7,tcp,tls-crypt-v2,failed,web_failure,proxy_connect_failed
+8,tcp,tls-auth,failed,web_failure,proxy_connect_failed
+9,udp,tls-auth,failed,web_failure,proxy_connect_failed
+10,udp,tls-crypt-v2,failed,web_failure,proxy_connect_failed
+11,udp,vanilla,failed,web_failure,proxy_connect_failed
+12,tcp,tls-auth,failed,web_failure,proxy_connect_failed
+13,tcp,tls-crypt-v2,failed,web_failure,proxy_connect_failed
+14,udp,tls-crypt,failed,web_failure,proxy_connect_failed
+15,tcp,tls-auth,failed,web_failure,proxy_connect_failed
+16,udp,tls-auth,failed,web_failure,proxy_connect_failed
+17,tcp,tls-crypt-v2,failed,web_failure,proxy_connect_failed
+18,udp,vanilla,failed,web_failure,proxy_connect_failed
+19,tcp,tls-crypt-v2,failed,web_failure,proxy_connect_failed
+20,tcp,tls-crypt-v2,failed,web_failure,proxy_connect_failed
+21,tcp,tls-crypt,failed,web_failure,proxy_connect_failed
+22,udp,tls-crypt,failed,web_failure,proxy_connect_failed
+23,udp,vanilla,failed,web_failure,proxy_connect_failed
+24,udp,tls-auth,interrupted,manual_interrupt,manual interrupt

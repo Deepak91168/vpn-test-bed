@@ -1,0 +1,81 @@
+{
+  "session_id": 2,
+  "transport": "tcp",
+  "control_protection": "tls-auth",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 443,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and tcp port 443",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-auth/profiles/tcp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-04T14:29:57.263958+00:00",
+  "vpn_established_time": "2026-10-04T14:29:58.667075+00:00",
+  "web_start_time": "2026-10-04T14:29:58.667272+00:00",
+  "web_end_time": "2026-10-04T14:30:05.319982+00:00",
+  "end_time": "2026-10-04T14:30:05.938637+00:00",
+  "post_session_delay_s": null,
+  "status": "interrupted",
+  "failure_category": "manual_interrupt",
+  "failure_reason": "manual interrupt",
+  "connection_success": true,
+  "web_attempts": 1,
+  "web_successes": 1,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://bbc.co.uk/",
+    "https://taboola.com/",
+    "https://tumblr.com/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 30,
+  "session_seconds_planned": 45.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://bbc.co.uk/",
+      "effective_url": "https://www.bbc.co.uk/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 755630,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.403,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "tunnel_duration_s": 6.653,
+  "web_success_rate": 1.0,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 8.675,
+  "capture_duration_s": 7.524,
+  "renegotiation_events": 0,
+  "renegotiation_log_times": [],
+  "stats": {
+    "packet_count": 250,
+    "captured_bytes": 145740,
+    "pcap_size": 153264,
+    "client_to_server_packets": 107,
+    "client_to_server_bytes": 20219,
+    "server_to_client_packets": 143,
+    "server_to_client_bytes": 125521,
+    "capture_duration_s": 4.488,
+    "packets_per_sec": 55.7,
+    "bytes_per_sec": 32473.59,
+    "packet_size": {
+      "mean": 582.96,
+      "median": 146.5,
+      "min": 52,
+      "max": 1400,
+      "p25": 52,
+      "p75": 1400,
+      "p90": 1400,
+      "p95": 1400
+    }
+  }
+}

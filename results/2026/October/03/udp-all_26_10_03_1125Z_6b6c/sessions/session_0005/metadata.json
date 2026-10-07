@@ -1,0 +1,180 @@
+{
+  "session_id": 5,
+  "transport": "udp",
+  "control_protection": "tls-auth",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-auth/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T11:29:58.212207+00:00",
+  "vpn_established_time": "2026-10-03T11:29:59.661187+00:00",
+  "web_start_time": "2026-10-03T11:29:59.661387+00:00",
+  "web_end_time": "2026-10-03T11:30:54.062527+00:00",
+  "end_time": "2026-10-03T11:31:00.359456+00:00",
+  "post_session_delay_s": 4.485,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 10,
+  "web_successes": 10,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://mts.ru/",
+    "https://cpanel.net/",
+    "https://azure.com/",
+    "https://ipify.org/",
+    "https://ntp.org/",
+    "https://googledomains.com/",
+    "https://github.com/",
+    "https://triplinkintl.com/",
+    "https://roblox.com/",
+    "https://icloud.com/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 40,
+  "session_seconds_planned": 60.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://mts.ru/",
+      "effective_url": "https://moskva.mts.ru/personal",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 1071280,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://cpanel.net/",
+      "effective_url": "https://www.cpanel.net/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 226104,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://azure.com/",
+      "effective_url": "https://azure.microsoft.com/en-us",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 464004,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://ipify.org/",
+      "effective_url": "https://www.ipify.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 34323,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://ntp.org/",
+      "effective_url": "https://www.ntp.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 9114,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://googledomains.com/",
+      "effective_url": "https://domains.google/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 5354,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://github.com/",
+      "effective_url": "https://github.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 576689,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://triplinkintl.com/",
+      "effective_url": "https://www.triplinkintl.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 41919,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://roblox.com/",
+      "effective_url": "https://www.roblox.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 63395,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://icloud.com/",
+      "effective_url": "https://www.icloud.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 31302,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.449,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 60.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 62.147,
+  "capture_duration_s": 60.951,
+  "renegotiation_events": 1,
+  "renegotiation_log_times": [
+    "2026-10-03 12:30:38 us=953094"
+  ],
+  "stats": {
+    "packet_count": 1204,
+    "captured_bytes": 675941,
+    "pcap_size": 712085,
+    "client_to_server_packets": 540,
+    "client_to_server_bytes": 104514,
+    "server_to_client_packets": 664,
+    "server_to_client_bytes": 571427,
+    "capture_duration_s": 54.483,
+    "packets_per_sec": 22.1,
+    "bytes_per_sec": 12406.45,
+    "packet_size": {
+      "mean": 561.41,
+      "median": 143.0,
+      "min": 82,
+      "max": 1492,
+      "p25": 104,
+      "p75": 1492,
+      "p90": 1492,
+      "p95": 1492
+    }
+  }
+}

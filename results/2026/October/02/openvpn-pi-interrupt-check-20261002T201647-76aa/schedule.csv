@@ -1,0 +1,3 @@
+session,transport,control_protection,web_sites_json
+1,udp,vanilla,"[""https://www.wikipedia.org/""]"
+2,udp,vanilla,"[""https://www.wikipedia.org/""]"

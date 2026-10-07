@@ -1,0 +1,125 @@
+{
+  "session_id": 13,
+  "transport": "tcp",
+  "control_protection": "tls-auth",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 443,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and tcp port 443",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-auth/profiles/tcp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T20:08:25.744278+00:00",
+  "vpn_established_time": "2026-10-03T20:08:27.129351+00:00",
+  "web_start_time": "2026-10-03T20:08:27.129601+00:00",
+  "web_end_time": "2026-10-03T20:09:16.731202+00:00",
+  "end_time": "2026-10-03T20:09:27.876830+00:00",
+  "post_session_delay_s": 3.739,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 5,
+  "web_successes": 5,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://soundcloud.com/",
+    "https://opera.com/",
+    "https://samsung.com/",
+    "https://msn.com/",
+    "https://twitter.com/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 40,
+  "session_seconds_planned": 60.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://soundcloud.com/",
+      "effective_url": "https://soundcloud.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 67992,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://opera.com/",
+      "effective_url": "https://www.opera.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 183489,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://samsung.com/",
+      "effective_url": "https://www.samsung.com/in/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 365642,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://msn.com/",
+      "effective_url": "https://www.msn.com/en-in",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 47499,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://twitter.com/",
+      "effective_url": "https://x.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 35003,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.385,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 60.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 62.133,
+  "capture_duration_s": 61.0,
+  "renegotiation_events": 1,
+  "renegotiation_log_times": [
+    "2026-10-04 01:39:06 us=678310"
+  ],
+  "stats": {
+    "packet_count": 767,
+    "captured_bytes": 310921,
+    "pcap_size": 333955,
+    "client_to_server_packets": 357,
+    "client_to_server_bytes": 67302,
+    "server_to_client_packets": 410,
+    "server_to_client_bytes": 243619,
+    "capture_duration_s": 59.148,
+    "packets_per_sec": 12.97,
+    "bytes_per_sec": 5256.68,
+    "packet_size": {
+      "mean": 405.37,
+      "median": 130,
+      "min": 52,
+      "max": 1400,
+      "p25": 52,
+      "p75": 549,
+      "p90": 1400,
+      "p95": 1400
+    }
+  }
+}

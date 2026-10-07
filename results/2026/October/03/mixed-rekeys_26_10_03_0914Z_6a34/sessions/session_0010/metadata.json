@@ -1,0 +1,104 @@
+{
+  "session_id": 10,
+  "transport": "udp",
+  "control_protection": "tls-crypt-v2",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-crypt-v2/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T09:17:23.507374+00:00",
+  "vpn_established_time": "2026-10-03T09:17:24.878651+00:00",
+  "web_start_time": "2026-10-03T09:17:24.878888+00:00",
+  "web_end_time": "2026-10-03T09:17:33.880283+00:00",
+  "end_time": "2026-10-03T09:17:37.620746+00:00",
+  "post_session_delay_s": 3.745,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 3,
+  "web_successes": 3,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://criteo.com/",
+    "https://theguardian.com/",
+    "https://facebook.com/"
+  ],
+  "rekey_target": 2,
+  "reneg_sec": 6,
+  "session_seconds_planned": 12,
+  "web_visit_results": [
+    {
+      "requested_url": "https://criteo.com/",
+      "effective_url": "https://www.criteo.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 543686,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://theguardian.com/",
+      "effective_url": "https://www.theguardian.com/international",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 1408792,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://facebook.com/",
+      "effective_url": "https://www.facebook.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 482703,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.371,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 12.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 14.113,
+  "capture_duration_s": 12.995,
+  "renegotiation_events": 2,
+  "renegotiation_log_times": [
+    "2026-10-03 10:17:30 us=346256",
+    "2026-10-03 10:17:35 us=888564"
+  ],
+  "stats": {
+    "packet_count": 651,
+    "captured_bytes": 478752,
+    "pcap_size": 498306,
+    "client_to_server_packets": 271,
+    "client_to_server_bytes": 53706,
+    "server_to_client_packets": 380,
+    "server_to_client_bytes": 425046,
+    "capture_duration_s": 11.248,
+    "packets_per_sec": 57.88,
+    "bytes_per_sec": 42562.58,
+    "packet_size": {
+      "mean": 735.41,
+      "median": 283,
+      "min": 82,
+      "max": 1492,
+      "p25": 104,
+      "p75": 1492,
+      "p90": 1492,
+      "p95": 1492
+    }
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "session_id": 3,
+  "transport": "udp",
+  "control_protection": "vanilla",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/vanilla/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-02T18:48:32.281382+00:00",
+  "vpn_established_time": "2026-10-02T18:48:33.669818+00:00",
+  "web_start_time": "2026-10-02T18:48:33.670014+00:00",
+  "web_end_time": "2026-10-02T18:48:36.072350+00:00",
+  "end_time": "2026-10-02T18:48:36.798590+00:00",
+  "post_session_delay_s": null,
+  "status": "failed",
+  "failure_category": "web_failure",
+  "failure_reason": "http_error",
+  "connection_success": true,
+  "web_attempts": 2,
+  "web_successes": 1,
+  "web_failures": 1,
+  "web_sites_planned": [
+    "https://tiktokv.com",
+    "https://fastly.net"
+  ],
+  "reneg_sec": null,
+  "session_seconds_planned": 0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://tiktokv.com",
+      "effective_url": "https://tiktokv.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "404",
+      "curl_exit_code": 0,
+      "response_bytes": 144,
+      "success": false,
+      "failure_reason": "http_error"
+    },
+    {
+      "requested_url": "https://fastly.net",
+      "effective_url": "https://www.fastly.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 226740,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.388,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 0.5,
+  "tunnel_duration_s": 2.434,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 4.517,
+  "capture_duration_s": 3.381,
+  "renegotiation_events": 0,
+  "renegotiation_log_times": [],
+  "stats": {
+    "packet_count": 176,
+    "captured_bytes": 90667,
+    "pcap_size": 95971,
+    "client_to_server_packets": 82,
+    "client_to_server_bytes": 18450,
+    "server_to_client_packets": 94,
+    "server_to_client_bytes": 72217,
+    "capture_duration_s": 2.57,
+    "packets_per_sec": 68.49,
+    "bytes_per_sec": 35285.34,
+    "packet_size": {
+      "mean": 515.15,
+      "median": 143.0,
+      "min": 42,
+      "max": 1492,
+      "p25": 104,
+      "p75": 1250,
+      "p90": 1492,
+      "p95": 1492
+    }
+  }
+}

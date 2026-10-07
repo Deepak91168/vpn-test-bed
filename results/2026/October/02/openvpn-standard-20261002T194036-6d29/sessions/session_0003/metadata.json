@@ -1,0 +1,89 @@
+{
+  "session_id": 3,
+  "transport": "udp",
+  "control_protection": "vanilla",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/vanilla/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-02T18:40:50.123954+00:00",
+  "vpn_established_time": "2026-10-02T18:40:51.482587+00:00",
+  "web_start_time": "2026-10-02T18:40:51.482784+00:00",
+  "web_end_time": "2026-10-02T18:40:54.485495+00:00",
+  "end_time": "2026-10-02T18:40:55.180686+00:00",
+  "post_session_delay_s": null,
+  "status": "failed",
+  "failure_category": "web_failure",
+  "failure_reason": "curl_error, proxy_connect_failed",
+  "connection_success": true,
+  "web_attempts": 2,
+  "web_successes": 0,
+  "web_failures": 2,
+  "web_sites_planned": [
+    "https://dzen.ru",
+    "https://trafficmanager.net"
+  ],
+  "reneg_sec": null,
+  "session_seconds_planned": 0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://dzen.ru",
+      "effective_url": "https://sso.passport.yandex.ru/push?uuid=e386c712-b21f-44df-94ff-57e81522a17b&retpath=https%3A%2F%2Fdzen.ru%2F%3Fis_autologin_ya%3Dtrue",
+      "remote_ip": "10.10.78.21",
+      "http_code": "000",
+      "curl_exit_code": 35,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "curl_error"
+    },
+    {
+      "requested_url": "https://trafficmanager.net",
+      "effective_url": "https://trafficmanager.net/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    }
+  ],
+  "vpn_connect_time_s": 1.359,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 0.0,
+  "tunnel_duration_s": 3.034,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 5.057,
+  "capture_duration_s": 3.95,
+  "renegotiation_events": 0,
+  "renegotiation_log_times": [],
+  "stats": {
+    "packet_count": 90,
+    "captured_bytes": 31110,
+    "pcap_size": 33834,
+    "client_to_server_packets": 46,
+    "client_to_server_bytes": 12224,
+    "server_to_client_packets": 44,
+    "server_to_client_bytes": 18886,
+    "capture_duration_s": 3.099,
+    "packets_per_sec": 29.04,
+    "bytes_per_sec": 10038.62,
+    "packet_size": {
+      "mean": 345.67,
+      "median": 112.0,
+      "min": 42,
+      "max": 1492,
+      "p25": 104,
+      "p75": 294,
+      "p90": 1250,
+      "p95": 1492
+    }
+  }
+}

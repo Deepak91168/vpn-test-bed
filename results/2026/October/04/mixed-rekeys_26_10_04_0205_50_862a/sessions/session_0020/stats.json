@@ -1,0 +1,42 @@
+{
+  "vpn": {
+    "connection_success": true,
+    "connect_time_s": 1.396,
+    "session_duration_s": 62.101,
+    "tunnel_duration_s": 60.031,
+    "openvpn_exit_code": 0,
+    "failure_category": null,
+    "failure_reason": null,
+    "rekey_target": null,
+    "reneg_sec": 40,
+    "renegotiation_events": 1
+  },
+  "web": {
+    "attempts": 5,
+    "successes": 5,
+    "failures": 0,
+    "success_rate": 1.0
+  },
+  "capture": {
+    "packet_count": 924,
+    "captured_bytes": 430770,
+    "pcap_size": 458514,
+    "client_to_server_packets": 415,
+    "client_to_server_bytes": 79828,
+    "server_to_client_packets": 509,
+    "server_to_client_bytes": 350942,
+    "capture_duration_s": 59.668,
+    "packets_per_sec": 15.49,
+    "bytes_per_sec": 7219.46,
+    "packet_size": {
+      "mean": 466.2,
+      "median": 130.0,
+      "min": 52,
+      "max": 1400,
+      "p25": 52,
+      "p75": 988,
+      "p90": 1400,
+      "p95": 1400
+    }
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "session_id": 22,
+  "transport": "udp",
+  "control_protection": "tls-crypt",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-crypt/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-04T14:52:47.374878+00:00",
+  "vpn_established_time": "2026-10-04T14:52:48.729778+00:00",
+  "web_start_time": "2026-10-04T14:52:48.730040+00:00",
+  "web_end_time": "2026-10-04T14:53:26.331549+00:00",
+  "end_time": "2026-10-04T14:53:34.528827+00:00",
+  "post_session_delay_s": 2.145,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 5,
+  "web_successes": 5,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://soundcloud.com/",
+    "https://android.com/",
+    "https://twitter.com/",
+    "https://f5.com/",
+    "https://samsung.com/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 25,
+  "session_seconds_planned": 45.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://soundcloud.com/",
+      "effective_url": "https://soundcloud.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 68000,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://android.com/",
+      "effective_url": "https://www.android.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 332841,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://twitter.com/",
+      "effective_url": "https://x.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 34987,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://f5.com/",
+      "effective_url": "https://www.f5.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 669271,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://samsung.com/",
+      "effective_url": "https://www.samsung.com/in/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 365644,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.355,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 45.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 47.154,
+  "capture_duration_s": 46.052,
+  "renegotiation_events": 1,
+  "renegotiation_log_times": [
+    "2026-10-04 20:23:13 us=623700"
+  ],
+  "stats": {
+    "packet_count": 1072,
+    "captured_bytes": 742230,
+    "pcap_size": 774414,
+    "client_to_server_packets": 445,
+    "client_to_server_bytes": 73809,
+    "server_to_client_packets": 627,
+    "server_to_client_bytes": 668421,
+    "capture_duration_s": 37.743,
+    "packets_per_sec": 28.4,
+    "bytes_per_sec": 19665.55,
+    "packet_size": {
+      "mean": 692.38,
+      "median": 176.0,
+      "min": 82,
+      "max": 1492,
+      "p25": 104,
+      "p75": 1492,
+      "p90": 1492,
+      "p95": 1492
+    }
+  }
+}

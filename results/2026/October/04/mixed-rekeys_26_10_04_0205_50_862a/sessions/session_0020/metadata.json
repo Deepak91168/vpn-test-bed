@@ -1,0 +1,125 @@
+{
+  "session_id": 20,
+  "transport": "tcp",
+  "control_protection": "tls-crypt",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 443,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and tcp port 443",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-crypt/profiles/tcp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T20:56:05.126255+00:00",
+  "vpn_established_time": "2026-10-03T20:56:06.522352+00:00",
+  "web_start_time": "2026-10-03T20:56:06.522551+00:00",
+  "web_end_time": "2026-10-03T20:56:55.723906+00:00",
+  "end_time": "2026-10-03T20:57:07.227318+00:00",
+  "post_session_delay_s": 2.794,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 5,
+  "web_successes": 5,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://windows.com/",
+    "https://wikipedia.org/",
+    "https://w3.org/",
+    "https://theguardian.com/",
+    "https://registrar-servers.com/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 40,
+  "session_seconds_planned": 60.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://windows.com/",
+      "effective_url": "https://www.microsoft.com/en-in/windows/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 124115,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://wikipedia.org/",
+      "effective_url": "https://www.wikipedia.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 93955,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://w3.org/",
+      "effective_url": "https://www.w3.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 48814,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://theguardian.com/",
+      "effective_url": "https://www.theguardian.com/international",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 1388242,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://registrar-servers.com/",
+      "effective_url": "https://registrar-servers.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 2031,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.396,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 60.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 62.101,
+  "capture_duration_s": 60.957,
+  "renegotiation_events": 1,
+  "renegotiation_log_times": [
+    "2026-10-04 02:26:46 us=689987"
+  ],
+  "stats": {
+    "packet_count": 924,
+    "captured_bytes": 430770,
+    "pcap_size": 458514,
+    "client_to_server_packets": 415,
+    "client_to_server_bytes": 79828,
+    "server_to_client_packets": 509,
+    "server_to_client_bytes": 350942,
+    "capture_duration_s": 59.668,
+    "packets_per_sec": 15.49,
+    "bytes_per_sec": 7219.46,
+    "packet_size": {
+      "mean": 466.2,
+      "median": 130.0,
+      "min": 52,
+      "max": 1400,
+      "p25": 52,
+      "p75": 988,
+      "p90": 1400,
+      "p95": 1400
+    }
+  }
+}

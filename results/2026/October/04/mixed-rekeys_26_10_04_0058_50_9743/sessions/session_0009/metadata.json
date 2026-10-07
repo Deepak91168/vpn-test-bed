@@ -1,0 +1,125 @@
+{
+  "session_id": 9,
+  "transport": "udp",
+  "control_protection": "tls-auth",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-auth/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T19:37:05.919037+00:00",
+  "vpn_established_time": "2026-10-03T19:37:07.343981+00:00",
+  "web_start_time": "2026-10-03T19:37:07.344236+00:00",
+  "web_end_time": "2026-10-03T19:37:55.545098+00:00",
+  "end_time": "2026-10-03T19:38:08.130094+00:00",
+  "post_session_delay_s": 2.619,
+  "status": "failed",
+  "failure_category": "web_failure",
+  "failure_reason": "proxy_connect_failed",
+  "connection_success": true,
+  "web_attempts": 5,
+  "web_successes": 0,
+  "web_failures": 5,
+  "web_sites_planned": [
+    "https://wordpress.com/",
+    "https://lencr.org/",
+    "https://forbes.com/",
+    "https://googledomains.com/",
+    "https://whatsapp.net/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 30,
+  "session_seconds_planned": 60.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://wordpress.com/",
+      "effective_url": "https://wordpress.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://lencr.org/",
+      "effective_url": "https://lencr.org/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://forbes.com/",
+      "effective_url": "https://forbes.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://googledomains.com/",
+      "effective_url": "https://googledomains.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://whatsapp.net/",
+      "effective_url": "https://whatsapp.net/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    }
+  ],
+  "vpn_connect_time_s": 1.425,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 0.0,
+  "tunnel_duration_s": 60.064,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 62.211,
+  "capture_duration_s": 61.039,
+  "renegotiation_events": 1,
+  "renegotiation_log_times": [
+    "2026-10-04 01:07:38 us=164095"
+  ],
+  "stats": {
+    "packet_count": 124,
+    "captured_bytes": 31421,
+    "pcap_size": 35165,
+    "client_to_server_packets": 69,
+    "client_to_server_bytes": 15832,
+    "server_to_client_packets": 55,
+    "server_to_client_bytes": 15589,
+    "capture_duration_s": 59.978,
+    "packets_per_sec": 2.07,
+    "bytes_per_sec": 523.88,
+    "packet_size": {
+      "mean": 253.4,
+      "median": 111.0,
+      "min": 68,
+      "max": 1250,
+      "p25": 104,
+      "p75": 220,
+      "p90": 579,
+      "p95": 1250
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "experiment_id": "mixed-rekeys_26_10_03_0849Z_8d29",
+  "label": "mixed-rekeys",
+  "seed": 2302517748,
+  "protocol": "openvpn",
+  "schedule_count": 8,
+  "transport": "all",
+  "control_protection": "all",
+  "obfuscation": "none",
+  "web_workload": {
+    "sites_file": "/home/pi/vpn-testbed-v2/traffic/web/sites.txt",
+    "sites_sha256": "1566ec34ca3e3141233ac91ecbbadeaa11e7ac7bf91d1e3eb0a9f2e8831a274a",
+    "visits": 3,
+    "proxy": "http://proxy21.iitd.ac.in:3128",
+    "dns": "10.208.20.2"
+  },
+  "reneg_sec": null,
+  "mixed_rekeys": true,
+  "session_seconds": 12,
+  "delay_range_s": [
+    2,
+    6
+  ],
+  "start_time": "2026-10-03T08:49:27.348433+00:00"
+}

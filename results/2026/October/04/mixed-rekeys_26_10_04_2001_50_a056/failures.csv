@@ -1,0 +1,9 @@
+session_id,transport,control_protection,status,failure_category,failure_reason
+1,udp,tls-crypt-v2,failed,server_unreachable,"VPNLAB:Sorry, try again.
+VPNLAB:
+sudo: no password was provided
+sudo: 1 incorrect password attempt"
+2,udp,tls-crypt-v2,failed,server_unreachable,"VPNLAB:Sorry, try again.
+VPNLAB:
+sudo: no password was provided
+sudo: 1 incorrect password attempt"

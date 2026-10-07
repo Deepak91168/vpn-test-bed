@@ -1,0 +1,105 @@
+{
+  "session_id": 7,
+  "transport": "udp",
+  "control_protection": "vanilla",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/vanilla/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T06:31:15.670693+00:00",
+  "vpn_established_time": "2026-10-03T06:31:17.049968+00:00",
+  "web_start_time": "2026-10-03T06:31:17.050229+00:00",
+  "web_end_time": "2026-10-03T06:31:25.851404+00:00",
+  "end_time": "2026-10-03T06:31:29.746669+00:00",
+  "post_session_delay_s": 3.111,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 3,
+  "web_successes": 3,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://bbc.co.uk/",
+    "https://forbes.com/",
+    "https://mit.edu/"
+  ],
+  "reneg_sec": 3,
+  "session_seconds_planned": 12.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://bbc.co.uk/",
+      "effective_url": "https://www.bbc.co.uk/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 803642,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://forbes.com/",
+      "effective_url": "https://www.forbes.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 768019,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://mit.edu/",
+      "effective_url": "https://web.mit.edu/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 48075,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.379,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 12.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 14.076,
+  "capture_duration_s": 12.95,
+  "renegotiation_events": 4,
+  "renegotiation_log_times": [
+    "2026-10-03 07:31:19 us=716827",
+    "2026-10-03 07:31:22 us=334702",
+    "2026-10-03 07:31:25 us=86559",
+    "2026-10-03 07:31:27 us=976303"
+  ],
+  "stats": {
+    "packet_count": 533,
+    "captured_bytes": 364922,
+    "pcap_size": 380936,
+    "client_to_server_packets": 228,
+    "client_to_server_bytes": 55485,
+    "server_to_client_packets": 305,
+    "server_to_client_bytes": 309437,
+    "capture_duration_s": 12.093,
+    "packets_per_sec": 44.07,
+    "bytes_per_sec": 30176.05,
+    "packet_size": {
+      "mean": 684.66,
+      "median": 224,
+      "min": 42,
+      "max": 1492,
+      "p25": 104,
+      "p75": 1492,
+      "p90": 1492,
+      "p95": 1492
+    }
+  }
+}

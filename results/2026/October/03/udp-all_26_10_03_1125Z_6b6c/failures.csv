@@ -1,0 +1,5 @@
+session_id,transport,control_protection,status,failure_category,failure_reason
+7,udp,tls-crypt-v2,failed,web_failure,curl_error
+11,udp,tls-crypt,failed,web_failure,curl_error
+21,udp,vanilla,failed,web_failure,curl_error
+24,udp,tls-crypt-v2,failed,web_failure,http_error

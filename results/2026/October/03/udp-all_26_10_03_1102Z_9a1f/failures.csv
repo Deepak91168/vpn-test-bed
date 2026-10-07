@@ -1,0 +1,2 @@
+session_id,transport,control_protection,status,failure_category,failure_reason
+24,udp,vanilla,failed,web_failure,http_error

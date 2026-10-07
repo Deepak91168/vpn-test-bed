@@ -1,0 +1,9 @@
+status,planned,started,completed,successful,failed,interrupted,success_rate,packet_count,captured_bytes,client_to_server_packets,client_to_server_bytes,server_to_client_packets,server_to_client_bytes,median_session_duration_s,median_vpn_connect_time_s,web_attempts,web_successes,web_failures,renegotiation_events,delay_min_s,delay_mean_s,delay_max_s,elapsed_s,transport,control_protection
+completed,1,1,1,1,0,0,1.0,468,330054,198,36535,270,293519,14.111,1.361,3,3,0,0,,,,138.34,udp,vanilla
+completed,1,1,1,1,0,0,1.0,385,240513,170,34315,215,206198,14.111,1.388,3,3,0,0,,,,138.34,udp,tls-auth
+completed,1,1,1,1,0,0,1.0,401,273365,171,34547,230,238818,14.096,1.367,3,3,0,1,,,,138.34,udp,tls-crypt
+completed,1,1,1,1,0,0,1.0,410,200660,197,44746,213,155914,14.141,1.386,3,3,0,1,,,,138.34,udp,tls-crypt-v2
+completed,1,1,1,1,0,0,1.0,548,300955,238,41389,310,259566,14.088,1.391,3,3,0,0,,,,138.34,tcp,vanilla
+completed,1,1,1,1,0,0,1.0,589,269727,266,56886,323,212841,14.111,1.406,3,3,0,2,,,,138.34,tcp,tls-auth
+completed,1,1,1,1,0,0,1.0,862,545495,347,60479,515,485016,14.104,1.377,3,3,0,1,,,,138.34,tcp,tls-crypt
+completed,1,1,1,1,0,0,1.0,619,370330,263,49580,356,320750,14.135,1.401,3,3,0,1,,,,138.34,tcp,tls-crypt-v2

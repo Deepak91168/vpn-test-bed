@@ -1,0 +1,101 @@
+{
+  "session_id": 4,
+  "transport": "udp",
+  "control_protection": "vanilla",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/vanilla/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T08:50:23.470404+00:00",
+  "vpn_established_time": "2026-10-03T08:50:24.860691+00:00",
+  "web_start_time": "2026-10-03T08:50:24.860909+00:00",
+  "web_end_time": "2026-10-03T08:50:34.665163+00:00",
+  "end_time": "2026-10-03T08:50:37.614560+00:00",
+  "post_session_delay_s": 2.469,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 3,
+  "web_successes": 3,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://reddit.com/",
+    "https://kaspersky.com/",
+    "https://azure.com/"
+  ],
+  "rekey_target": 0,
+  "reneg_sec": null,
+  "session_seconds_planned": 12,
+  "web_visit_results": [
+    {
+      "requested_url": "https://reddit.com/",
+      "effective_url": "https://www.reddit.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 8397,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://kaspersky.com/",
+      "effective_url": "https://www.kaspersky.co.in/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 803727,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://azure.com/",
+      "effective_url": "https://azure.microsoft.com/en-us",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 464004,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.39,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 12.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 14.144,
+  "capture_duration_s": 13.006,
+  "renegotiation_events": 0,
+  "renegotiation_log_times": [],
+  "stats": {
+    "packet_count": 509,
+    "captured_bytes": 283481,
+    "pcap_size": 298775,
+    "client_to_server_packets": 241,
+    "client_to_server_bytes": 43281,
+    "server_to_client_packets": 268,
+    "server_to_client_bytes": 240200,
+    "capture_duration_s": 11.167,
+    "packets_per_sec": 45.58,
+    "bytes_per_sec": 25385.55,
+    "packet_size": {
+      "mean": 556.94,
+      "median": 143,
+      "min": 42,
+      "max": 1492,
+      "p25": 104,
+      "p75": 1492,
+      "p90": 1492,
+      "p95": 1492
+    }
+  }
+}

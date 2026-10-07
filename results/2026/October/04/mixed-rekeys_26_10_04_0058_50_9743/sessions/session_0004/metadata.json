@@ -1,0 +1,126 @@
+{
+  "session_id": 4,
+  "transport": "tcp",
+  "control_protection": "vanilla",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 443,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and tcp port 443",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/vanilla/profiles/tcp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T19:31:32.896717+00:00",
+  "vpn_established_time": "2026-10-03T19:31:34.313376+00:00",
+  "web_start_time": "2026-10-03T19:31:34.313559+00:00",
+  "web_end_time": "2026-10-03T19:32:22.514504+00:00",
+  "end_time": "2026-10-03T19:32:35.071001+00:00",
+  "post_session_delay_s": 4.106,
+  "status": "failed",
+  "failure_category": "web_failure",
+  "failure_reason": "proxy_connect_failed",
+  "connection_success": true,
+  "web_attempts": 5,
+  "web_successes": 0,
+  "web_failures": 5,
+  "web_sites_planned": [
+    "https://twitter.com/",
+    "https://registrar-servers.com/",
+    "https://sourceforge.net/",
+    "https://apache.org/",
+    "https://skype.com/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 30,
+  "session_seconds_planned": 60.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://twitter.com/",
+      "effective_url": "https://twitter.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://registrar-servers.com/",
+      "effective_url": "https://registrar-servers.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://sourceforge.net/",
+      "effective_url": "https://sourceforge.net/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://apache.org/",
+      "effective_url": "https://apache.org/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://skype.com/",
+      "effective_url": "https://skype.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    }
+  ],
+  "vpn_connect_time_s": 1.417,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 0.0,
+  "tunnel_duration_s": 60.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 62.174,
+  "capture_duration_s": 61.01,
+  "renegotiation_events": 2,
+  "renegotiation_log_times": [
+    "2026-10-04 01:02:04 us=856705",
+    "2026-10-04 01:02:34 us=113932"
+  ],
+  "stats": {
+    "packet_count": 221,
+    "captured_bytes": 46600,
+    "pcap_size": 53254,
+    "client_to_server_packets": 108,
+    "client_to_server_bytes": 23760,
+    "server_to_client_packets": 113,
+    "server_to_client_bytes": 22840,
+    "capture_duration_s": 60.093,
+    "packets_per_sec": 3.68,
+    "bytes_per_sec": 775.46,
+    "packet_size": {
+      "mean": 210.86,
+      "median": 120,
+      "min": 52,
+      "max": 1400,
+      "p25": 52,
+      "p75": 138,
+      "p90": 448,
+      "p95": 1276
+    }
+  }
+}

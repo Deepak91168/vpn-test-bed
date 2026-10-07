@@ -1,0 +1,4 @@
+session,transport,control_protection,web_sites_json
+1,udp,vanilla,"[""https://nginx.com"", ""https://apple-dns.net""]"
+2,udp,vanilla,"[""https://windowsupdate.com"", ""https://aaplimg.com""]"
+3,udp,vanilla,"[""https://tiktokv.com"", ""https://fastly.net""]"

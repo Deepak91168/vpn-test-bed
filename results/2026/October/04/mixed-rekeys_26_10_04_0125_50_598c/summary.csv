@@ -1,0 +1,2 @@
+status,planned,started,completed,successful,failed,interrupted,success_rate,packet_count,captured_bytes,client_to_server_packets,client_to_server_bytes,server_to_client_packets,server_to_client_bytes,median_session_duration_s,median_vpn_connect_time_s,web_attempts,web_successes,web_failures,renegotiation_events,delay_min_s,delay_mean_s,delay_max_s,elapsed_s,experiment_id,total_result_size_bytes
+interrupted,50,31,30,27,3,1,0.871,27186,15036043,11922,2175078,15264,12860965,62.109,1.379,151,148,3,30,2.022,3.8019,5.709,1986.61,mixed-rekeys_26_10_04_0125_50_598c,16739763

@@ -1,456 +1,421 @@
-# OpenVPN Traffic-Generation Testbed
+# VPN testbed V2: OpenVPN web experiments
 
-Automated generation and packet capture of repeated OpenVPN sessions for traffic-fingerprinting research. Each run produces a set of complete, labelled sessions — **connection → handshake → encrypted data → teardown** — captured one pcap per session, with per-session and per-capture metadata.
+V2 runs one OpenVPN session at a time from this client to the desktop at `10.208.23.185`. It supports UDP or TCP with vanilla TLS, `tls-auth`, `tls-crypt`, or `tls-crypt-v2`. The old VPN setup and GitHub repository are not part of this workflow.
 
-This tool **generates and records** sessions. It performs no detection or fingerprinting itself.
+Start here to run experiments. See [ISSUES.md](ISSUES.md) for current limits and [SHIP_TO_PI.md](SHIP_TO_PI.md) for first-time Pi setup or copying updates.
 
-> **Transports:** the core below documents the default **UDP** transport. **TCP mode (port 443)** is an additive option and is documented in full in the [Appendix — TCP Mode](#appendix--tcp-mode-port-443) at the end. The UDP setup is unchanged by it.
+## Contents
 
-| | |
-|---|---|
-| **Client** | Raspberry Pi — runs the experiment (OpenVPN client + controller + capture) |
-| **Server** | Desktop `genuine` `10.208.23.185`, `udp/1194` — tunnel gateway (later: GCP VM) |
-| **Isolation** | Linux network namespace `vpn` — only experiment traffic is tunneled |
-| **Entry point** | `sudo ./run_experiment.sh` (on the client) |
+1. [Before a run](#1-before-a-run)
+2. [Directory map and file roles](#2-directory-map-and-file-roles)
+3. [Edit one config and run](#3-edit-one-config-and-run)
+4. [What happens in one experiment](#4-what-happens-in-one-experiment)
+5. [Command cookbook](#5-command-cookbook)
+6. [The 100-site list](#6-the-100-site-list)
+7. [Result files and how to read them](#7-result-files-and-how-to-read-them)
+8. [Verified Pi run and expected outcomes](#8-verified-pi-run-and-expected-outcomes)
+9. [Desktop server and permanent results](#9-desktop-server-and-permanent-results)
 
----
-
-## Table of contents
-
-- [Architecture](#architecture)
-- [Repository layout](#repository-layout)
-- [Prerequisites](#prerequisites)
-- [Quick start](#quick-start)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [Output & data schema](#output--data-schema)
-- [Operations](#operations)
-- [Changing endpoints (IP / host)](#changing-endpoints-ip--host)
-- [Troubleshooting](#troubleshooting)
-- [Notes](#notes)
-- [Appendix — TCP Mode (port 443)](#appendix--tcp-mode-port-443)
-
----
-
-## Architecture
+**Where the evidence ends up:** a session's `client.pcap`, OpenVPN client log, web log, and metadata are first written under `results/` on the Pi/laptop. At finalization, the entire experiment is copied to `/home/deepaksingh/VPN-Storage/experiments/openvpn/` on the desktop and checksums are verified. The desktop also has a server runtime log, but this version does not archive a separate server PCAP or server log for each session. See [desktop server and permanent results](#9-desktop-server-and-permanent-results).
 
 ```text
-Pi (client)                                  Server (desktop / GCP VM)
-+---------------------------+                +----------------------+
-| run_experiment.sh         |                | openvpn (udp/1194)   |
-|   session_controller.py   |  encrypted     |   decrypts           |
-|     openvpn  ------------------------------->   NAT to Internet ----> web
-|     tcpdump (real NIC) <----- udp/1194 flow |                      |
-|     traffic_gen (netns)   |                +----------------------+
-+---------------------------+
-   one pcap per session = handshake + data + teardown
+curl web request inside Pi/laptop vpnlabv2 namespace
+  → OpenVPN tunnel over Pi/laptop Wi-Fi or Ethernet
+  → desktop OpenVPN server → desktop proxy when configured → website
+
+Pi/laptop filtered client.pcap + client/web logs + metadata
+  → temporary client results/ → verified desktop VPN-Storage copy
 ```
 
-The capture filter is derived from the active profile as `host <server> and <proto> port <port>`.
+**Current network status (2026-10-03):** direct public HTTPS from the desktop still times out, while its configured proxy reaches tested websites. A nine-session Pi check succeeded on all eight modes and nine HTTPS Wikipedia visits; a later 24-session mixed run succeeded on 72/72 visits from the revised 100-site list. Website and proxy availability can change. Verify each run using the saved final URL and HTTP outcome; see [the verified result](#8-verified-pi-run-and-expected-outcomes) and [known limits](ISSUES.md).
 
-**Isolation model** — the client never disturbs its own networking (SSH, DNS, apt stay put):
+OpenVPN `P_DATA_V2` packets confirm encrypted tunnel data, including traffic to/from the proxy. Use `web.log` and `metadata.json` to establish whether the requested website actually responded.
 
-- OpenVPN runs with `--ifconfig-noexec --route-noexec`, so it never edits the host routing table.
-- The `--up` hook (`netns_up.sh`) moves the tun device into the `vpn` namespace and sets the default route **there**.
-- Traffic is generated with `ip netns exec vpn …`, so it can only exit through the tunnel — there is no host route inside the namespace to leak onto.
-- The OpenVPN **process** stays in the host namespace, so its encrypted UDP to the server crosses the real NIC — where `tcpdump` captures the full session.
-- DNS inside the namespace uses `/etc/netns/vpn/resolv.conf` — no host DNS leak.
+## 1. Before a run
 
----
+The client needs Linux, root privileges, OpenVPN, `iproute2`, `tcpdump`, `curl`, `rsync`, and SSH. The desktop needs OpenVPN, SSH, forwarding/NAT for `10.8.0.0/24`, and the V2 server profiles and credentials. On the desktop, `server/openvpn/scripts/setup_network.sh` enables runtime forwarding/NAT if needed. The client must be able to reach the desktop IP and authenticate over SSH using a key. The CLI prompts once for the desktop sudo password; it keeps that password in memory only.
 
-## Repository layout
-
-### Client (`~/vpn-client/client/` on the Pi)
-
-| File | Responsibility |
-|---|---|
-| `run_experiment.sh` | Entry point. Loads `config.env`, creates the `vpn` namespace + DNS, sets cleanup traps, ignores `SIGHUP` (survives SSH drop), launches the controller, tears the namespace down on exit. Also accepts an optional `udp`/`tcp` argument (see appendix). |
-| `config.env` | The only file you normally edit — all settings. |
-| `session_controller.py` | Core loop. Owns seeded randomness, the capture directory structure, and all metadata. |
-| `netns_up.sh` | OpenVPN `--up` hook: moves tun into the namespace, assigns the pushed IP, sets the tunnel route, signals ready. **Must be executable.** |
-| `netns_down.sh` | OpenVPN `--down` hook: clears the ready marker. **Must be executable.** |
-| `traffic_gen.py` | One "visit" per request via `ip netns exec vpn`. Backends: `wget` (default), `curl`, `browser`. |
-| `browse.py` | Headless-browser fetch; used only when `TRAFFIC_BACKEND=browser`. |
-| `sites.txt` | Destination pool, one domain per line; sampled per request. |
-| `client.ovpn` | OpenVPN client profile (UDP). Its `remote` line names the **server**; `proto`/`port` are parsed from it. |
-| `ca.crt`, `client.crt`, `client.key` | TLS credentials referenced by the profile(s). **Must sit alongside them.** |
-
-*(For TCP, an additional `client-tcp.ovpn` is used — see the appendix.)*
-
-### Server (`~/vpn-lab/server/` on the desktop / GCP VM)
-
-| File | Responsibility |
-|---|---|
-| `server.conf` | OpenVPN server config: port, proto, VPN subnet, cert paths (UDP). |
-| `ca.crt`, `server.crt`, `server.key`, `dh.pem`, `ta.key` | Server TLS material referenced by `server.conf`. |
-| `setup_server.sh` | Run once. Enables IP forwarding + NAT so tunnel clients reach the Internet. Idempotent; does not disturb normal server networking. |
-| `check_server.sh` | Sanity check: listening?, forwarding on?, NAT rules present?, who's connected. |
-| `server_capture.sh` | Optional second capture vantage on the server side. |
-
-*(For TCP, an additional `server-tcp.conf` is used — see the appendix.)*
-
----
-
-## Prerequisites
-
-**Client (Pi):**
+Check the route and SSH connection before starting:
 
 ```bash
-sudo apt-get update
-sudo apt-get install -y openvpn wget tcpdump iproute2 python3 curl
-# only if TRAFFIC_BACKEND=browser:
-# pip install playwright && playwright install chromium
+ip route get 10.208.23.185
+ssh deepaksingh@10.208.23.185 'hostname'
 ```
 
-`client.ovpn` + `ca.crt` + `client.crt` + `client.key` must be in the client folder together.
-
-**Server:** a working OpenVPN server (`server.conf` + certs). `iproute2` new enough for `ip -n` (Ubuntu 18.04+ / modern Pi OS).
-
----
-
-## Quick start
-
-**1. Server** — start it and enable forwarding/NAT:
+For a first Pi session after [Pi setup](SHIP_TO_PI.md), run from its V2 root:
 
 ```bash
-cd ~/vpn-lab/server
-sudo ss -lunp | grep 1194 || sudo openvpn --config server.conf --daemon \
-  --log ~/vpn-lab/server/openvpn.log --status ~/vpn-lab/server/openvpn-status.log 5
-bash setup_server.sh ~/vpn-lab/server/server.conf
+cd ~/vpn-testbed-v2
+sudo ./runner/vpnlab run openvpn --transport udp --control vanilla --sessions 1
 ```
 
-**2. Client** — first-time setup, then run:
+The plan should say `plan=1` and `udp/vanilla=1`. With the default `visits: 3`, a fully successful run reports one successful session and three successful HTTPS fetches in `summary.json`. The command inherits DNS, proxy, sites, and timeouts from the Pi's config files. The CLI prompts for the desktop sudo password. See [result checks](#7-result-files-and-how-to-read-them) after it finishes.
 
-```bash
-cd ~/vpn-client/client
-chmod +x run_experiment.sh netns_up.sh netns_down.sh session_controller.py browse.py traffic_gen.py
-ping -c2 10.208.23.185          # confirm the server is reachable
-sudo ./run_experiment.sh        # expect: session_001: status=ok ip=10.8.0.2
-```
+On the Pi, review `hosts/raspberrypi.env`; on the laptop, review `hosts/laptop.env`. These files set the DNS server used inside the VPN namespace and the optional web proxy. This campus connection uses `10.208.20.2` and `proxy21.iitd.ac.in:3128`. With `WEB_PROXY=` empty, curl attempts a direct connection **through the VPN tunnel and desktop exit**, regardless of the client's own Wi-Fi Internet access. It ignores inherited proxy settings and does not fall back to a proxy. Direct web access must be allowed by the desktop's network. Each attempted URL, final URL, HTTP result, and failure reason is recorded. Default HTTPS visits use curl's TLS certificate validation.
 
-> [!TIP]
-> For a fast shakedown, set `SESSIONS=1` and `INTER_SESSION_DELAY_MIN/MAX=5` in `config.env` before the first run.
+## 2. Directory map and file roles
 
----
-
-## Configuration
-
-All settings live in `config.env` (sourced by `run_experiment.sh`, read by the controller). Nothing is hard-coded in the scripts.
-
-| Setting | Default | Meaning |
-|---|---|---|
-| `SESSIONS` | `50` | Number of sessions to run. |
-| `SEED` | *(empty)* | Fixed integer → reproducible run; empty → random (recorded in metadata). |
-| `SESSION_DURATION_MIN` / `MAX` | `20` / `180` | Randomized session length (s). |
-| `TRAFFIC_START_DELAY_MIN` / `MAX` | `2` / `15` | Delay after connect before traffic (s). |
-| `INTER_SESSION_DELAY_MIN` / `MAX` | `180` / `180` | Gap between sessions (s). |
-| `REQUESTS_MIN` / `MAX` | `3` / `12` | Randomized requests per session. |
-| `REQUEST_INTERVAL_MIN` / `MAX` | `1` / `8` | Gap between requests (s). |
-| `REQUEST_TIMEOUT` | `15` | Per-request timeout (s). |
-| `TRAFFIC_BACKEND` | `wget` | `wget` \| `curl` \| `browser`. |
-| `OVPN_CONFIG` | `./client.ovpn` | Client profile; server/proto/port parsed from it. |
-| `NETNS` | `vpn` | Namespace name. |
-| `VPN_DNS` | `1.1.1.1` | Resolver used inside the namespace. |
-| `TUN_UP_TIMEOUT` | `60` | Max seconds to wait for the tunnel. |
-| `CAPTURE` | `true` | Capture on/off. |
-| `CAPTURE_IFACE` | `auto` | `auto` = NIC that reaches the server. |
-| `SITES_FILE` | `./sites.txt` | Destination pool. |
-| `OUTPUT_DIR` | `./experiment_out` | Output root. |
-
----
-
-## Usage
-
-```bash
-sudo ./run_experiment.sh                                  # normal run (UDP)
-sudo nohup ./run_experiment.sh > run.out 2>&1 &           # unattended, survives SSH drop
-```
-
-*(To run over TCP: `sudo ./run_experiment.sh tcp` — see the appendix.)*
-
-**`Ctrl+C`** terminates gracefully: the current session's data is finalized, the capture `metadata.json` is written, the namespace is cleaned up, and the process exits. The next run creates a fresh `capture_*` directory.
-
----
-
-## Output & data schema
-
-`OUTPUT_DIR` (default `./experiment_out`). **Every run creates a new, independent `capture_<timestamp>/`** — a second run never mixes with the first (a `_2`, `_3` suffix is added if a name collides). *(When a transport is selected, the name is `capture_<transport>_<timestamp>` — see appendix.)*
+The same client structure is under `/home/deepak/vpn-testbed-v2` on the laptop and `~/vpn-testbed-v2` on the Pi. Edit the files on the machine that will actually run the experiment.
 
 ```text
-experiment_out/
-├── metadata.jsonl                 # GLOBAL index: one line per session, ALL captures
-├── run/                           # internal scratch (ready/tuninfo/pid) — ignore
-└── captures/
-    ├── capture_2026-08-21_19-56-25/
-    │   ├── metadata.json          # capture-level metadata
-    │   ├── session_001/
-    │   │   ├── session_001.pcap
-    │   │   ├── session_001_openvpn.log
-    │   │   └── session_metadata.json
-    │   └── session_002/ …
-    └── capture_2026-08-22_07-30-00/   # a later run — completely separate
-        └── …
+vpn-testbed-v2/
+├── README.md                       this run and result guide
+├── SHIP_TO_PI.md                    Pi copy and setup instructions
+├── ISSUES.md                        current limits and older-result caveats
+├── STATUS.md                        implementation and test history
+├── experiments/openvpn/run.json     master experiment settings
+├── hosts/                           per-client network and SSH settings
+├── traffic/web/sites.txt            default website list
+├── client/openvpn/                  client profiles, credentials, TUN hooks
+├── client/wireguard/                 future placeholder
+├── client/commercial-vpn/            future placeholders
+├── runner/vpnlab                    experiment CLI
+└── results/                         temporary local experiment results
 ```
 
-Session numbering restarts at `session_001` in every capture because the `capture_<timestamp>/` parent makes it unique.
+| File or directory | Purpose |
+| --- | --- |
+| `experiments/openvpn/run.json` | **Edit this on the machine that will run the experiment** to select modes, session count, visits, seed, rekey interval, duration, URL list, and result label. |
+| `hosts/raspberrypi.env` on Pi; `hosts/laptop.env` on laptop | Edit only when that client's VPN DNS, desktop-side web proxy, or SSH identity needs to change. Select the file with `host_config` in `run.json`. |
+| `traffic/web/sites.txt` | Curated 100-site HTTPS URL pool. For a different workload, create a separate plain-text URL file and set `sites_file` in `run.json`; one HTTPS URL per line. |
+| `runner/vpnlab` | The single CLI that schedules, runs, finalizes, and transfers experiments. |
+| `client/openvpn/vanilla/profiles/` | UDP and TCP `.ovpn` client profiles without extra control protection. |
+| `client/openvpn/control-protection/<mode>/profiles/` | UDP and TCP `.ovpn` profiles for `tls-auth`, `tls-crypt`, and `tls-crypt-v2`. |
+| `client/openvpn/credentials/` | Copied client certificates and keys; keep private. |
+| `client/openvpn/hooks/netns_up.sh` and `netns_down.sh` | Move/configure the VPN TUN device in `vpnlabv2` and clean it up. |
+| Desktop `server/openvpn/` | Matching `.conf` profiles, copied server credentials, profile selector, forwarding/NAT script, and current runtime log. |
+| `results/` | Temporary local results; the verified permanent copy is in desktop `VPN-Storage`. |
 
-**Capture-level** — `captures/capture_*/metadata.json` (written at start, finalized on normal end **and** on `Ctrl+C`):
+The eight client `.ovpn` profiles and matching desktop `.conf` profiles are selected automatically from `transport` and `control`. **Do not edit profile files or `runner/vpnlab` to switch configurations.** `hosts/desktop.env` is reference information; routine experiment settings come from `run.json` and the selected client host file.
+
+`traffic/web/README.md` explains the URL pool; the README in each OpenVPN mode folder explains that mechanism. WireGuard, commercial VPN, UI automation, and obfuscations are empty future areas. The runner currently supports only the eight OpenVPN modes.
+
+## 3. Edit one config and run
+
+On the **Pi**, edit its own copy of the master config and run it:
+
+```bash
+cd ~/vpn-testbed-v2
+nano experiments/openvpn/run.json
+sudo ./runner/vpnlab run openvpn
+```
+
+On the laptop, the same relative path is `/home/deepak/vpn-testbed-v2/experiments/openvpn/run.json`. **Editing the laptop file does not change the Pi's file.** The supplied master config chooses one UDP vanilla session with three random visits; Pi setup changes `host_config` to `hosts/raspberrypi.env`. If your Pi already has an older `run.json`, keep its Pi host setting and add `"sessions": N` and `"shuffle": true` there. Keep JSON valid (quoted strings, lowercase `true`/`false`, no comments or trailing commas). CLI options override its values for one run; `--config PATH` selects another JSON config.
+
+### Which setting to change
+
+| In `experiments/openvpn/run.json` | What it controls |
+| --- | --- |
+| `transport`: `udp`, `tcp`, or `all` | Which transport(s) to run. UDP uses server port 1194; TCP uses 443. |
+| `control`: `vanilla`, `tls-auth`, `tls-crypt`, `tls-crypt-v2`, or `all` | Control-channel protection. `vanilla` means no extra control protection. |
+| `sessions`: positive integer | **Total N** across the selected configurations. One mode gets all N; multiple modes divide N as evenly as possible. N must be at least the number of modes. |
+| `shuffle`: `true`/`false`; `seed`: integer or `null` | `true` randomizes session order. A fixed seed reproduces the assignment, order, URL draws, and delays. `null` selects and records a fresh seed. |
+| `visits`: positive integer; `sites_file`: path | How many URLs to draw per session and which plain-text URL pool to draw from. Draws may repeat. Paths in this JSON are relative to the V2 root. |
+| `reneg_sec`: positive integer or `null`; `session_seconds`: number | An explicit R requests a renewal every R seconds on **both peers**; hold the tunnel for at least S seconds. In all-eight mixed runs, `reneg_sec: null` instead enables the `mixed_rekeys` behavior below. |
+| `mixed_rekeys`: `true`/`false` | With `true`, all-eight mixed runs when `reneg_sec` is `null` balance **target** counts 0, 1, and 2 within each mode. The runner holds each tunnel at least 12 seconds if S is zero; it records the chosen target and per-session R. It has no effect on a single mode or smaller group. |
+| `delay_min`, `delay_max` | Seeded random wait after each session except the last; default 2–6 seconds. |
+| `host_config` | `hosts/raspberrypi.env` on Pi or `hosts/laptop.env` on laptop. |
+| `purpose` | `auto` names the selected mode (`udp-vanilla`, `tcp-all`, `mixed-rekeys`, etc.). Set a short custom label if desired; use lowercase letters, digits, and hyphens. |
+| `web_timeout`, `connect_timeout` | Seconds allowed for one web request and VPN connection. |
+| `capture_interface`: `null` normally | Auto-detect the physical interface via `ip route get`; specify a name only when detection is wrong. |
+| `desktop` | SSH login/IP of the V2 server; leave `deepaksingh@10.208.23.185` for this topology. |
+
+In the selected `hosts/*.env`, `VPN_DNS` is namespace DNS, `WEB_PROXY` is the proxy reached **through the VPN and desktop**, and optional `SSH_IDENTITY` is the client's private SSH key path for server control and result transfer. The Pi's Wi-Fi Internet does not replace desktop-side Internet access. For this network, keep the configured proxy; direct desktop public HTTPS currently times out.
+
+For web research, run one short session first and check `summary.json` for `web_successes`, then check the session's `metadata.json` → `web_visit_results` for the requested URL, effective URL, HTTP code, and `success: true`. A successful VPN connection or `P_DATA_V2` packet alone is not a successful website visit. A session is marked failed if any planned visit fails, even when other visits succeed. Use `--sites-file PATH` to choose another website list; see [ISSUES.md](ISSUES.md).
+
+| Experiment | Set `transport` | Set `control` | Other settings |
+| --- | --- | --- | --- |
+| One configuration | `udp` or `tcp` | One of `vanilla`, `tls-auth`, `tls-crypt`, `tls-crypt-v2` | `sessions: 50` gives 50 of that mode |
+| All UDP modes | `udp` | `all` | `sessions: 50` gives 12 or 13 per mode |
+| All TCP modes | `tcp` | `all` | `sessions: 50` gives 12 or 13 per mode |
+| Vanilla on TCP and UDP | `all` | `vanilla` | `sessions: 50` gives 25 per transport |
+| One protection mode on TCP and UDP | `all` | One selected control | `sessions: 50` gives 25 per transport |
+| All eight modes | `all` | `all` | `sessions: 24` gives 3 each; `sessions: 50` gives 6 or 7 per mode; default mixed rekey targets are 0/1/2 |
+| Key-renewal study | Any selection | Any selection | `reneg_sec: R`, `session_seconds` longer than R; increase `visits` for traffic across the hold |
+
+### Config-only example: 24 mixed sessions on Pi
+
+In the Pi's `experiments/openvpn/run.json`, set these values (other supported fields may remain). Keep the Pi `host_config` path:
 
 ```json
 {
-  "capture_id": "capture_2026-08-21_19-56-25",
-  "transport": "udp",
-  "start_time": "…", "end_time": "…", "duration_s": 2685.0,
-  "total_sessions": 10, "stopped_by_user": true, "interface": "eth0",
-  "config": { "seed": 10, "sessions_planned": 50, "server": "10.208.23.185",
-              "proto": "udp", "port": "1194", "backend": "wget", "netns": "vpn" },
-  "sessions": [ { "session_id": 1, "dir": "session_001", "status": "ok",
-                  "connection_success": true, "packet_count": 812 } ]
+  "transport": "all",
+  "control": "all",
+  "sessions": 24,
+  "shuffle": true,
+  "seed": 42,
+  "visits": 3,
+  "sites_file": "traffic/web/sites.txt",
+  "reneg_sec": null,
+  "mixed_rekeys": true,
+  "session_seconds": 0,
+  "host_config": "hosts/raspberrypi.env",
+  "purpose": "auto"
 }
 ```
 
-**Session-level** — `captures/capture_*/session_NNN/session_metadata.json`:
+Then run `sudo ./runner/vpnlab run openvpn` from `~/vpn-testbed-v2`. This plans 24 sessions, three of each mode, with randomized order and seeded 0/1/2 target rekeys. To run **50 TCP tls-auth sessions** from the same file, change only `transport` to `tcp`, `control` to `tls-auth`, and `sessions` to `50`. For single or smaller grouped runs, `mixed_rekeys` has no effect. CLI flags override the same fields for one run without editing the JSON. For a shared rekey interval, set `reneg_sec` to a positive R and `session_seconds` long enough to observe it.
 
-```json
-{
-  "session_id": 1, "start_time": "…", "end_time": "…",
-  "vpn_server": "10.208.23.185", "vpn_protocol": "OpenVPN",
-  "transport": "udp", "proto": "udp", "port": "1194",
-  "seed": 10, "planned_duration_s": 166, "traffic_start_delay_s": 7,
-  "connection_success": true, "assigned_vpn_ip": "10.8.0.2", "vpn_gateway": "10.8.0.1",
-  "connect_time_s": 1.2, "probe_http_code": "200",
-  "status": "ok", "requests": [ { "dest": "https://bbc.com", "rc": 0, "t": 9.3 } ],
-  "request_count": 10, "packet_count": 812, "vpn_terminated": true,
-  "capture_id": "capture_2026-08-21_19-56-25",
-  "files": [ "session_001.pcap", "session_001_openvpn.log", "session_metadata.json" ]
-}
-```
+## 4. What happens in one experiment
 
-`transport` ∈ `udp` | `tcp`; `status` ∈ `ok` | `connect_failed` | `tunnel_dropped`. `transport` is derived from the profile that actually ran, so it cannot drift.
+1. The CLI expands the selected configurations into a balanced list, shuffles it if requested, and uses one seed to choose each session's web URLs and post-session waits. The full order and selected URLs go into `schedule.csv`; a copy of `sites.txt` goes into the result.
+2. For each session, the client asks the desktop to start only the matching V2 server profile. The selector checks port conflicts and never stops a non-V2 process.
+3. The client finds the physical interface with `ip route get`, starts `tcpdump` with a filter for the desktop IP and active UDP/TCP port, then starts OpenVPN in the host namespace. This captures the handshake through teardown while excluding SSH and unrelated host traffic.
+4. OpenVPN runs with `--ifconfig-noexec --route-noexec`. Its hook moves the TUN interface into `vpnlabv2`, assigns the VPN address and default route there, and uses namespace-specific DNS. The host's normal routes remain in place.
+5. Only the experiment's `curl` visits run with `ip netns exec vpnlabv2`. The host's SSH, DNS, updates, and other traffic remain outside. `--session-seconds S` spreads visits across at least S connected seconds; without it, visits run back to back.
+6. The runner stops the client and V2 server, closes the PCAP, writes metadata/statistics, then waits a seeded random 2–6 seconds before the next session by default. It does not wait after the last session.
+7. Completion, Ctrl+C, SIGTERM, and handled failures all finalize available results, make checksums, copy to the desktop, verify checksums there, and remove the namespace. The desktop storage is the permanent copy.
 
-**Global index** — `experiment_out/metadata.jsonl`: one JSON object per line = every session across every capture, each tagged with `transport` and `capture_id`. Append-only.
+Only one run should be active at a time. A fixed `vpnlabv2` namespace and the desktop ports prevent concurrent V2 sessions.
 
----
+## 5. Command cookbook
 
-## Operations
+Run these **on the Pi** from `~/vpn-testbed-v2` (or from the V2 root on another client). **Choose one experiment command at a time; do not paste every example as a batch.** `--sessions N` always means **N total**. The printed `plan=` line shows the count for every selected mode before any VPN starts. CLI options override the Pi's `run.json` for that command; settings you do not pass still come from that file.
 
-### Server management
+### One exact configuration
 
 ```bash
-# is it listening?
-sudo ss -lunp | grep 1194
-
-# start (manual)
-cd ~/vpn-lab/server
-sudo openvpn --config server.conf --daemon \
-  --log ~/vpn-lab/server/openvpn.log --status ~/vpn-lab/server/openvpn-status.log 5
+cd ~/vpn-testbed-v2
+sudo ./runner/vpnlab run openvpn --transport udp --control vanilla --sessions 10
+sudo ./runner/vpnlab run openvpn --transport tcp --control tls-auth --sessions 10
 ```
 
-**Auto-start on boot** (recommended — removes the most common failure, "server was off"):
+The first command schedules ten UDP vanilla sessions; the second schedules ten TCP tls-auth sessions. Run one line at a time. Replace `control` with `tls-crypt` or `tls-crypt-v2` for those mechanisms.
+
+### A four-mode transport group or two-mode control group
 
 ```bash
-sudo cp ~/vpn-lab/server/server.conf /etc/openvpn/server/lab.conf
-sudo cp ~/vpn-lab/server/{ca.crt,server.crt,server.key,dh.pem,ta.key} /etc/openvpn/server/
-sudo systemctl enable --now openvpn-server@lab
-systemctl status openvpn-server@lab --no-pager
+sudo ./runner/vpnlab run openvpn --transport udp --control all --sessions 50 --shuffle
+sudo ./runner/vpnlab run openvpn --transport tcp --control all --sessions 50 --shuffle
+sudo ./runner/vpnlab run openvpn --transport all --control vanilla --sessions 50 --shuffle
+sudo ./runner/vpnlab run openvpn --transport all --control tls-crypt --sessions 50 --shuffle
 ```
 
-### Cold-start checklist (returning after a break)
+The first two select four modes each and assign 12 or 13 sessions per mode. The third runs vanilla over both UDP and TCP, 25 sessions each. The fourth does the same for tls-crypt; substitute `tls-auth` or `tls-crypt-v2` to study either of those controls over both transports. Only one experiment runs at a time.
 
-1. Power on the server (or confirm the GCP VM is up).
-2. Server: `sudo ss -lunp | grep 1194` — if empty, start it (above).
-3. Server: `bash ~/vpn-lab/server/setup_server.sh ~/vpn-lab/server/server.conf` (idempotent).
-4. `ssh deepak@<pi-ip> && cd ~/vpn-client/client`.
-5. `ping -c2 10.208.23.185` — must reply.
-6. If files were freshly copied: `chmod +x` the scripts.
-7. Set `config.env` (or `SESSIONS=1` for a test).
-8. `sudo ./run_experiment.sh` — expect `session_001: status=ok ip=10.8.0.2`.
-
----
-
-## Changing endpoints (IP / host)
-
-### Client (Pi) IP changes — **edit nothing**
-
-The client IP is not stored anywhere in the project (not in code, `config.env`, or `client.ovpn`). A new Pi IP only changes its outbound source address, which OpenVPN handles transparently. Just verify reachability:
+### All eight modes
 
 ```bash
-ping -c2 10.208.23.185     # replies → run as normal; no reply → network/routing issue
+sudo ./runner/vpnlab run openvpn --transport all --control all --sessions 24 --shuffle
+sudo ./runner/vpnlab run openvpn --transport all --control all --sessions 50 --shuffle --seed 42
 ```
 
-The NIC name may change (`eth0` ↔ `wlan0`) — no action; `CAPTURE_IFACE=auto` re-detects it.
+Run one line at a time. N=24 gives **three of each mode**. N=50 gives **six of each plus one extra to two seeded modes**. Shuffling randomizes the complete session order; it does not change the counts. With `reneg_sec: null` and `mixed_rekeys: true` in the master config, these all-eight runs also assign 0/1/2 **target** renewals. `--seed 42` makes the count assignment, order, URL choices, and delays reproducible. Omit it for a fresh recorded seed.
 
-### Server IP / host changes (e.g. desktop → GCP VM)
+### Small total-N validation with a known website
 
-**Client** — edit one line in `client.ovpn` *(and `client-tcp.ovpn` if you use TCP)*:
+```bash
+sudo ./runner/vpnlab run openvpn \
+  --transport all --control all --sessions 9 --shuffle --seed 42 \
+  --visits 1 --sites-file traffic/web/smoke-sites.txt \
+  --purpose total-n-check
+```
+
+This selects all eight modes and assigns the ninth session to one mode. With seed 42, the extra session is UDP/tls-auth. The known-site file contains `https://www.wikipedia.org/`; create it with `printf 'https://www.wikipedia.org/\n' > traffic/web/smoke-sites.txt` if missing. `--visits 1` requests one fetch per session. `--purpose` makes the result folder start with `total-n-check`.
+
+### Shared key-renewal interval R
+
+```bash
+sudo ./runner/vpnlab run openvpn \
+  --transport all --control all --sessions 8 --shuffle \
+  --reneg-sec 30 --session-seconds 95 --visits 8
+```
+
+This requests R=30 seconds on both OpenVPN peers, keeps each tunnel connected for at least 95 seconds, and spreads eight website visits across that hold. An explicit `--reneg-sec` overrides the automatic mixed 0/1/2 targets. For a short known-site check, replace R with `3`, the hold with `12`, and add `--sites-file traffic/web/smoke-sites.txt`. To run mixed modes with ordinary OpenVPN rekey timing instead, use `--no-mixed-rekeys` with `reneg_sec: null` in the config.
+
+### Change workload or result label for one run
+
+```bash
+sudo ./runner/vpnlab run openvpn \
+  --transport udp --control tls-crypt-v2 --sessions 5 \
+  --sites-file traffic/web/sites.txt --visits 3 \
+  --seed 42 --purpose udp-crypt-v2-study
+```
+
+This runs five UDP tls-crypt-v2 sessions, drawing three URLs independently for each session from the 100-site list. A URL can repeat. `--purpose` changes only the human-readable result label. The default is already three visits from `traffic/web/sites.txt`; the flags above show how to override those fields. Use `--delay-min 2 --delay-max 6` to set the inter-session wait explicitly; those are already the defaults. The older `--sessions-per-config 25` option remains for intentionally scheduling 25 **of each** selected mode (200 for all eight); use `--sessions 25` for 25 total.
+
+### Key flags at a glance
+
+| Flag | Effect |
+| --- | --- |
+| `--transport udp\|tcp\|all` | Choose one or both transports. |
+| `--control vanilla\|tls-auth\|tls-crypt\|tls-crypt-v2\|all` | Choose one or all control-protection modes. |
+| `--sessions N` | Total sessions, distributed evenly; N must be at least the number of selected modes. |
+| `--shuffle`, `--seed 42` | Randomize order and optionally reproduce the plan. |
+| `--visits N`, `--sites-file PATH` | Number of HTTPS fetches per session and URL pool. |
+| `--reneg-sec R`, `--session-seconds S` | Shared rekey interval and minimum connected time. |
+| `--mixed-rekeys` / `--no-mixed-rekeys` | Enable or disable automatic 0/1/2 target rekeys for all-eight runs without explicit R. |
+| `--purpose LABEL` | Choose a readable run name prefix. |
+| `--host-config PATH` | Choose the client's DNS, proxy, and SSH identity file. |
+
+### How to interpret rekeys
+
+`--reneg-sec R` requests an OpenVPN key renewal every R seconds on both peers. It renews ephemeral **data-channel session keys**; the static `ta.key` and `tls-crypt` keys stay the same. `rekeys=0` in a short single-mode run with no explicit R is normal and does not mean the initial VPN handshake failed. `--session-seconds S` keeps the tunnel connected for at least S seconds and spreads the visits across that interval.
+
+For all-eight runs with `reneg_sec: null` and `mixed_rekeys: true`, the runner balances **targets** 0, 1, and 2 within each mode. With the default 12-second connected hold, target 0 uses the ordinary interval, target 1 uses R=9, and target 2 uses R=6. The chosen target and R are in `schedule.csv` and session metadata. Terminal `rekeys=N` and metadata `renegotiation_events` count **observed renewals after the initial handshake**. They are counts, not seconds. OpenVPN timing can produce fewer or more renewals than targeted: in the verified nine-session Pi run, one session targeted two but observed one. Use the observed count in analysis; the PCAP and client OpenVPN log are the packet and handshake evidence.
+
+## 6. The 100-site list
+
+`traffic/web/sites.txt` contains 100 unique HTTPS homepages selected in rank order from [Tranco list Y83YG](https://tranco-list.eu/list/Y83YG) ranks 1–259. On 2026-10-03, each selected domain returned an HTTPS 200 HTML page with a title and valid TLS certificate in **two** desktop-proxy checks. The Pi then succeeded on 24/24 seeded visits from the revised list in the eight-mode final check. Infrastructure hosts, obvious error/challenge pages, duplicate final hosts, `example.com`, and the IITD site were excluded. The old uncurated ranks 1–100 list had only 50 passing domains in the first check. Website availability and proxy behavior can change; confirm real visits in each run's per-visit metadata. Each experiment copies its exact URL list and planned choices, so old results keep their original list. There is no automatic list refresh.
+
+## 7. Result files and how to read them
+
+Local results are temporary under `results/<year>/<Month>/<day>/<experiment-id>/`. The verified permanent copy is under `/home/deepaksingh/VPN-Storage/experiments/openvpn/<year>/<Month>/<day>/<experiment-id>/` on the desktop. **New runs use Asia/Kolkata (IST) for the date folders and name**, independent of the Pi's system timezone.
+
+New names follow `label_YY_MM_DD_HHMM_N_ID`. For example, `mixed-rekeys_26_10_03_1430_24_a7f2` means a mixed rekey run begun at **14:30 IST** on 2026-10-03, with **24 planned sessions**; `a7f2` distinguishes runs in the same minute. N is the intended total, even if the run is interrupted early. The label is automatic unless you set `purpose` or `--purpose`; examples include `udp-vanilla`, `tcp-tls-auth`, `udp-all`, `both-tls-crypt`, and `mixed-rekeys`. `experiment.yaml` records `result_timezone: Asia/Kolkata` and `start_time` with an explicit UTC offset; session timestamps also retain explicit UTC offsets. Existing result folders keep their original names and dates.
+
+An experiment directory, for example `mixed-rekeys_26_10_03_1430_24_a7f2/`, contains:
 
 ```text
-remote <NEW_SERVER_IP> 1194
+experiment-id/
+├── README.md                   short note written with this result
+├── experiment.yaml             controls, seed, chosen URL-list hash
+├── environment.json            client host and relevant software versions
+├── sites.txt                   exact URL pool used in this experiment
+├── schedule.csv                every planned session, mode, URLs, and rekey target/R
+├── summary.json                total experiment counts and measurements
+├── summary.csv                 the same summary for a spreadsheet
+├── configuration_summary.csv   one row for each selected UDP/TCP + protection mode
+├── failures.csv                failed or interrupted started sessions
+├── checksums.sha256            hashes of transferred result files
+├── transfer.json               copy and desktop verification outcome
+├── by-configuration/           links to sessions grouped by mode, no PCAP copies
+└── sessions/session_0001/
+    ├── metadata.json           mode, status, timing, URLs, failure reason, rekeys
+    ├── stats.json              VPN, web, and packet-capture measurements
+    ├── client.pcap             encrypted VPN packets captured at the client
+    ├── openvpn-client.log      client handshake, rekey, and error details
+    ├── web.log                 requested URLs and curl outcomes
+    └── capture.log             tcpdump diagnostics
 ```
 
-The capture filter and interface derive from this on the next run — no other client edits. On the new server: reuse the same `ca`/`cert`/`key`/`ta.key`/cipher, open the port(s) in the firewall, run `setup_server.sh`, and start OpenVPN.
+The `sessions/` folder has one directory for each **started** session. `by-configuration/udp/tls-auth/session_0001`, for example, links back to the actual session folder; it does not duplicate files. An older result may have fewer metadata fields because the runner was updated over time.
 
----
+### Counts in mixed experiments
 
-## Troubleshooting
+`sessions` is the **total** across selected combinations. The runner divides N by the number of modes; a seeded draw assigns any remainder one session at a time to distinct modes. For eight modes, N=24 gives 3 each; N=50 gives six modes 6 and two modes 7. For four UDP or four TCP modes, N=50 gives two modes 12 and two modes 13. For two transports of one control mode, N=50 gives 25 each. For one mode, N=50 gives 50. N must be at least the number of selected modes, so each appears. With `shuffle: true` the full list is then shuffled. Before connecting, the runner prints the seed and planned count for each selected mode; at the end it prints planned, started, successful, failed, and interrupted counts per mode. `schedule.csv` preserves the complete order and URL choices, even if the run is interrupted. The older `--sessions-per-config N` option remains available for runs that intentionally request N of **each** mode; it overrides a configured `sessions` value for that command only.
 
-Most issues are the server not running, or executable bits lost on copy.
+In `configuration_summary.csv`, each selected mode has its own `planned`, `started`, `successful`, `failed`, and `interrupted` counts. `summary.json` totals the whole run. `completed = successful + failed`; interrupted is separate. A run can have `status=completed` while some individual sessions failed. `success_rate` uses **started** sessions as the denominator. If interrupted, `started` can be smaller than `planned`. `failures.csv` lists failed and interrupted sessions with a reason.
 
-| Symptom | Cause | Fix |
-|---|---|---|
-| `read UDPv4 [ECONNREFUSED]` | Server host reachable, but no OpenVPN listening (server down). | Start the server; verify `ss -lunp \| grep 1194`. |
-| Fails in ~2s; `--up` error / `VPNLAB_NETNS unbound` | up-script env not delivered. | Use current `session_controller.py` (passes `--setenv`); ensure `netns_up/down` are executable. |
-| Waits full ~60s then `tunnel did not establish` | No reply from server. | Server down / firewall / unreachable. `ping`; check `ss` on server. |
-| `TLS handshake failed`, no initial packet | Control channel blocked, or cert/`tls-auth` mismatch. | Open the port; verify certs and `tls-auth` match both sides. |
-| Connects but `request_count: 0` / `probe_http_code: null` | Tunnel up but no egress. | Run `setup_server.sh` (forwarding/NAT). Docker hosts: VPN `FORWARD` rules ahead of Docker's chain. |
-| `permission denied` / `sudo: command not found` on `./run_experiment.sh` | Exec bit stripped when copied. | `chmod +x` the scripts (esp. `netns_up.sh` / `netns_down.sh`). |
-| `Address already in use (errno=98)` on server start | Server already running. | Not an error — don't start a second. Or `pkill` then restart. |
-| `ping` works but tunnel fails | `ping` answers from the OS, not the OpenVPN service. | Check `ss -lunp \| grep 1194` on the server. |
-| `status: tunnel_dropped` mid-session | Network blip or server restarted. | Check server stability. It's logged and the run continues. |
+### Session evidence
 
-**Layered checks — what each proves:**
+In `metadata.json`, `connection_success` says the VPN tunnel established. `web_visit_results` then records each `requested_url`, `effective_url`, HTTP code, curl exit code, response bytes, `success`, and `failure_reason`. All planned visits must pass for the session to be `successful`. A proxy login page or failed CONNECT is a web failure even if VPN packets were captured. Curl success means an HTTP(S) fetch passed the runner's checks; it is not browser rendering or interaction.
 
-- `ping <server>` — the machine is up and reachable (OS answers). Says nothing about OpenVPN.
-- `ss -lunp | grep 1194` *(on server)* — the OpenVPN service is actually listening.
-- Bare dial *(end-to-end)*: `sudo openvpn --config client.ovpn --dev null --ifconfig-noexec --route-noexec --verb 3`
-  — `TLS: Initial packet from <server>` = answering; `ECONNREFUSED` = server not running.
+`stats.json` separates `vpn`, `web`, and `capture`. The capture block includes packet count, measured packet bytes, direction totals (`client_to_server_*` and `server_to_client_*`), timing, packet sizes, and PCAP file size. Packet bytes and PCAP file size differ because the file has headers. These directions come from the **client capture**, not a second server capture. The PCAP filter is `host 10.208.23.185 and udp port 1194` or `host 10.208.23.185 and tcp port 443`, derived from the active profile. `P_DATA_V2` indicates encrypted tunnel data; use URL metadata and web logs to judge web requests.
 
-**Validate capture completeness:** compare `tcpdump -r <pcap> | wc -l` against `packet_count` in the session metadata; confirm `tcpdump`'s `dropped by kernel` count is 0 (SD-card write speed under heavy traffic is the realistic way to lose packets on a Pi).
+`renegotiation_events` counts observed later control-channel TLS handshakes after the initial VPN connection. Terminal `rekeys=N` is that count, **not seconds**. `rekey_target` is the mixed schedule's aim; `reneg_sec=R` is the actual requested interval for that session. If observed and target differ, use the observed value in analysis. `transfer.json` has `transfer_success` and `checksum_verification_success`; both should be true for a verified desktop copy. If transfer fails, the local partial result remains for recovery.
 
----
+### Inspect a finished run on the client
 
-## Notes
-
-- `ping` proves the machine is up, not that OpenVPN is running — use `ss` on the server for the service.
-- `nc -u -z` against OpenVPN usually prints nothing even when healthy; the bare dial is the real UDP test.
-- One pcap per session already contains handshake + data + teardown (all on the same 5-tuple) — don't split them.
-- **Reproducibility:** set `SEED` to a fixed integer to replay identical timing and destination sequence; blank picks a random seed (recorded in the capture's `metadata.json`).
-- Prefer **Ethernet** on the Pi for steadier capture timing; watch SD-card space and copy `experiment_out/` off periodically.
-
-<br>
-
----
----
-
-# Appendix — TCP Mode (port 443)
-
-Everything above describes the default **UDP** transport. **TCP mode is additive** — the UDP setup keeps working unchanged, and you switch per run. This appendix is self-contained and intentionally repeats the essentials so it can be read on its own.
-
-## Why TCP mode
-
-OpenVPN can run over TCP; on port **443** the flow resembles HTTPS. This is useful for studying the OpenVPN-over-TCP fingerprint and censorship-resistant ("looks like TLS on 443") configurations. The TCP capture is a **different fingerprint** from UDP by design (see the comparison at the end).
-
-## How switching works
+From the Pi or laptop that ran the experiment, select the newest run (or set `RUN_DIR` to a specific result directory):
 
 ```bash
-sudo ./run_experiment.sh udp     # → client.ovpn      → capture_udp_<ts>/ → filter: udp port 1194
-sudo ./run_experiment.sh tcp     # → client-tcp.ovpn  → capture_tcp_<ts>/ → filter: tcp port 443
-sudo ./run_experiment.sh         # no arg → OVPN_CONFIG from config.env (UDP). Unchanged behaviour.
+RUN_DIR=$(ls -td results/*/*/*/* | head -1)
+cat "$RUN_DIR/summary.json"
+cat "$RUN_DIR/configuration_summary.csv"
+cat "$RUN_DIR/transfer.json"
+head -n 10 "$RUN_DIR/schedule.csv"
+cat "$RUN_DIR/sessions/session_0001/metadata.json"
+ls -lh "$RUN_DIR/sessions/session_0001/client.pcap"
+ip netns list
+ip route get 10.208.23.185
 ```
 
-The argument only selects the profile and a capture label. The controller then **parses `proto` and `port` from the chosen profile**, so the capture filter automatically becomes `host <server> and tcp port 443` — no per-run code edits. (`proto tcp` and `proto tcp-client` are equivalent in a client config.)
+The summary reports total planned/started/successful/failed/interrupted sessions and web attempts/successes/failures. The configuration CSV shows the same counts per selected mode. The schedule shows every planned mode and URL before the run, including sessions never started after an interruption. The session metadata shows the requested/final URL and whether the fetch succeeded. `client.pcap` must exist for a started session. After the run, `ip netns list` should not show `vpnlabv2`; on this Pi, the route to the desktop should still use `wlan0` via its normal gateway.
 
-## Files (TCP)
-
-| File | Contents |
-|---|---|
-| `client-tcp.ovpn` | `proto tcp` (== `tcp-client`), `remote <server> 443`, **same** `ca`/`cert`/`key`/cipher as `client.ovpn`. |
-| `server-tcp.conf` | `proto tcp`, `port 443`, subnet **`10.9.0.0/24`** (distinct from UDP's `10.8.0.0/24` so both run at once), separate `status`/`log`. |
-
-**Safest way to create the client profile** (copies your exact working UDP profile, changes only what TCP needs):
+For a compact website check without reading each JSON file manually:
 
 ```bash
-cd ~/vpn-client/client
-cp client.ovpn client-tcp.ovpn
-sed -i -e 's/^proto udp/proto tcp/' -e 's/^remote \(.*\) 1194/remote \1 443/' client-tcp.ovpn
+python3 - "$RUN_DIR" <<'PY'
+import json, sys
+from pathlib import Path
+p = Path(sys.argv[1])
+s = json.loads((p / 'summary.json').read_text())
+t = json.loads((p / 'transfer.json').read_text())
+print('sessions:', s['successful'], 'successful /', s['planned'], 'planned')
+print('web:', s['web_successes'], 'successful /', s['web_attempts'], 'attempted')
+print('desktop transfer:', t['transfer_success'], 'checksums:', t['checksum_verification_success'])
+for f in sorted((p / 'sessions').glob('session_*/metadata.json')):
+    m = json.loads(f.read_text())
+    for v in m.get('web_visit_results', []):
+        print(f.parent.name, v['http_code'], v['success'], v['effective_url'])
+PY
 ```
 
-## Server setup (TCP runs ALONGSIDE UDP)
+For a fully successful N-session run with `visits: 3`, expect `successful=N` and `web_successes=3×N`. A failed site or proxy connection can lower those counts without invalidating the captured VPN packets. `transfer_success` and `checksum_verification_success` should both be `True` for the desktop copy.
+
+To check that each started session has a PCAP and that its packets match the recorded server/port filter, run this on the client with the same `RUN_DIR`:
 
 ```bash
-cd ~/vpn-lab/server
-# create server-tcp.conf from your working UDP config:
-cp server.conf server-tcp.conf
-sed -i -e 's/^proto udp/proto tcp/' -e 's/^port 1194/port 443/' \
-       -e 's/^server 10\.8\.0\.0/server 10.9.0.0/' server-tcp.conf
-
-# start it (in addition to the UDP daemon):
-sudo openvpn --config server-tcp.conf --daemon --log openvpn-tcp.log --status openvpn-status-tcp.log 5
-
-# NAT for the TCP subnet, and open the port:
-bash setup_server.sh server-tcp.conf
-sudo iptables -I INPUT -p tcp --dport 443 -j ACCEPT 2>/dev/null || true
-
-# confirm it is listening (NOTE: -ltnp for TCP, not -lunp):
-sudo ss -ltnp | grep :443
+python3 - "$RUN_DIR" <<'PY'
+import json, subprocess, sys
+from pathlib import Path
+p = Path(sys.argv[1]); checked = 0
+for f in sorted((p / 'sessions').glob('session_*/metadata.json')):
+    m = json.loads(f.read_text()); cap = f.parent / 'client.pcap'
+    assert cap.is_file() and cap.stat().st_size > 24, cap
+    r = subprocess.run(['tcpdump', '-nn', '-r', str(cap),
+                        f"not ({m['capture_filter']})"], capture_output=True, text=True)
+    assert r.returncode == 0 and not r.stdout.strip(), (cap, r.stderr, r.stdout[:200])
+    checked += 1
+print('PCAPs matching their VPN filters:', checked)
+PY
 ```
 
-The distinct `10.9.0.0/24` subnet (and its own tun device, auto-assigned) lets the UDP and TCP servers coexist without a pool/interface clash. On the eventual GCP VM, also allow **`tcp:443`** ingress in the cloud firewall.
+For a completed nine-session run, expect `PCAPs matching their VPN filters: 9`. This checks isolation of the capture, while the website fields above check the actual HTTPS fetches.
 
-## What the capture contains (complete, and no noise)
+### Independently check the desktop copy
 
-Filter (auto-derived): **`host <server> and tcp port 443`**. Because OpenVPN-over-TCP rides a single 5-tuple, this captures the **entire** session on one flow:
+Use the chosen `RUN_DIR` from above. This command verifies the permanent desktop files against that experiment's checksum manifest:
 
-- **TCP connection setup** — `SYN` → `SYN,ACK` → `ACK`.
-- **OpenVPN control channel** — a real TLS session (`Client Hello`, `Server Hello`, `Application Data`), carrying `P_CONTROL_*` / `P_ACK_V1`.
-- **Encrypted data** — `P_DATA_V2`.
-- **Keepalives and rekeys** — periodic, on the same flow.
-- **Teardown** — `FIN`/`RST` at disconnect.
+```bash
+RUN_REL=${RUN_DIR#results/}
+ssh deepaksingh@10.208.23.185 "cd /home/deepaksingh/VPN-Storage/experiments/openvpn/$RUN_REL && sha256sum -c checksums.sha256 >/dev/null && echo checksums_OK"
+```
 
-These TCP setup/ACK/teardown packets **are part of the session** and are deliberately kept — they *are* the TCP fingerprint. There is **no noise**: anything not to/from `<server>:443` fails the filter and is never written.
+## 8. Verified Pi run and expected outcomes
 
-**Precision assumption (stated honestly):** this is exact *because* the lab server runs only OpenVPN on `443`. If that same IP also served real HTTPS on `443`, that traffic would match too — not the case here, but it's an environmental guarantee, not packet-content verification.
+The Pi ran the [nine-session total-N command](#small-total-n-validation-with-a-known-website) on 2026-10-03. The permanent desktop result is `total-n-check_26_10_03_0910Z_4249`. These findings come from reading its stored files, not only the terminal output:
 
-**Reconnects are covered:** the filter pins the **server** port (`443`), not the client's random ephemeral source port, so a reconnect (which gets a new source port) is still captured.
+| Check | Verified result |
+| --- | --- |
+| Schedule | Nine sessions across all eight modes; UDP/tls-auth got two, every other mode one. Seed 42 and the complete order are in `schedule.csv`. |
+| VPN sessions | 9 started, 9 successful, 0 failed or interrupted. |
+| Website fetches | 9/9 returned HTTPS 200 at the requested final URL `https://www.wikipedia.org/`, with 93,955 response bytes each and no web failures. The configured desktop proxy carried the requests. |
+| Client captures | Nine nonempty PCAPs, 1,281 packets total. Reading each with the inverse of its recorded BPF filter returned zero unrelated packets. |
+| Rekeys | Eight observed renewals total. One UDP vanilla session targeted two and observed one; target and observed counts are separate fields. |
+| Navigation and storage | All nine `by-configuration` links resolved. All 63 desktop SHA-256 entries matched; transfer and verification flags are true. |
 
-## Storage & metadata labels (TCP)
+The `SUCCESSFUL` terminal status means all requested curl visits for that session passed the runner's HTTP, redirect, and proxy-login checks. It does not mean a browser rendered the page. This particular run did not include a direct post-run inspection of the Pi namespace or route; an earlier Pi interruption check showed the namespace removed and the ordinary `wlan0` route intact. See [STATUS.md](STATUS.md) for older eight-mode, default-site, and Ctrl+C validation history.
 
-- **Capture directory:** `capture_tcp_<timestamp>` (UDP runs are `capture_udp_<timestamp>`) — the two are always separated on disk.
-- **`metadata.json`** (capture-level): `"transport": "tcp"`, and `proto`/`port` inside `config`.
-- **`session_metadata.json`**: `"transport": "tcp"`, `proto`/`port`, and `assigned_vpn_ip` from the TCP subnet (e.g. `10.9.0.2`).
-- **`metadata.jsonl`**: every row carries `transport` + `capture_id`.
-- `transport` is derived from the profile that actually ran, so it can't drift from reality.
+A later 24-session mixed Pi run completed **24/24 sessions and 72/72 HTTPS visits** using the revised 100-site pool. Of two subsequent 25-session UDP runs, one had a single `webex.com` HTTP 403 failure, and the other was interrupted after 11 sessions; both retained filtered captures and verified desktop copies. See [ISSUES.md](ISSUES.md) for the website limitation and [STATUS.md](STATUS.md) for the exact run IDs.
 
-## Reading a TCP capture in Wireshark
+## 9. Desktop server and permanent results
 
-A TCP pcap looks different from UDP — this is expected, not a fault.
+The desktop has **two different directories**:
 
-- **Label it as OpenVPN:** right-click a packet → **Decode As…** → TCP port `443` → **OpenVPN**. The Protocol column then shows `P_CONTROL_HARD_RESET_*`, `P_ACK_V1`, `P_DATA_V2`.
-- **Why packets show as `TCP` / `TLSv1.3` / `OpenVPN`** — Wireshark labels each packet by the **highest layer it can decode**:
-  - `TCP` with `Len=0` = a **bare acknowledgement** (no payload). Nothing to decode — **not** a missing OpenVPN packet.
-  - `TLSv1.3` (`Client Hello`, `Application Data`) = the OpenVPN **control channel**, which really is a TLS session. `[OpenVPN Message segment of a reassembled PDU]` means an OpenVPN message spans several TCP segments.
-  - `OpenVPN` = packets whose opcode is directly visible (`P_DATA_V2`, etc.).
-- **The server IS responding** even though roughly half its packets are small `Len=0` ACKs. Its real OpenVPN replies (e.g. `P_CONTROL_HARD_RESET_SERVER_V2`, `Server Hello`) are the `Len>0` packets. Useful filters:
-  - `tcp.len > 0` — hide the empty ACKs, show only packets with payload.
-  - `openvpn && ip.src == 10.208.23.185` — only the server's OpenVPN messages.
-- **Ephemeral source port** (e.g. `36848 → 443`) is normal — the OS picks a random high source port per connection; only the server port (`443`) is fixed. This is exactly why the capture filter pins the server port, not the client port.
+| Desktop path | What it contains |
+| --- | --- |
+| `/home/deepaksingh/vpn-testbed-v2/server/openvpn/` | Server implementation: eight matching `.conf` profiles, copied credentials, V2 selector and NAT scripts, and current runtime state. |
+| `/home/deepaksingh/VPN-Storage/experiments/openvpn/` | Permanent copies of the **client-generated experiment results**. This is where you analyze finished runs. |
 
-## TCP-specific troubleshooting
+The server profiles mirror the client layout: `vanilla/profiles/{udp,tcp}.conf` and `control-protection/<mode>/profiles/{udp,tcp}.conf`. The runner asks `scripts/select_profile.sh` to select one matching profile per session. The selector checks whether the required port is free and stops only its own V2 process. `scripts/setup_network.sh` sets forwarding/NAT for `10.8.0.0/24` when needed.
 
-| Symptom | Cause | Fix |
-|---|---|---|
-| TCP run immediately fails / resets | No OpenVPN listening on `443`. | `sudo ss -ltnp \| grep :443`; start `server-tcp.conf`. |
-| TCP connects at transport but no OpenVPN handshake | Reached a **non-OpenVPN** service on `443` (e.g. a web server). | Ensure `443` on the server is the OpenVPN TCP instance. |
-| `profile not found: ./client-tcp.ovpn` | Profile missing on the Pi. | Create it (see above). |
-| No egress on TCP (`request_count: 0`) | NAT not set for the TCP subnet. | `bash setup_server.sh server-tcp.conf` (covers `10.9.0.0/24`). |
-| Can't reach `443` at all | Host or cloud firewall. | Open `tcp:443` (host `iptables`/`ufw`; GCP ingress rule). |
+The server selector writes its current OpenVPN log to `server/openvpn/runtime/openvpn.log` and its active PID to `runtime/openvpn.pid`. **The log is replaced when another V2 profile starts**; the PID file is removed when that session stops. These are operational diagnostics, not an experiment archive. A session's `server_stop_ok` in client metadata only says the stop command returned successfully.
 
-## Validate completeness (TCP)
+The permanent desktop experiment folder contains the transferred `client.pcap`, `openvpn-client.log`, `web.log`, metadata, summaries, and checksums. V2 currently does **not** collect a separate server-side PCAP or archive a per-session server OpenVPN log. Thus `server_to_client_*` and `client_to_server_*` in `stats.json` describe directions seen in the **client's** filtered capture. They are not independent server measurements. For a failed connection, inspect the session's archived client log and failure reason first; inspect the server runtime log only if another session has not replaced it.
 
-- `tcpdump -r <pcap> | wc -l` matches `packet_count` in `session_metadata.json`.
-- The pcap **starts with `SYN`** and **ends with `FIN`/`RST`** — that bracket means the whole connection was captured.
-- `tcpdump`'s `dropped by kernel` = 0.
+To inspect a permanent run on the desktop, use the `remote=` path printed by the client. For example, the verified Pi nine-session run is here:
 
-## UDP vs TCP at a glance
+```bash
+ssh deepaksingh@10.208.23.185
+cd /home/deepaksingh/VPN-Storage/experiments/openvpn/2026/October/03/total-n-check_26_10_03_0910Z_4249
+cat summary.json
+cat configuration_summary.csv
+cat transfer.json
+cat sessions/session_0001/metadata.json
+sha256sum -c checksums.sha256
+```
 
-| Aspect | UDP | TCP |
-|---|---|---|
-| Port / subnet | `1194` / `10.8.0.0/24` | `443` / `10.9.0.0/24` |
-| Connection setup | none | `SYN` / `SYN,ACK` / `ACK` |
-| Acknowledgements | none | ~half the packets are bare `Len=0` ACKs |
-| Framing | OpenVPN payload in nearly every packet | OpenVPN inside TLS records, segmented/reassembled |
-| Teardown | none (just stops) | `FIN` / `RST` |
-| Capture filter | `host <server> and udp port 1194` | `host <server> and tcp port 443` |
-| Wireshark labels | mostly `OpenVPN` | mix of `TCP` / `TLSv1.3` / `OpenVPN` |
-
-The difference is **signal, not noise** — it's the reason to capture both.
+For another run, replace that `cd` path with the `remote=` path printed at the end of its run, omitting the `deepaksingh@10.208.23.185:` prefix. `summary.json` gives totals; `configuration_summary.csv` gives per-mode counts; session metadata and web logs show whether requested pages succeeded; `client.pcap` and `stats.json` show the VPN packets captured on the Pi/laptop.

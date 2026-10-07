@@ -1,0 +1,2 @@
+session_id,transport,control_protection,status,failure_category,failure_reason
+46,tcp,tls-crypt-v2,failed,web_failure,curl_error

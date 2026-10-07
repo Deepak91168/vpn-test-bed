@@ -1,0 +1,29 @@
+{
+  "vpn": {
+    "connection_success": false,
+    "connect_time_s": null,
+    "session_duration_s": 1.719,
+    "tunnel_duration_s": null,
+    "openvpn_exit_code": null,
+    "failure_category": "server_unreachable",
+    "failure_reason": "VPNLAB:Sorry, try again.\nVPNLAB:\nsudo: no password was provided\nsudo: 1 incorrect password attempt",
+    "rekey_target": null,
+    "reneg_sec": 30,
+    "renegotiation_events": 0
+  },
+  "web": {
+    "attempts": 0,
+    "successes": 0,
+    "failures": 0,
+    "success_rate": 0
+  },
+  "capture": {
+    "packet_count": 0,
+    "captured_bytes": 0,
+    "pcap_size": 0,
+    "client_to_server_packets": 0,
+    "client_to_server_bytes": 0,
+    "server_to_client_packets": 0,
+    "server_to_client_bytes": 0
+  }
+}

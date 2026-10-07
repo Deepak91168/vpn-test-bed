@@ -1,0 +1,125 @@
+{
+  "session_id": 5,
+  "transport": "udp",
+  "control_protection": "vanilla",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/vanilla/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T19:32:39.185419+00:00",
+  "vpn_established_time": "2026-10-03T19:32:40.576066+00:00",
+  "web_start_time": "2026-10-03T19:32:40.576318+00:00",
+  "web_end_time": "2026-10-03T19:33:28.777208+00:00",
+  "end_time": "2026-10-03T19:33:41.372259+00:00",
+  "post_session_delay_s": 5.296,
+  "status": "failed",
+  "failure_category": "web_failure",
+  "failure_reason": "proxy_connect_failed",
+  "connection_success": true,
+  "web_attempts": 5,
+  "web_successes": 0,
+  "web_failures": 5,
+  "web_sites_planned": [
+    "https://base.org/",
+    "https://vungle.com/",
+    "https://twitter.com/",
+    "https://telekom.net/",
+    "https://wordpress.com/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 30,
+  "session_seconds_planned": 60.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://base.org/",
+      "effective_url": "https://base.org/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://vungle.com/",
+      "effective_url": "https://vungle.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://twitter.com/",
+      "effective_url": "https://twitter.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://telekom.net/",
+      "effective_url": "https://telekom.net/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://wordpress.com/",
+      "effective_url": "https://wordpress.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    }
+  ],
+  "vpn_connect_time_s": 1.391,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 0.0,
+  "tunnel_duration_s": 60.064,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 62.187,
+  "capture_duration_s": 61.049,
+  "renegotiation_events": 1,
+  "renegotiation_log_times": [
+    "2026-10-04 01:03:10 us=126514"
+  ],
+  "stats": {
+    "packet_count": 117,
+    "captured_bytes": 29917,
+    "pcap_size": 33451,
+    "client_to_server_packets": 66,
+    "client_to_server_bytes": 15070,
+    "server_to_client_packets": 51,
+    "server_to_client_bytes": 14847,
+    "capture_duration_s": 58.125,
+    "packets_per_sec": 2.01,
+    "bytes_per_sec": 514.7,
+    "packet_size": {
+      "mean": 255.7,
+      "median": 112,
+      "min": 42,
+      "max": 1290,
+      "p25": 104,
+      "p75": 218,
+      "p90": 579,
+      "p95": 1250
+    }
+  }
+}

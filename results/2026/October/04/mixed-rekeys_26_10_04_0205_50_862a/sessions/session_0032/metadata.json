@@ -1,0 +1,125 @@
+{
+  "session_id": 32,
+  "transport": "tcp",
+  "control_protection": "tls-auth",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 443,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and tcp port 443",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-auth/profiles/tcp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T21:09:17.000940+00:00",
+  "vpn_established_time": "2026-10-03T21:09:18.391033+00:00",
+  "web_start_time": "2026-10-03T21:09:18.391214+00:00",
+  "web_end_time": "2026-10-03T21:10:07.992959+00:00",
+  "end_time": "2026-10-03T21:10:19.083552+00:00",
+  "post_session_delay_s": 3.932,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 5,
+  "web_successes": 5,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://github.com/",
+    "https://sourceforge.net/",
+    "https://googledomains.com/",
+    "https://blogspot.com/",
+    "https://gmail.com/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 40,
+  "session_seconds_planned": 60.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://github.com/",
+      "effective_url": "https://github.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 576690,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://sourceforge.net/",
+      "effective_url": "https://sourceforge.net/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 116976,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://googledomains.com/",
+      "effective_url": "https://domains.google/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 5354,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://blogspot.com/",
+      "effective_url": "https://www.blogger.com/about/?bpli=1",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 168646,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://gmail.com/",
+      "effective_url": "https://accounts.google.com/v3/signin/identifier?continue=https://mail.google.com/mail/u/0/&emr=1&followup=https://mail.google.com/mail/u/0/&osid=1&passive=1209600&service=mail&flowName=WebLiteSignIn&flowEntry=ServiceLogin&dsh=S-1741201955:1791061807503773",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 916859,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.39,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 60.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 62.083,
+  "capture_duration_s": 60.945,
+  "renegotiation_events": 1,
+  "renegotiation_log_times": [
+    "2026-10-04 02:39:58 us=360541"
+  ],
+  "stats": {
+    "packet_count": 1289,
+    "captured_bytes": 763546,
+    "pcap_size": 802240,
+    "client_to_server_packets": 530,
+    "client_to_server_bytes": 93111,
+    "server_to_client_packets": 759,
+    "server_to_client_bytes": 670435,
+    "capture_duration_s": 58.968,
+    "packets_per_sec": 21.86,
+    "bytes_per_sec": 12948.39,
+    "packet_size": {
+      "mean": 592.36,
+      "median": 178,
+      "min": 52,
+      "max": 1400,
+      "p25": 52,
+      "p75": 1400,
+      "p90": 1400,
+      "p95": 1400
+    }
+  }
+}

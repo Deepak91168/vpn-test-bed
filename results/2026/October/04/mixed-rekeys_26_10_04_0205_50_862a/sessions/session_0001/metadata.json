@@ -1,0 +1,125 @@
+{
+  "session_id": 1,
+  "transport": "tcp",
+  "control_protection": "vanilla",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 443,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and tcp port 443",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/vanilla/profiles/tcp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T20:35:09.542083+00:00",
+  "vpn_established_time": "2026-10-03T20:35:10.938680+00:00",
+  "web_start_time": "2026-10-03T20:35:10.938895+00:00",
+  "web_end_time": "2026-10-03T20:36:02.141154+00:00",
+  "end_time": "2026-10-03T20:36:11.642477+00:00",
+  "post_session_delay_s": 5.481,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 5,
+  "web_successes": 5,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://adobe.io/",
+    "https://youtube.com/",
+    "https://whatsapp.net/",
+    "https://instagram.com/",
+    "https://blogspot.com/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 40,
+  "session_seconds_planned": 60.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://adobe.io/",
+      "effective_url": "https://developer.adobe.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 18379,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://youtube.com/",
+      "effective_url": "https://www.youtube.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 893125,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://whatsapp.net/",
+      "effective_url": "https://www.whatsapp.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 277034,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://instagram.com/",
+      "effective_url": "https://www.instagram.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 419292,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://blogspot.com/",
+      "effective_url": "https://www.blogger.com/about/?bpli=1",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 168646,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.397,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 60.032,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 62.1,
+  "capture_duration_s": 60.956,
+  "renegotiation_events": 1,
+  "renegotiation_log_times": [
+    "2026-10-04 02:05:50 us=351760"
+  ],
+  "stats": {
+    "packet_count": 1499,
+    "captured_bytes": 881593,
+    "pcap_size": 926587,
+    "client_to_server_packets": 610,
+    "client_to_server_bytes": 104403,
+    "server_to_client_packets": 889,
+    "server_to_client_bytes": 777190,
+    "capture_duration_s": 53.404,
+    "packets_per_sec": 28.07,
+    "bytes_per_sec": 16508.13,
+    "packet_size": {
+      "mean": 588.12,
+      "median": 178,
+      "min": 52,
+      "max": 1400,
+      "p25": 52,
+      "p75": 1400,
+      "p90": 1400,
+      "p95": 1400
+    }
+  }
+}
