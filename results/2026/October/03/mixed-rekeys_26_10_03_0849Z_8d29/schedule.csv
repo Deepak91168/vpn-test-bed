@@ -1,0 +1,9 @@
+session,transport,control_protection,rekey_target,reneg_sec,web_sites_json
+1,tcp,tls-crypt-v2,0,,"[""https://sentry.io/"", ""https://youtube.com/"", ""https://creativecommons.org/""]"
+2,udp,tls-crypt,1,9,"[""https://nist.gov/"", ""https://twitch.tv/"", ""https://sourceforge.net/""]"
+3,tcp,vanilla,2,6,"[""https://azure.com/"", ""https://mts.ru/"", ""https://blogspot.com/""]"
+4,udp,vanilla,0,,"[""https://reddit.com/"", ""https://kaspersky.com/"", ""https://azure.com/""]"
+5,tcp,tls-crypt,0,,"[""https://dropbox.com/"", ""https://cloudflare.com/"", ""https://zoom.us/""]"
+6,udp,tls-crypt-v2,1,9,"[""https://googledomains.com/"", ""https://gandi.net/"", ""https://twitter.com/""]"
+7,udp,tls-auth,2,6,"[""https://samsung.com/"", ""https://shopify.com/"", ""https://registrar-servers.com/""]"
+8,tcp,tls-auth,1,9,"[""https://f5.com/"", ""https://cloudflare.com/"", ""https://bing.com/""]"

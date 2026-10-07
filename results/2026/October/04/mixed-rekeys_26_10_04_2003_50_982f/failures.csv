@@ -1,0 +1,2 @@
+session_id,transport,control_protection,status,failure_category,failure_reason
+2,udp,tls-auth,interrupted,manual_interrupt,manual interrupt

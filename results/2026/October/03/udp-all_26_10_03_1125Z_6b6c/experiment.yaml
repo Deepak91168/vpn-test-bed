@@ -1,0 +1,27 @@
+{
+  "experiment_id": "udp-all_26_10_03_1125Z_6b6c",
+  "label": "udp-all",
+  "seed": 3047323415,
+  "protocol": "openvpn",
+  "schedule_count": 25,
+  "sessions_requested": 25,
+  "sessions_per_config": null,
+  "transport": "udp",
+  "control_protection": "all",
+  "obfuscation": "none",
+  "web_workload": {
+    "sites_file": "/home/pi/vpn-testbed-v2/traffic/web/sites.txt",
+    "sites_sha256": "1566ec34ca3e3141233ac91ecbbadeaa11e7ac7bf91d1e3eb0a9f2e8831a274a",
+    "visits": 10,
+    "proxy": "http://proxy21.iitd.ac.in:3128",
+    "dns": "10.208.20.2"
+  },
+  "reneg_sec": 40,
+  "mixed_rekeys": false,
+  "session_seconds": 60.0,
+  "delay_range_s": [
+    2,
+    6
+  ],
+  "start_time": "2026-10-03T11:25:24.992917+00:00"
+}

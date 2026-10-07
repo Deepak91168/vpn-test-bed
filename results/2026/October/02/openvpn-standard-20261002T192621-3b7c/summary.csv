@@ -1,0 +1,2 @@
+status,planned,started,completed,successful,failed,interrupted,success_rate,packet_count,captured_bytes,client_to_server_packets,client_to_server_bytes,server_to_client_packets,server_to_client_bytes,median_session_duration_s,median_vpn_connect_time_s,web_attempts,web_successes,web_failures,renegotiation_events,delay_min_s,delay_mean_s,delay_max_s,elapsed_s,experiment_id,total_result_size_bytes
+completed,1,1,1,0,1,0,0.0,33,10657,19,5697,14,4960,2.672,1.387,1,0,1,0,,,,2.77,openvpn-standard-20261002T192621-3b7c,23321

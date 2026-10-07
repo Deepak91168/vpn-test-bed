@@ -1,0 +1,180 @@
+{
+  "session_id": 13,
+  "transport": "udp",
+  "control_protection": "tls-crypt-v2",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-crypt-v2/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T11:38:50.184575+00:00",
+  "vpn_established_time": "2026-10-03T11:38:51.560748+00:00",
+  "web_start_time": "2026-10-03T11:38:51.560941+00:00",
+  "web_end_time": "2026-10-03T11:39:46.562230+00:00",
+  "end_time": "2026-10-03T11:39:52.284888+00:00",
+  "post_session_delay_s": 3.707,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 10,
+  "web_successes": 10,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://bbc.co.uk/",
+    "https://twitch.tv/",
+    "https://zoom.us/",
+    "https://snapchat.com/",
+    "https://wikipedia.org/",
+    "https://pinterest.com/",
+    "https://hosting24.com/",
+    "https://msn.com/",
+    "https://bbc.com/",
+    "https://pinterest.com/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 40,
+  "session_seconds_planned": 60.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://bbc.co.uk/",
+      "effective_url": "https://www.bbc.co.uk/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 788999,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://twitch.tv/",
+      "effective_url": "https://www.twitch.tv/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 202881,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://zoom.us/",
+      "effective_url": "https://www.zoom.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 317135,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://snapchat.com/",
+      "effective_url": "https://www.snapchat.com:443/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 168034,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://wikipedia.org/",
+      "effective_url": "https://www.wikipedia.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 93955,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://pinterest.com/",
+      "effective_url": "https://www.pinterest.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 1125729,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://hosting24.com/",
+      "effective_url": "https://www.hostinger.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 932540,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://msn.com/",
+      "effective_url": "https://www.msn.com/en-in",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 47213,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://bbc.com/",
+      "effective_url": "https://www.bbc.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 630982,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://pinterest.com/",
+      "effective_url": "https://www.pinterest.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 1350574,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.376,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 60.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 62.1,
+  "capture_duration_s": 60.976,
+  "renegotiation_events": 1,
+  "renegotiation_log_times": [
+    "2026-10-03 12:39:30 us=969204"
+  ],
+  "stats": {
+    "packet_count": 1677,
+    "captured_bytes": 1133847,
+    "pcap_size": 1184181,
+    "client_to_server_packets": 698,
+    "client_to_server_bytes": 126039,
+    "server_to_client_packets": 979,
+    "server_to_client_bytes": 1007808,
+    "capture_duration_s": 55.244,
+    "packets_per_sec": 30.36,
+    "bytes_per_sec": 20524.52,
+    "packet_size": {
+      "mean": 676.12,
+      "median": 178,
+      "min": 82,
+      "max": 1492,
+      "p25": 104,
+      "p75": 1492,
+      "p90": 1492,
+      "p95": 1492
+    }
+  }
+}

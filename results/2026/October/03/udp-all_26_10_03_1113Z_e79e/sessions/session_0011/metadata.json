@@ -1,0 +1,160 @@
+{
+  "session_id": 11,
+  "transport": "udp",
+  "control_protection": "tls-auth",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-auth/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T11:24:17.203362+00:00",
+  "vpn_established_time": "2026-10-03T11:24:18.582312+00:00",
+  "web_start_time": "2026-10-03T11:24:18.582511+00:00",
+  "web_end_time": "2026-10-03T11:25:04.234550+00:00",
+  "end_time": "2026-10-03T11:25:04.875630+00:00",
+  "post_session_delay_s": null,
+  "status": "interrupted",
+  "failure_category": "manual_interrupt",
+  "failure_reason": "manual interrupt",
+  "connection_success": true,
+  "web_attempts": 8,
+  "web_successes": 8,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://forbes.com/",
+    "https://netflix.com/",
+    "https://discord.com/",
+    "https://criteo.com/",
+    "https://nist.gov/",
+    "https://theguardian.com/",
+    "https://sourceforge.net/",
+    "https://bbc.com/",
+    "https://windows.com/",
+    "https://ubuntu.com/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 30,
+  "session_seconds_planned": 60.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://forbes.com/",
+      "effective_url": "https://www.forbes.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 768101,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://netflix.com/",
+      "effective_url": "https://www.netflix.com/in/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 3183449,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://discord.com/",
+      "effective_url": "https://discord.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 170374,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://criteo.com/",
+      "effective_url": "https://www.criteo.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 465018,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://nist.gov/",
+      "effective_url": "https://www.nist.gov/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 96936,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://theguardian.com/",
+      "effective_url": "https://www.theguardian.com/international",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 1476264,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://sourceforge.net/",
+      "effective_url": "https://sourceforge.net/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 117086,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://bbc.com/",
+      "effective_url": "https://www.bbc.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 630894,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.379,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "tunnel_duration_s": 45.652,
+  "web_success_rate": 1.0,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 47.672,
+  "capture_duration_s": 46.546,
+  "renegotiation_events": 1,
+  "renegotiation_log_times": [
+    "2026-10-03 12:24:48 us=232537"
+  ],
+  "stats": {
+    "packet_count": 2175,
+    "captured_bytes": 1478573,
+    "pcap_size": 1543847,
+    "client_to_server_packets": 926,
+    "client_to_server_bytes": 136237,
+    "server_to_client_packets": 1249,
+    "server_to_client_bytes": 1342336,
+    "capture_duration_s": 42.499,
+    "packets_per_sec": 51.18,
+    "bytes_per_sec": 34790.71,
+    "packet_size": {
+      "mean": 679.8,
+      "median": 168,
+      "min": 82,
+      "max": 1492,
+      "p25": 104,
+      "p75": 1492,
+      "p90": 1492,
+      "p95": 1492
+    }
+  }
+}

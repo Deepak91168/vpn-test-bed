@@ -1,0 +1,125 @@
+{
+  "session_id": 34,
+  "transport": "udp",
+  "control_protection": "tls-auth",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-auth/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T21:11:28.607042+00:00",
+  "vpn_established_time": "2026-10-03T21:11:29.957203+00:00",
+  "web_start_time": "2026-10-03T21:11:29.957470+00:00",
+  "web_end_time": "2026-10-03T21:12:18.158424+00:00",
+  "end_time": "2026-10-03T21:12:30.688007+00:00",
+  "post_session_delay_s": 3.768,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 5,
+  "web_successes": 5,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://xiaomi.com/",
+    "https://live.com/",
+    "https://taboola.com/",
+    "https://whatsapp.net/",
+    "https://w3.org/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 40,
+  "session_seconds_planned": 60.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://xiaomi.com/",
+      "effective_url": "https://www.mi.com/in/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 299397,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://live.com/",
+      "effective_url": "https://outlook.live.com/mail/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 14279,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://taboola.com/",
+      "effective_url": "https://www.taboola.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 156026,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://whatsapp.net/",
+      "effective_url": "https://www.whatsapp.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 277024,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://w3.org/",
+      "effective_url": "https://www.w3.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 48814,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.35,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 60.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 62.081,
+  "capture_duration_s": 60.984,
+  "renegotiation_events": 1,
+  "renegotiation_log_times": [
+    "2026-10-04 02:42:09 us=575252"
+  ],
+  "stats": {
+    "packet_count": 698,
+    "captured_bytes": 428206,
+    "pcap_size": 449170,
+    "client_to_server_packets": 310,
+    "client_to_server_bytes": 62518,
+    "server_to_client_packets": 388,
+    "server_to_client_bytes": 365688,
+    "capture_duration_s": 54.481,
+    "packets_per_sec": 12.81,
+    "bytes_per_sec": 7859.72,
+    "packet_size": {
+      "mean": 613.48,
+      "median": 152.0,
+      "min": 68,
+      "max": 1492,
+      "p25": 104,
+      "p75": 1492,
+      "p90": 1492,
+      "p95": 1492
+    }
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "session_id": 25,
+  "transport": "tcp",
+  "control_protection": "tls-auth",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 443,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and tcp port 443",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-auth/profiles/tcp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-04T14:55:20.215130+00:00",
+  "vpn_established_time": "2026-10-04T14:55:21.581782+00:00",
+  "web_start_time": "2026-10-04T14:55:21.582017+00:00",
+  "web_end_time": "2026-10-04T14:55:58.983523+00:00",
+  "end_time": "2026-10-04T14:56:07.302864+00:00",
+  "post_session_delay_s": 2.498,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 5,
+  "web_successes": 5,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://stripe.com/",
+    "https://twitter.com/",
+    "https://azure.com/",
+    "https://bbc.co.uk/",
+    "https://lencr.org/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 25,
+  "session_seconds_planned": 45.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://stripe.com/",
+      "effective_url": "https://stripe.com/in",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 701599,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://twitter.com/",
+      "effective_url": "https://x.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 34987,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://azure.com/",
+      "effective_url": "https://azure.microsoft.com/en-us",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 464004,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://bbc.co.uk/",
+      "effective_url": "https://www.bbc.co.uk/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 755846,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://lencr.org/",
+      "effective_url": "https://letsencrypt.org/docs/lencr.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 28865,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.367,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 45.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 47.088,
+  "capture_duration_s": 45.974,
+  "renegotiation_events": 1,
+  "renegotiation_log_times": [
+    "2026-10-04 20:25:46 us=470553"
+  ],
+  "stats": {
+    "packet_count": 1121,
+    "captured_bytes": 594133,
+    "pcap_size": 627787,
+    "client_to_server_packets": 490,
+    "client_to_server_bytes": 81605,
+    "server_to_client_packets": 631,
+    "server_to_client_bytes": 512528,
+    "capture_duration_s": 37.692,
+    "packets_per_sec": 29.74,
+    "bytes_per_sec": 15762.81,
+    "packet_size": {
+      "mean": 530.0,
+      "median": 142,
+      "min": 52,
+      "max": 1400,
+      "p25": 52,
+      "p75": 1400,
+      "p90": 1400,
+      "p95": 1400
+    }
+  }
+}

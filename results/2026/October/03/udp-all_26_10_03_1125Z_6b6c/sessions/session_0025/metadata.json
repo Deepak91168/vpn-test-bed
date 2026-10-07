@@ -1,0 +1,180 @@
+{
+  "session_id": 25,
+  "transport": "udp",
+  "control_protection": "tls-auth",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-auth/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T11:52:02.652246+00:00",
+  "vpn_established_time": "2026-10-03T11:52:04.018351+00:00",
+  "web_start_time": "2026-10-03T11:52:04.018582+00:00",
+  "web_end_time": "2026-10-03T11:52:58.819831+00:00",
+  "end_time": "2026-10-03T11:53:04.790870+00:00",
+  "post_session_delay_s": null,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 10,
+  "web_successes": 10,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://wikimedia.org/",
+    "https://office.com/",
+    "https://gravatar.com/",
+    "https://wikimedia.org/",
+    "https://blogspot.com/",
+    "https://shopify.com/",
+    "https://tumblr.com/",
+    "https://icloud.com/",
+    "https://twitter.com/",
+    "https://wikipedia.org/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 40,
+  "session_seconds_planned": 60.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://wikimedia.org/",
+      "effective_url": "https://www.wikimedia.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 49364,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://office.com/",
+      "effective_url": "https://m365.cloud.microsoft/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 319137,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://gravatar.com/",
+      "effective_url": "https://gravatar.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 88237,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://wikimedia.org/",
+      "effective_url": "https://www.wikimedia.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 49364,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://blogspot.com/",
+      "effective_url": "https://www.blogger.com/about/?bpli=1",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 168646,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://shopify.com/",
+      "effective_url": "https://www.shopify.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 663842,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://tumblr.com/",
+      "effective_url": "https://www.tumblr.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 117136,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://icloud.com/",
+      "effective_url": "https://www.icloud.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 31302,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://twitter.com/",
+      "effective_url": "https://x.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 35070,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://wikipedia.org/",
+      "effective_url": "https://www.wikipedia.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 93955,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.366,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 60.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 62.139,
+  "capture_duration_s": 61.025,
+  "renegotiation_events": 1,
+  "renegotiation_log_times": [
+    "2026-10-03 17:22:44 us=2094"
+  ],
+  "stats": {
+    "packet_count": 1528,
+    "captured_bytes": 850458,
+    "pcap_size": 896322,
+    "client_to_server_packets": 686,
+    "client_to_server_bytes": 125848,
+    "server_to_client_packets": 842,
+    "server_to_client_bytes": 724610,
+    "capture_duration_s": 56.024,
+    "packets_per_sec": 27.27,
+    "bytes_per_sec": 15180.27,
+    "packet_size": {
+      "mean": 556.58,
+      "median": 143.0,
+      "min": 82,
+      "max": 1492,
+      "p25": 104,
+      "p75": 1492,
+      "p90": 1492,
+      "p95": 1492
+    }
+  }
+}

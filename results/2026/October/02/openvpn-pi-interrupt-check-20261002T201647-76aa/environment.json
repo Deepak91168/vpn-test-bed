@@ -1,0 +1,12 @@
+{
+  "hostname": "raspberrypi",
+  "os_release": "Debian GNU/Linux 13 (trixie)",
+  "kernel_version": "6.18.39+rpt-rpi-2712",
+  "architecture": "aarch64",
+  "openvpn_version": "OpenVPN 2.6.14 aarch64-unknown-linux-gnu [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [PKCS11] [MH/PKTINFO] [AEAD] [DCO]",
+  "tcpdump_version": "tcpdump version 4.99.5",
+  "browser_version": null,
+  "playwright_version": null,
+  "git_commit": null,
+  "git_state": null
+}

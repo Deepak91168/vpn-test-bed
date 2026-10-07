@@ -1,0 +1,180 @@
+{
+  "session_id": 14,
+  "transport": "udp",
+  "control_protection": "tls-auth",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-auth/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T11:39:56.013592+00:00",
+  "vpn_established_time": "2026-10-03T11:39:57.372018+00:00",
+  "web_start_time": "2026-10-03T11:39:57.372271+00:00",
+  "web_end_time": "2026-10-03T11:40:52.773693+00:00",
+  "end_time": "2026-10-03T11:40:58.091485+00:00",
+  "post_session_delay_s": 2.45,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 10,
+  "web_successes": 10,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://vk.ru/",
+    "https://mit.edu/",
+    "https://applovin.com/",
+    "https://netflix.com/",
+    "https://windows.com/",
+    "https://registrar-servers.com/",
+    "https://vk.com/",
+    "https://wikipedia.org/",
+    "https://ipify.org/",
+    "https://europa.eu/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 40,
+  "session_seconds_planned": 60.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://vk.ru/",
+      "effective_url": "https://m.vk.ru/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 104118,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://mit.edu/",
+      "effective_url": "https://web.mit.edu/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 48075,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://applovin.com/",
+      "effective_url": "https://applovin.com/en",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 396348,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://netflix.com/",
+      "effective_url": "https://www.netflix.com/in/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 3183461,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://windows.com/",
+      "effective_url": "https://www.microsoft.com/en-in/windows/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 124115,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://registrar-servers.com/",
+      "effective_url": "https://registrar-servers.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 2031,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://vk.com/",
+      "effective_url": "https://m.vk.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 104156,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://wikipedia.org/",
+      "effective_url": "https://www.wikipedia.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 93955,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://ipify.org/",
+      "effective_url": "https://www.ipify.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 34323,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://europa.eu/",
+      "effective_url": "https://european-union.europa.eu/select-language?destination=/node/1",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 18182,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.358,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 60.064,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 62.078,
+  "capture_duration_s": 60.972,
+  "renegotiation_events": 1,
+  "renegotiation_log_times": [
+    "2026-10-03 12:40:37 us=621773"
+  ],
+  "stats": {
+    "packet_count": 2416,
+    "captured_bytes": 1288124,
+    "pcap_size": 1360628,
+    "client_to_server_packets": 1099,
+    "client_to_server_bytes": 167919,
+    "server_to_client_packets": 1317,
+    "server_to_client_bytes": 1120205,
+    "capture_duration_s": 59.274,
+    "packets_per_sec": 40.76,
+    "bytes_per_sec": 21731.79,
+    "packet_size": {
+      "mean": 533.16,
+      "median": 144.0,
+      "min": 82,
+      "max": 1492,
+      "p25": 104,
+      "p75": 1492,
+      "p90": 1492,
+      "p95": 1492
+    }
+  }
+}

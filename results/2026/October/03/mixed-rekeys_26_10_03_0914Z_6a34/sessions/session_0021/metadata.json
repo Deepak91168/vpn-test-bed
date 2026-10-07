@@ -1,0 +1,104 @@
+{
+  "session_id": 21,
+  "transport": "tcp",
+  "control_protection": "tls-crypt",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 443,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and tcp port 443",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-crypt/profiles/tcp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T09:20:42.207588+00:00",
+  "vpn_established_time": "2026-10-03T09:20:43.609791+00:00",
+  "web_start_time": "2026-10-03T09:20:43.609986+00:00",
+  "web_end_time": "2026-10-03T09:20:52.411219+00:00",
+  "end_time": "2026-10-03T09:20:56.320826+00:00",
+  "post_session_delay_s": 4.185,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 3,
+  "web_successes": 3,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://roblox.com/",
+    "https://cnn.com/",
+    "https://mozilla.org/"
+  ],
+  "rekey_target": 2,
+  "reneg_sec": 6,
+  "session_seconds_planned": 12,
+  "web_visit_results": [
+    {
+      "requested_url": "https://roblox.com/",
+      "effective_url": "https://www.roblox.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 63395,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://cnn.com/",
+      "effective_url": "https://edition.cnn.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 5806576,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://mozilla.org/",
+      "effective_url": "https://www.mozilla.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 47967,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.402,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 12.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 14.113,
+  "capture_duration_s": 12.963,
+  "renegotiation_events": 2,
+  "renegotiation_log_times": [
+    "2026-10-03 10:20:48 us=654224",
+    "2026-10-03 10:20:54 us=791579"
+  ],
+  "stats": {
+    "packet_count": 1242,
+    "captured_bytes": 872974,
+    "pcap_size": 910258,
+    "client_to_server_packets": 475,
+    "client_to_server_bytes": 82626,
+    "server_to_client_packets": 767,
+    "server_to_client_bytes": 790348,
+    "capture_duration_s": 12.065,
+    "packets_per_sec": 102.94,
+    "bytes_per_sec": 72356.37,
+    "packet_size": {
+      "mean": 702.88,
+      "median": 451.0,
+      "min": 52,
+      "max": 1400,
+      "p25": 52,
+      "p75": 1400,
+      "p90": 1400,
+      "p95": 1400
+    }
+  }
+}

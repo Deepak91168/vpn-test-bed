@@ -1,0 +1,103 @@
+{
+  "session_id": 6,
+  "transport": "tcp",
+  "control_protection": "tls-crypt",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 443,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and tcp port 443",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-crypt/profiles/tcp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T09:16:12.854200+00:00",
+  "vpn_established_time": "2026-10-03T09:16:14.230550+00:00",
+  "web_start_time": "2026-10-03T09:16:14.230817+00:00",
+  "web_end_time": "2026-10-03T09:16:23.032104+00:00",
+  "end_time": "2026-10-03T09:16:26.956886+00:00",
+  "post_session_delay_s": 2.288,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 3,
+  "web_successes": 3,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://samsung.com/",
+    "https://skype.com/",
+    "https://forbes.com/"
+  ],
+  "rekey_target": 1,
+  "reneg_sec": 9,
+  "session_seconds_planned": 12,
+  "web_visit_results": [
+    {
+      "requested_url": "https://samsung.com/",
+      "effective_url": "https://www.samsung.com/in/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 365641,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://skype.com/",
+      "effective_url": "https://teams.live.com/free?source=skype",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 61987,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://forbes.com/",
+      "effective_url": "https://www.forbes.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 768037,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.376,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 12.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 14.103,
+  "capture_duration_s": 12.979,
+  "renegotiation_events": 1,
+  "renegotiation_log_times": [
+    "2026-10-03 10:16:22 us=668461"
+  ],
+  "stats": {
+    "packet_count": 624,
+    "captured_bytes": 338507,
+    "pcap_size": 357251,
+    "client_to_server_packets": 267,
+    "client_to_server_bytes": 54888,
+    "server_to_client_packets": 357,
+    "server_to_client_bytes": 283619,
+    "capture_duration_s": 12.144,
+    "packets_per_sec": 51.38,
+    "bytes_per_sec": 27873.79,
+    "packet_size": {
+      "mean": 542.48,
+      "median": 142.0,
+      "min": 52,
+      "max": 1400,
+      "p25": 52,
+      "p75": 1400,
+      "p90": 1400,
+      "p95": 1400
+    }
+  }
+}

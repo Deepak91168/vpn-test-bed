@@ -1,0 +1,125 @@
+{
+  "session_id": 16,
+  "transport": "udp",
+  "control_protection": "tls-auth",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-auth/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T20:51:42.860086+00:00",
+  "vpn_established_time": "2026-10-03T20:51:44.221843+00:00",
+  "web_start_time": "2026-10-03T20:51:44.222114+00:00",
+  "web_end_time": "2026-10-03T20:52:32.823337+00:00",
+  "end_time": "2026-10-03T20:52:44.944876+00:00",
+  "post_session_delay_s": 5.418,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 5,
+  "web_successes": 5,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://stripe.com/",
+    "https://telekom.net/",
+    "https://amazonaws.com/",
+    "https://mts.ru/",
+    "https://bing.com/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 40,
+  "session_seconds_planned": 60.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://stripe.com/",
+      "effective_url": "https://stripe.com/in",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 701599,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://telekom.net/",
+      "effective_url": "https://www.telekom.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 223683,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://amazonaws.com/",
+      "effective_url": "https://aws.amazon.com:443/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 501543,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://mts.ru/",
+      "effective_url": "https://moskva.mts.ru/personal",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 1071799,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://bing.com/",
+      "effective_url": "https://www.bing.com:443/?toWww=1&redig=D169D737B9994CEFA1DF46FFB2CE295E",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 69135,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.362,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 60.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 62.085,
+  "capture_duration_s": 60.976,
+  "renegotiation_events": 1,
+  "renegotiation_log_times": [
+    "2026-10-04 02:22:25 us=65364"
+  ],
+  "stats": {
+    "packet_count": 986,
+    "captured_bytes": 589678,
+    "pcap_size": 619282,
+    "client_to_server_packets": 436,
+    "client_to_server_bytes": 73680,
+    "server_to_client_packets": 550,
+    "server_to_client_bytes": 515998,
+    "capture_duration_s": 58.226,
+    "packets_per_sec": 16.93,
+    "bytes_per_sec": 10127.33,
+    "packet_size": {
+      "mean": 598.05,
+      "median": 164.0,
+      "min": 68,
+      "max": 1492,
+      "p25": 104,
+      "p75": 1492,
+      "p90": 1492,
+      "p95": 1492
+    }
+  }
+}

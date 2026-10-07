@@ -1,0 +1,101 @@
+{
+  "session_id": 5,
+  "transport": "tcp",
+  "control_protection": "tls-crypt",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 443,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and tcp port 443",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-crypt/profiles/tcp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T08:50:40.093999+00:00",
+  "vpn_established_time": "2026-10-03T08:50:41.460269+00:00",
+  "web_start_time": "2026-10-03T08:50:41.460455+00:00",
+  "web_end_time": "2026-10-03T08:50:50.061732+00:00",
+  "end_time": "2026-10-03T08:50:54.230947+00:00",
+  "post_session_delay_s": 5.798,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 3,
+  "web_successes": 3,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://dropbox.com/",
+    "https://cloudflare.com/",
+    "https://zoom.us/"
+  ],
+  "rekey_target": 0,
+  "reneg_sec": null,
+  "session_seconds_planned": 12,
+  "web_visit_results": [
+    {
+      "requested_url": "https://dropbox.com/",
+      "effective_url": "https://www.dropbox.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 598275,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://cloudflare.com/",
+      "effective_url": "https://www.cloudflare.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 1333874,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://zoom.us/",
+      "effective_url": "https://www.zoom.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 317135,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.366,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 12.064,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 14.137,
+  "capture_duration_s": 13.023,
+  "renegotiation_events": 0,
+  "renegotiation_log_times": [],
+  "stats": {
+    "packet_count": 787,
+    "captured_bytes": 428690,
+    "pcap_size": 452324,
+    "client_to_server_packets": 332,
+    "client_to_server_bytes": 55187,
+    "server_to_client_packets": 455,
+    "server_to_client_bytes": 373503,
+    "capture_duration_s": 11.921,
+    "packets_per_sec": 66.02,
+    "bytes_per_sec": 35961.11,
+    "packet_size": {
+      "mean": 544.71,
+      "median": 161,
+      "min": 52,
+      "max": 1400,
+      "p25": 52,
+      "p75": 1400,
+      "p90": 1400,
+      "p95": 1400
+    }
+  }
+}

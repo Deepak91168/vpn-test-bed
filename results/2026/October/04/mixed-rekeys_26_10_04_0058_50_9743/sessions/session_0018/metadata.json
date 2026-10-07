@@ -1,0 +1,126 @@
+{
+  "session_id": 18,
+  "transport": "udp",
+  "control_protection": "vanilla",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/vanilla/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T19:47:01.522977+00:00",
+  "vpn_established_time": "2026-10-03T19:47:02.929338+00:00",
+  "web_start_time": "2026-10-03T19:47:02.929540+00:00",
+  "web_end_time": "2026-10-03T19:47:51.130453+00:00",
+  "end_time": "2026-10-03T19:48:03.653043+00:00",
+  "post_session_delay_s": 5.411,
+  "status": "failed",
+  "failure_category": "web_failure",
+  "failure_reason": "proxy_connect_failed",
+  "connection_success": true,
+  "web_attempts": 5,
+  "web_successes": 0,
+  "web_failures": 5,
+  "web_sites_planned": [
+    "https://taboola.com/",
+    "https://stripe.com/",
+    "https://xiaomi.com/",
+    "https://wikimedia.org/",
+    "https://samsung.com/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 30,
+  "session_seconds_planned": 60.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://taboola.com/",
+      "effective_url": "https://taboola.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://stripe.com/",
+      "effective_url": "https://stripe.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://xiaomi.com/",
+      "effective_url": "https://xiaomi.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://wikimedia.org/",
+      "effective_url": "https://wikimedia.org/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://samsung.com/",
+      "effective_url": "https://samsung.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    }
+  ],
+  "vpn_connect_time_s": 1.406,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 0.0,
+  "tunnel_duration_s": 60.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 62.13,
+  "capture_duration_s": 60.976,
+  "renegotiation_events": 2,
+  "renegotiation_log_times": [
+    "2026-10-04 01:17:32 us=958547",
+    "2026-10-04 01:18:02 us=474217"
+  ],
+  "stats": {
+    "packet_count": 134,
+    "captured_bytes": 38369,
+    "pcap_size": 42413,
+    "client_to_server_packets": 75,
+    "client_to_server_bytes": 19979,
+    "server_to_client_packets": 59,
+    "server_to_client_bytes": 18390,
+    "capture_duration_s": 59.787,
+    "packets_per_sec": 2.24,
+    "bytes_per_sec": 641.77,
+    "packet_size": {
+      "mean": 286.34,
+      "median": 112.0,
+      "min": 42,
+      "max": 1290,
+      "p25": 102,
+      "p75": 264,
+      "p90": 1250,
+      "p95": 1290
+    }
+  }
+}

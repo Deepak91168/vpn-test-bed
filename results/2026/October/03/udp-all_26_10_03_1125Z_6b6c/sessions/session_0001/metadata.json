@@ -1,0 +1,180 @@
+{
+  "session_id": 1,
+  "transport": "udp",
+  "control_protection": "tls-auth",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-auth/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T11:25:25.010934+00:00",
+  "vpn_established_time": "2026-10-03T11:25:26.428033+00:00",
+  "web_start_time": "2026-10-03T11:25:26.428304+00:00",
+  "web_end_time": "2026-10-03T11:26:21.429630+00:00",
+  "end_time": "2026-10-03T11:26:27.154467+00:00",
+  "post_session_delay_s": 5.309,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 10,
+  "web_successes": 10,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://ntp.org/",
+    "https://office.com/",
+    "https://msn.com/",
+    "https://f5.com/",
+    "https://gmail.com/",
+    "https://triplinkintl.com/",
+    "https://f5.com/",
+    "https://yuga.com/",
+    "https://instagram.com/",
+    "https://instagram.com/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 40,
+  "session_seconds_planned": 60.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://ntp.org/",
+      "effective_url": "https://www.ntp.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 9114,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://office.com/",
+      "effective_url": "https://m365.cloud.microsoft/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 319073,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://msn.com/",
+      "effective_url": "https://www.msn.com/en-in",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 47803,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://f5.com/",
+      "effective_url": "https://www.f5.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 669271,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://gmail.com/",
+      "effective_url": "https://accounts.google.com/v3/signin/identifier?continue=https://mail.google.com/mail/u/0/&emr=1&followup=https://mail.google.com/mail/u/0/&osid=1&passive=1209600&service=mail&flowName=WebLiteSignIn&flowEntry=ServiceLogin&dsh=S-2093921623:1791026751308274",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 917276,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://triplinkintl.com/",
+      "effective_url": "https://www.triplinkintl.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 41919,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://f5.com/",
+      "effective_url": "https://www.f5.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 669271,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://yuga.com/",
+      "effective_url": "https://yuga.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 7369,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://instagram.com/",
+      "effective_url": "https://www.instagram.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 418953,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://instagram.com/",
+      "effective_url": "https://www.instagram.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 418926,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.417,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 60.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 62.144,
+  "capture_duration_s": 60.979,
+  "renegotiation_events": 1,
+  "renegotiation_log_times": [
+    "2026-10-03 12:26:05 us=957653"
+  ],
+  "stats": {
+    "packet_count": 1701,
+    "captured_bytes": 1061528,
+    "pcap_size": 1112582,
+    "client_to_server_packets": 749,
+    "client_to_server_bytes": 133851,
+    "server_to_client_packets": 952,
+    "server_to_client_bytes": 927677,
+    "capture_duration_s": 59.999,
+    "packets_per_sec": 28.35,
+    "bytes_per_sec": 17692.38,
+    "packet_size": {
+      "mean": 624.06,
+      "median": 164,
+      "min": 82,
+      "max": 1492,
+      "p25": 104,
+      "p75": 1492,
+      "p90": 1492,
+      "p95": 1492
+    }
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "session_id": 15,
+  "transport": "tcp",
+  "control_protection": "tls-auth",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 443,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and tcp port 443",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-auth/profiles/tcp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T19:43:42.859144+00:00",
+  "vpn_established_time": "2026-10-03T19:43:44.343227+00:00",
+  "web_start_time": "2026-10-03T19:43:44.343457+00:00",
+  "web_end_time": "2026-10-03T19:44:32.744404+00:00",
+  "end_time": "2026-10-03T19:44:45.042260+00:00",
+  "post_session_delay_s": 4.139,
+  "status": "failed",
+  "failure_category": "web_failure",
+  "failure_reason": "proxy_connect_failed",
+  "connection_success": true,
+  "web_attempts": 5,
+  "web_successes": 0,
+  "web_failures": 5,
+  "web_sites_planned": [
+    "https://cloudflare.com/",
+    "https://flickr.com/",
+    "https://vk.ru/",
+    "https://soundcloud.com/",
+    "https://sourceforge.net/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 30,
+  "session_seconds_planned": 60.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://cloudflare.com/",
+      "effective_url": "https://cloudflare.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://flickr.com/",
+      "effective_url": "https://flickr.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://vk.ru/",
+      "effective_url": "https://vk.ru/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://soundcloud.com/",
+      "effective_url": "https://soundcloud.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://sourceforge.net/",
+      "effective_url": "https://sourceforge.net/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    }
+  ],
+  "vpn_connect_time_s": 1.484,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 0.0,
+  "tunnel_duration_s": 60.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 62.183,
+  "capture_duration_s": 60.952,
+  "renegotiation_events": 2,
+  "renegotiation_log_times": [
+    "2026-10-04 01:14:14 us=593042",
+    "2026-10-04 01:14:44 us=226006"
+  ],
+  "stats": {
+    "packet_count": 225,
+    "captured_bytes": 48080,
+    "pcap_size": 54854,
+    "client_to_server_packets": 112,
+    "client_to_server_bytes": 24666,
+    "server_to_client_packets": 113,
+    "server_to_client_bytes": 23414,
+    "capture_duration_s": 60.129,
+    "packets_per_sec": 3.74,
+    "bytes_per_sec": 799.61,
+    "packet_size": {
+      "mean": 213.69,
+      "median": 126,
+      "min": 52,
+      "max": 1400,
+      "p25": 52,
+      "p75": 138,
+      "p90": 605,
+      "p95": 1276
+    }
+  }
+}

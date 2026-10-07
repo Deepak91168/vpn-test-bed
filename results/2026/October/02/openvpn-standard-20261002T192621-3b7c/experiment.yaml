@@ -1,0 +1,23 @@
+{
+  "experiment_id": "openvpn-standard-20261002T192621-3b7c",
+  "seed": 2514100560,
+  "protocol": "openvpn",
+  "schedule_count": 1,
+  "transport": "udp",
+  "control_protection": "vanilla",
+  "obfuscation": "none",
+  "web_workload": {
+    "sites_file": "/home/pi/vpn-testbed-v2/traffic/web/sites.txt",
+    "sites_sha256": "8f30e185a25ecd721d0d12aceea57dcce16894d68ef168fa7e2367f08055fb2e",
+    "visits": 1,
+    "proxy": "http://proxy21.iitd.ac.in:3128",
+    "dns": "10.208.20.2"
+  },
+  "reneg_sec": null,
+  "session_seconds": 0,
+  "delay_range_s": [
+    2,
+    6
+  ],
+  "start_time": "2026-10-02T18:26:21.059059+00:00"
+}

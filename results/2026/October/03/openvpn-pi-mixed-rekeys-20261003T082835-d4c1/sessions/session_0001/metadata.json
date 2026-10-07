@@ -1,0 +1,103 @@
+{
+  "session_id": 1,
+  "transport": "udp",
+  "control_protection": "tls-crypt-v2",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-crypt-v2/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T07:28:35.170777+00:00",
+  "vpn_established_time": "2026-10-03T07:28:36.557254+00:00",
+  "web_start_time": "2026-10-03T07:28:36.557531+00:00",
+  "web_end_time": "2026-10-03T07:28:45.758987+00:00",
+  "end_time": "2026-10-03T07:28:49.311368+00:00",
+  "post_session_delay_s": 3.361,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 3,
+  "web_successes": 3,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://nist.gov/",
+    "https://bing.com/",
+    "https://vungle.com/"
+  ],
+  "rekey_target": 1,
+  "reneg_sec": 9,
+  "session_seconds_planned": 12.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://nist.gov/",
+      "effective_url": "https://www.nist.gov/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 96936,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://bing.com/",
+      "effective_url": "https://www.bing.com:443/?toWww=1&redig=FD9BCCFF37A045F991A63EF11272DA0E",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 68533,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://vungle.com/",
+      "effective_url": "https://liftoff.ai/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 154216,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.386,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 12.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 14.141,
+  "capture_duration_s": 13.007,
+  "renegotiation_events": 1,
+  "renegotiation_log_times": [
+    "2026-10-03 08:28:44 us=599872"
+  ],
+  "stats": {
+    "packet_count": 410,
+    "captured_bytes": 200660,
+    "pcap_size": 212984,
+    "client_to_server_packets": 197,
+    "client_to_server_bytes": 44746,
+    "server_to_client_packets": 213,
+    "server_to_client_bytes": 155914,
+    "capture_duration_s": 9.374,
+    "packets_per_sec": 43.74,
+    "bytes_per_sec": 21405.34,
+    "packet_size": {
+      "mean": 489.41,
+      "median": 135.0,
+      "min": 82,
+      "max": 1492,
+      "p25": 104,
+      "p75": 785,
+      "p90": 1492,
+      "p95": 1492
+    }
+  }
+}

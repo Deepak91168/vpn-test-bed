@@ -1,0 +1,3 @@
+session_id,transport,control_protection,status,failure_category,failure_reason
+1,tcp,tls-auth,failed,web_failure,curl_error
+2,tcp,tls-auth,interrupted,manual_interrupt,manual interrupt

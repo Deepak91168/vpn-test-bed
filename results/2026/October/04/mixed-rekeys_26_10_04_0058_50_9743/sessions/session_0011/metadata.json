@@ -1,0 +1,126 @@
+{
+  "session_id": 11,
+  "transport": "udp",
+  "control_protection": "vanilla",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/vanilla/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T19:39:17.261769+00:00",
+  "vpn_established_time": "2026-10-03T19:39:18.683152+00:00",
+  "web_start_time": "2026-10-03T19:39:18.683349+00:00",
+  "web_end_time": "2026-10-03T19:40:07.084335+00:00",
+  "end_time": "2026-10-03T19:40:19.443015+00:00",
+  "post_session_delay_s": 5.915,
+  "status": "failed",
+  "failure_category": "web_failure",
+  "failure_reason": "proxy_connect_failed",
+  "connection_success": true,
+  "web_attempts": 5,
+  "web_successes": 0,
+  "web_failures": 5,
+  "web_sites_planned": [
+    "https://discord.com/",
+    "https://wikipedia.org/",
+    "https://github.com/",
+    "https://telekom.net/",
+    "https://triplinkintl.com/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 30,
+  "session_seconds_planned": 60.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://discord.com/",
+      "effective_url": "https://discord.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://wikipedia.org/",
+      "effective_url": "https://wikipedia.org/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://github.com/",
+      "effective_url": "https://github.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://telekom.net/",
+      "effective_url": "https://telekom.net/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://triplinkintl.com/",
+      "effective_url": "https://triplinkintl.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    }
+  ],
+  "vpn_connect_time_s": 1.421,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 0.0,
+  "tunnel_duration_s": 60.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 62.181,
+  "capture_duration_s": 61.012,
+  "renegotiation_events": 2,
+  "renegotiation_log_times": [
+    "2026-10-04 01:09:48 us=25210",
+    "2026-10-04 01:10:17 us=944584"
+  ],
+  "stats": {
+    "packet_count": 136,
+    "captured_bytes": 38577,
+    "pcap_size": 42681,
+    "client_to_server_packets": 76,
+    "client_to_server_bytes": 20103,
+    "server_to_client_packets": 60,
+    "server_to_client_bytes": 18474,
+    "capture_duration_s": 59.503,
+    "packets_per_sec": 2.29,
+    "bytes_per_sec": 648.32,
+    "packet_size": {
+      "mean": 283.65,
+      "median": 109.0,
+      "min": 42,
+      "max": 1290,
+      "p25": 102,
+      "p75": 256,
+      "p90": 1250,
+      "p95": 1290
+    }
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "session_id": 11,
+  "transport": "udp",
+  "control_protection": "tls-crypt-v2",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-crypt-v2/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T11:04:09.058008+00:00",
+  "vpn_established_time": "2026-10-03T11:04:10.422081+00:00",
+  "web_start_time": "2026-10-03T11:04:10.422277+00:00",
+  "web_end_time": "2026-10-03T11:04:16.227331+00:00",
+  "end_time": "2026-10-03T11:04:16.951734+00:00",
+  "post_session_delay_s": 4.227,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 3,
+  "web_successes": 3,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://archive.org/",
+    "https://flickr.com/",
+    "https://mts.ru/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": null,
+  "session_seconds_planned": 0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://archive.org/",
+      "effective_url": "https://archive.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 1872,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://flickr.com/",
+      "effective_url": "https://flickr.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 58518,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://mts.ru/",
+      "effective_url": "https://moskva.mts.ru/personal",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 1071934,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.364,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 5.837,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 7.894,
+  "capture_duration_s": 6.782,
+  "renegotiation_events": 0,
+  "renegotiation_log_times": [],
+  "stats": {
+    "packet_count": 300,
+    "captured_bytes": 170508,
+    "pcap_size": 179532,
+    "client_to_server_packets": 137,
+    "client_to_server_bytes": 27174,
+    "server_to_client_packets": 163,
+    "server_to_client_bytes": 143334,
+    "capture_duration_s": 5.892,
+    "packets_per_sec": 50.92,
+    "bytes_per_sec": 28939.61,
+    "packet_size": {
+      "mean": 568.36,
+      "median": 143.0,
+      "min": 90,
+      "max": 1492,
+      "p25": 104,
+      "p75": 1492,
+      "p90": 1492,
+      "p95": 1492
+    }
+  }
+}

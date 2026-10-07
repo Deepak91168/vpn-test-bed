@@ -1,0 +1,9 @@
+session,transport,control_protection,web_sites_json
+1,udp,tls-crypt-v2,"[""https://www.wikipedia.org/"", ""https://www.wikipedia.org/"", ""https://www.wikipedia.org/""]"
+2,tcp,vanilla,"[""https://www.wikipedia.org/"", ""https://www.wikipedia.org/"", ""https://www.wikipedia.org/""]"
+3,tcp,tls-crypt,"[""https://www.wikipedia.org/"", ""https://www.wikipedia.org/"", ""https://www.wikipedia.org/""]"
+4,tcp,tls-crypt-v2,"[""https://www.wikipedia.org/"", ""https://www.wikipedia.org/"", ""https://www.wikipedia.org/""]"
+5,udp,tls-crypt,"[""https://www.wikipedia.org/"", ""https://www.wikipedia.org/"", ""https://www.wikipedia.org/""]"
+6,tcp,tls-auth,"[""https://www.wikipedia.org/"", ""https://www.wikipedia.org/"", ""https://www.wikipedia.org/""]"
+7,udp,vanilla,"[""https://www.wikipedia.org/"", ""https://www.wikipedia.org/"", ""https://www.wikipedia.org/""]"
+8,udp,tls-auth,"[""https://www.wikipedia.org/"", ""https://www.wikipedia.org/"", ""https://www.wikipedia.org/""]"

@@ -1,0 +1,89 @@
+{
+  "session_id": 2,
+  "transport": "udp",
+  "control_protection": "vanilla",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/vanilla/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-02T18:48:26.067733+00:00",
+  "vpn_established_time": "2026-10-02T18:48:27.473160+00:00",
+  "web_start_time": "2026-10-02T18:48:27.473341+00:00",
+  "web_end_time": "2026-10-02T18:48:27.874678+00:00",
+  "end_time": "2026-10-02T18:48:28.588827+00:00",
+  "post_session_delay_s": 3.678,
+  "status": "failed",
+  "failure_category": "web_failure",
+  "failure_reason": "proxy_connect_failed",
+  "connection_success": true,
+  "web_attempts": 2,
+  "web_successes": 0,
+  "web_failures": 2,
+  "web_sites_planned": [
+    "https://windowsupdate.com",
+    "https://aaplimg.com"
+  ],
+  "reneg_sec": null,
+  "session_seconds_planned": 0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://windowsupdate.com",
+      "effective_url": "https://windowsupdate.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://aaplimg.com",
+      "effective_url": "https://aaplimg.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    }
+  ],
+  "vpn_connect_time_s": 1.405,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 0.0,
+  "tunnel_duration_s": 0.433,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 2.521,
+  "capture_duration_s": 1.368,
+  "renegotiation_events": 0,
+  "renegotiation_log_times": [],
+  "stats": {
+    "packet_count": 54,
+    "captured_bytes": 20267,
+    "pcap_size": 21911,
+    "client_to_server_packets": 30,
+    "client_to_server_bytes": 7027,
+    "server_to_client_packets": 24,
+    "server_to_client_bytes": 13240,
+    "capture_duration_s": 0.504,
+    "packets_per_sec": 107.13,
+    "bytes_per_sec": 40207.84,
+    "packet_size": {
+      "mean": 375.31,
+      "median": 116.0,
+      "min": 42,
+      "max": 1492,
+      "p25": 104,
+      "p75": 375,
+      "p90": 1250,
+      "p95": 1492
+    }
+  }
+}

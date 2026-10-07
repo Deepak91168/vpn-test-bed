@@ -1,0 +1,19 @@
+{
+  "transport": "udp",
+  "control": "vanilla",
+  "sessions_per_config": 1,
+  "shuffle": false,
+  "seed": null,
+  "visits": 3,
+  "reneg_sec": null,
+  "session_seconds": 0,
+  "delay_min": 2,
+  "delay_max": 6,
+  "web_timeout": 20,
+  "connect_timeout": 60,
+  "sites_file": "traffic/web/sites.txt",
+  "host_config": "hosts/raspberrypi.env",
+  "capture_interface": null,
+  "desktop": "deepaksingh@10.208.23.185",
+  "purpose": "standard"
+}

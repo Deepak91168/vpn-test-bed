@@ -1,0 +1,105 @@
+{
+  "session_id": 3,
+  "transport": "tcp",
+  "control_protection": "tls-crypt",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 443,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and tcp port 443",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-crypt/profiles/tcp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T06:30:02.256102+00:00",
+  "vpn_established_time": "2026-10-03T06:30:03.619562+00:00",
+  "web_start_time": "2026-10-03T06:30:03.619816+00:00",
+  "web_end_time": "2026-10-03T06:30:14.224212+00:00",
+  "end_time": "2026-10-03T06:30:16.317973+00:00",
+  "post_session_delay_s": 5.477,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 3,
+  "web_successes": 3,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://pki.goog/",
+    "https://kaspersky.com/",
+    "https://youtube.com/"
+  ],
+  "reneg_sec": 3,
+  "session_seconds_planned": 12.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://pki.goog/",
+      "effective_url": "https://pki.goog/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 13691,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://kaspersky.com/",
+      "effective_url": "https://www.kaspersky.co.in/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 803727,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://youtube.com/",
+      "effective_url": "https://www.youtube.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 895372,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.363,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 12.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 14.062,
+  "capture_duration_s": 12.951,
+  "renegotiation_events": 4,
+  "renegotiation_log_times": [
+    "2026-10-03 07:30:06 us=245246",
+    "2026-10-03 07:30:08 us=978416",
+    "2026-10-03 07:30:11 us=279819",
+    "2026-10-03 07:30:13 us=581773"
+  ],
+  "stats": {
+    "packet_count": 929,
+    "captured_bytes": 578671,
+    "pcap_size": 606565,
+    "client_to_server_packets": 377,
+    "client_to_server_bytes": 77374,
+    "server_to_client_packets": 552,
+    "server_to_client_bytes": 501297,
+    "capture_duration_s": 11.46,
+    "packets_per_sec": 81.07,
+    "bytes_per_sec": 50496.3,
+    "packet_size": {
+      "mean": 622.9,
+      "median": 208,
+      "min": 52,
+      "max": 1400,
+      "p25": 52,
+      "p75": 1400,
+      "p90": 1400,
+      "p95": 1400
+    }
+  }
+}

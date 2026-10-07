@@ -1,0 +1,181 @@
+{
+  "session_id": 1,
+  "transport": "udp",
+  "control_protection": "tls-crypt",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-crypt/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T11:13:16.749539+00:00",
+  "vpn_established_time": "2026-10-03T11:13:18.189283+00:00",
+  "web_start_time": "2026-10-03T11:13:18.189477+00:00",
+  "web_end_time": "2026-10-03T11:14:12.790739+00:00",
+  "end_time": "2026-10-03T11:14:18.898182+00:00",
+  "post_session_delay_s": 5.461,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 10,
+  "web_successes": 10,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://registrar-servers.com/",
+    "https://cpanel.net/",
+    "https://mit.edu/",
+    "https://applovin.com/",
+    "https://triplinkintl.com/",
+    "https://snapchat.com/",
+    "https://registrar-servers.com/",
+    "https://amazonaws.com/",
+    "https://vungle.com/",
+    "https://soundcloud.com/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 30,
+  "session_seconds_planned": 60.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://registrar-servers.com/",
+      "effective_url": "https://registrar-servers.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 2031,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://cpanel.net/",
+      "effective_url": "https://www.cpanel.net/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 226104,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://mit.edu/",
+      "effective_url": "https://web.mit.edu/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 48075,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://applovin.com/",
+      "effective_url": "https://applovin.com/en",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 396348,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://triplinkintl.com/",
+      "effective_url": "https://www.triplinkintl.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 41919,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://snapchat.com/",
+      "effective_url": "https://www.snapchat.com:443/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 168034,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://registrar-servers.com/",
+      "effective_url": "https://registrar-servers.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 2031,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://amazonaws.com/",
+      "effective_url": "https://aws.amazon.com:443/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 501543,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://vungle.com/",
+      "effective_url": "https://liftoff.ai/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 154210,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://soundcloud.com/",
+      "effective_url": "https://soundcloud.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 68026,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.44,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 60.032,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 62.149,
+  "capture_duration_s": 60.961,
+  "renegotiation_events": 2,
+  "renegotiation_log_times": [
+    "2026-10-03 12:13:47 us=752897",
+    "2026-10-03 12:14:17 us=852197"
+  ],
+  "stats": {
+    "packet_count": 1174,
+    "captured_bytes": 600104,
+    "pcap_size": 635348,
+    "client_to_server_packets": 539,
+    "client_to_server_bytes": 104249,
+    "server_to_client_packets": 635,
+    "server_to_client_bytes": 495855,
+    "capture_duration_s": 59.905,
+    "packets_per_sec": 19.6,
+    "bytes_per_sec": 10017.65,
+    "packet_size": {
+      "mean": 511.16,
+      "median": 128.0,
+      "min": 82,
+      "max": 1492,
+      "p25": 104,
+      "p75": 1234,
+      "p90": 1492,
+      "p95": 1492
+    }
+  }
+}

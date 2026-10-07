@@ -1,0 +1,126 @@
+{
+  "session_id": 12,
+  "transport": "tcp",
+  "control_protection": "tls-auth",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 443,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and tcp port 443",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-auth/profiles/tcp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T19:40:25.367824+00:00",
+  "vpn_established_time": "2026-10-03T19:40:26.794874+00:00",
+  "web_start_time": "2026-10-03T19:40:26.795055+00:00",
+  "web_end_time": "2026-10-03T19:41:15.196066+00:00",
+  "end_time": "2026-10-03T19:41:27.548712+00:00",
+  "post_session_delay_s": 5.215,
+  "status": "failed",
+  "failure_category": "web_failure",
+  "failure_reason": "proxy_connect_failed",
+  "connection_success": true,
+  "web_attempts": 5,
+  "web_successes": 0,
+  "web_failures": 5,
+  "web_sites_planned": [
+    "https://t.me/",
+    "https://android.com/",
+    "https://windows.com/",
+    "https://vk.ru/",
+    "https://one.one/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 30,
+  "session_seconds_planned": 60.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://t.me/",
+      "effective_url": "https://t.me/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://android.com/",
+      "effective_url": "https://android.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://windows.com/",
+      "effective_url": "https://windows.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://vk.ru/",
+      "effective_url": "https://vk.ru/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://one.one/",
+      "effective_url": "https://one.one/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    }
+  ],
+  "vpn_connect_time_s": 1.427,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 0.0,
+  "tunnel_duration_s": 60.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 62.181,
+  "capture_duration_s": 61.006,
+  "renegotiation_events": 2,
+  "renegotiation_log_times": [
+    "2026-10-04 01:10:56 us=591265",
+    "2026-10-04 01:11:26 us=711368"
+  ],
+  "stats": {
+    "packet_count": 230,
+    "captured_bytes": 48280,
+    "pcap_size": 55204,
+    "client_to_server_packets": 111,
+    "client_to_server_bytes": 24554,
+    "server_to_client_packets": 119,
+    "server_to_client_bytes": 23726,
+    "capture_duration_s": 60.166,
+    "packets_per_sec": 3.82,
+    "bytes_per_sec": 802.45,
+    "packet_size": {
+      "mean": 209.91,
+      "median": 120.0,
+      "min": 52,
+      "max": 1400,
+      "p25": 52,
+      "p75": 138,
+      "p90": 481,
+      "p95": 1276
+    }
+  }
+}

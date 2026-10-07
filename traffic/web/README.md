@@ -1,0 +1,3 @@
+# Web workload
+
+`sites.txt` pins Tranco list Y83YG ranks 1–100 (retrieved 2026-10-02); it excludes `example.com` and the IITD site. The runner independently draws three URLs per session by default using the experiment seed, records them in `schedule.csv`, and runs `curl` only inside the VPN namespace. URLs may repeat. A failed or proxy-intercepted response stays in the result. Set `WEB_PROXY=` empty in the selected host config for an explicit direct attempt through the VPN, or supply a proxy URL when that network requires one. Use `--sites-file PATH` for another plain-text list of absolute HTTP(S) URLs. See the root README for the pipeline.

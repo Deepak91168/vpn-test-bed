@@ -1,0 +1,125 @@
+{
+  "session_id": 44,
+  "transport": "tcp",
+  "control_protection": "tls-auth",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 443,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and tcp port 443",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-auth/profiles/tcp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T21:22:31.718987+00:00",
+  "vpn_established_time": "2026-10-03T21:22:33.089959+00:00",
+  "web_start_time": "2026-10-03T21:22:33.090182+00:00",
+  "web_end_time": "2026-10-03T21:23:23.091886+00:00",
+  "end_time": "2026-10-03T21:23:33.864843+00:00",
+  "post_session_delay_s": 4.146,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 5,
+  "web_successes": 5,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://nginx.org/",
+    "https://gandi.net/",
+    "https://cnn.com/",
+    "https://theguardian.com/",
+    "https://nist.gov/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 40,
+  "session_seconds_planned": 60.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://nginx.org/",
+      "effective_url": "https://nginx.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 6302,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://gandi.net/",
+      "effective_url": "https://www.gandi.net/en",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 189234,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://cnn.com/",
+      "effective_url": "https://edition.cnn.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 5834563,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://theguardian.com/",
+      "effective_url": "https://www.theguardian.com/international",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 1367708,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://nist.gov/",
+      "effective_url": "https://www.nist.gov/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 96936,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.371,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 60.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 62.146,
+  "capture_duration_s": 61.028,
+  "renegotiation_events": 1,
+  "renegotiation_log_times": [
+    "2026-10-04 02:53:12 us=445380"
+  ],
+  "stats": {
+    "packet_count": 1738,
+    "captured_bytes": 1161877,
+    "pcap_size": 1214041,
+    "client_to_server_packets": 667,
+    "client_to_server_bytes": 104922,
+    "server_to_client_packets": 1071,
+    "server_to_client_bytes": 1056955,
+    "capture_duration_s": 54.907,
+    "packets_per_sec": 31.65,
+    "bytes_per_sec": 21161.0,
+    "packet_size": {
+      "mean": 668.51,
+      "median": 286.0,
+      "min": 52,
+      "max": 1400,
+      "p25": 52,
+      "p75": 1400,
+      "p90": 1400,
+      "p95": 1400
+    }
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "session_id": 24,
+  "transport": "udp",
+  "control_protection": "tls-auth",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-auth/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T19:53:39.785220+00:00",
+  "vpn_established_time": "2026-10-03T19:53:41.176989+00:00",
+  "web_start_time": "2026-10-03T19:53:41.177187+00:00",
+  "web_end_time": "2026-10-03T19:54:16.380971+00:00",
+  "end_time": "2026-10-03T19:54:17.021736+00:00",
+  "post_session_delay_s": null,
+  "status": "interrupted",
+  "failure_category": "manual_interrupt",
+  "failure_reason": "manual interrupt",
+  "connection_success": true,
+  "web_attempts": 3,
+  "web_successes": 0,
+  "web_failures": 3,
+  "web_sites_planned": [
+    "https://forbes.com/",
+    "https://googledomains.com/",
+    "https://kaspersky.com/",
+    "https://registrar-servers.com/",
+    "https://creativecommons.org/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 30,
+  "session_seconds_planned": 60.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://forbes.com/",
+      "effective_url": "https://forbes.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://googledomains.com/",
+      "effective_url": "https://googledomains.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://kaspersky.com/",
+      "effective_url": "https://kaspersky.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    }
+  ],
+  "vpn_connect_time_s": 1.392,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "tunnel_duration_s": 35.204,
+  "web_success_rate": 0.0,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 37.237,
+  "capture_duration_s": 36.097,
+  "renegotiation_events": 1,
+  "renegotiation_log_times": [
+    "2026-10-04 01:24:10 us=322546"
+  ],
+  "stats": {
+    "packet_count": 89,
+    "captured_bytes": 25968,
+    "pcap_size": 28662,
+    "client_to_server_packets": 50,
+    "client_to_server_bytes": 13652,
+    "server_to_client_packets": 39,
+    "server_to_client_bytes": 12316,
+    "capture_duration_s": 31.297,
+    "packets_per_sec": 2.84,
+    "bytes_per_sec": 829.72,
+    "packet_size": {
+      "mean": 291.78,
+      "median": 112,
+      "min": 68,
+      "max": 1250,
+      "p25": 104,
+      "p75": 352,
+      "p90": 1250,
+      "p95": 1250
+    }
+  }
+}

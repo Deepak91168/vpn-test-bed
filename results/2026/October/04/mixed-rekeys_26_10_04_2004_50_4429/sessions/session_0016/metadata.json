@@ -1,0 +1,125 @@
+{
+  "session_id": 16,
+  "transport": "udp",
+  "control_protection": "tls-crypt-v2",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-crypt-v2/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-04T14:47:42.045604+00:00",
+  "vpn_established_time": "2026-10-04T14:47:43.557177+00:00",
+  "web_start_time": "2026-10-04T14:47:43.557357+00:00",
+  "web_end_time": "2026-10-04T14:48:19.758302+00:00",
+  "end_time": "2026-10-04T14:48:29.259330+00:00",
+  "post_session_delay_s": 4.114,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 5,
+  "web_successes": 5,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://android.com/",
+    "https://adobe.io/",
+    "https://applovin.com/",
+    "https://t-online.de/",
+    "https://twitch.tv/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 25,
+  "session_seconds_planned": 45.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://android.com/",
+      "effective_url": "https://www.android.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 332841,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://adobe.io/",
+      "effective_url": "https://developer.adobe.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 18379,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://applovin.com/",
+      "effective_url": "https://applovin.com/en",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 396348,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://t-online.de/",
+      "effective_url": "https://www.t-online.de/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 1539318,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://twitch.tv/",
+      "effective_url": "https://www.twitch.tv/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 202881,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.512,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 45.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 47.214,
+  "capture_duration_s": 45.954,
+  "renegotiation_events": 1,
+  "renegotiation_log_times": [
+    "2026-10-04 20:18:07 us=685091"
+  ],
+  "stats": {
+    "packet_count": 1518,
+    "captured_bytes": 920709,
+    "pcap_size": 966273,
+    "client_to_server_packets": 655,
+    "client_to_server_bytes": 99494,
+    "server_to_client_packets": 863,
+    "server_to_client_bytes": 821215,
+    "capture_duration_s": 36.396,
+    "packets_per_sec": 41.71,
+    "bytes_per_sec": 25297.26,
+    "packet_size": {
+      "mean": 606.53,
+      "median": 141.5,
+      "min": 82,
+      "max": 1492,
+      "p25": 104,
+      "p75": 1492,
+      "p90": 1492,
+      "p95": 1492
+    }
+  }
+}

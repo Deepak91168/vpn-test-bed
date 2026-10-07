@@ -1,0 +1,126 @@
+{
+  "session_id": 21,
+  "transport": "tcp",
+  "control_protection": "tls-crypt",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 443,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and tcp port 443",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-crypt/profiles/tcp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T19:50:20.529719+00:00",
+  "vpn_established_time": "2026-10-03T19:50:21.927800+00:00",
+  "web_start_time": "2026-10-03T19:50:21.928043+00:00",
+  "web_end_time": "2026-10-03T19:51:10.128927+00:00",
+  "end_time": "2026-10-03T19:51:22.636779+00:00",
+  "post_session_delay_s": 5.537,
+  "status": "failed",
+  "failure_category": "web_failure",
+  "failure_reason": "proxy_connect_failed",
+  "connection_success": true,
+  "web_attempts": 5,
+  "web_successes": 0,
+  "web_failures": 5,
+  "web_sites_planned": [
+    "https://taboola.com/",
+    "https://flickr.com/",
+    "https://ipify.org/",
+    "https://afternic.com/",
+    "https://skype.com/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 30,
+  "session_seconds_planned": 60.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://taboola.com/",
+      "effective_url": "https://taboola.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://flickr.com/",
+      "effective_url": "https://flickr.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://ipify.org/",
+      "effective_url": "https://ipify.org/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://afternic.com/",
+      "effective_url": "https://afternic.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    },
+    {
+      "requested_url": "https://skype.com/",
+      "effective_url": "https://skype.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 56,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "proxy_connect_failed"
+    }
+  ],
+  "vpn_connect_time_s": 1.398,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 0.0,
+  "tunnel_duration_s": 60.032,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 62.107,
+  "capture_duration_s": 60.962,
+  "renegotiation_events": 2,
+  "renegotiation_log_times": [
+    "2026-10-04 01:20:51 us=170689",
+    "2026-10-04 01:21:21 us=277483"
+  ],
+  "stats": {
+    "packet_count": 231,
+    "captured_bytes": 48327,
+    "pcap_size": 55281,
+    "client_to_server_packets": 112,
+    "client_to_server_bytes": 24610,
+    "server_to_client_packets": 119,
+    "server_to_client_bytes": 23717,
+    "capture_duration_s": 59.595,
+    "packets_per_sec": 3.88,
+    "bytes_per_sec": 810.92,
+    "packet_size": {
+      "mean": 209.21,
+      "median": 120,
+      "min": 52,
+      "max": 1400,
+      "p25": 52,
+      "p75": 138,
+      "p90": 497,
+      "p95": 1260
+    }
+  }
+}

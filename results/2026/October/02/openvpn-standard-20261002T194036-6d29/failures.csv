@@ -1,0 +1,4 @@
+session_id,transport,control_protection,status,failure_category,failure_reason
+1,udp,vanilla,failed,web_failure,proxy_connect_failed
+2,udp,vanilla,failed,web_failure,proxy_connect_failed
+3,udp,vanilla,failed,web_failure,"curl_error, proxy_connect_failed"

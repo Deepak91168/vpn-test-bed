@@ -1,0 +1,125 @@
+{
+  "session_id": 13,
+  "transport": "udp",
+  "control_protection": "vanilla",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/vanilla/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T20:48:23.320384+00:00",
+  "vpn_established_time": "2026-10-03T20:48:24.706705+00:00",
+  "web_start_time": "2026-10-03T20:48:24.706958+00:00",
+  "web_end_time": "2026-10-03T20:49:13.508222+00:00",
+  "end_time": "2026-10-03T20:49:25.439417+00:00",
+  "post_session_delay_s": 4.754,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 5,
+  "web_successes": 5,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://android.com/",
+    "https://ui.com/",
+    "https://criteo.com/",
+    "https://opera.com/",
+    "https://mozilla.org/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 40,
+  "session_seconds_planned": 60.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://android.com/",
+      "effective_url": "https://www.android.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 332841,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://ui.com/",
+      "effective_url": "https://ui.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 419810,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://criteo.com/",
+      "effective_url": "https://www.criteo.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 465018,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://opera.com/",
+      "effective_url": "https://www.opera.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 183489,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://mozilla.org/",
+      "effective_url": "https://www.mozilla.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 47810,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.386,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 60.031,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 62.119,
+  "capture_duration_s": 60.986,
+  "renegotiation_events": 1,
+  "renegotiation_log_times": [
+    "2026-10-04 02:19:04 us=460946"
+  ],
+  "stats": {
+    "packet_count": 974,
+    "captured_bytes": 675730,
+    "pcap_size": 704974,
+    "client_to_server_packets": 407,
+    "client_to_server_bytes": 68833,
+    "server_to_client_packets": 567,
+    "server_to_client_bytes": 606897,
+    "capture_duration_s": 59.267,
+    "packets_per_sec": 16.43,
+    "bytes_per_sec": 11401.39,
+    "packet_size": {
+      "mean": 693.77,
+      "median": 168.0,
+      "min": 42,
+      "max": 1492,
+      "p25": 104,
+      "p75": 1492,
+      "p90": 1492,
+      "p95": 1492
+    }
+  }
+}

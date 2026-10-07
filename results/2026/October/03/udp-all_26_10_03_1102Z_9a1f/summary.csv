@@ -1,0 +1,2 @@
+status,planned,started,completed,successful,failed,interrupted,success_rate,packet_count,captured_bytes,client_to_server_packets,client_to_server_bytes,server_to_client_packets,server_to_client_bytes,median_session_duration_s,median_vpn_connect_time_s,web_attempts,web_successes,web_failures,renegotiation_events,delay_min_s,delay_mean_s,delay_max_s,elapsed_s,experiment_id,total_result_size_bytes
+completed,25,25,25,24,1,0,0.96,11522,7060888,5023,921629,6499,6139259,6.36,1.396,75,74,1,0,2.182,3.9030833333333335,5.924,264.78,udp-all_26_10_03_1102Z_9a1f,7597539

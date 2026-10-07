@@ -1,0 +1,180 @@
+{
+  "session_id": 21,
+  "transport": "udp",
+  "control_protection": "vanilla",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "wlan0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/vanilla/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-03T11:47:37.408563+00:00",
+  "vpn_established_time": "2026-10-03T11:47:38.771833+00:00",
+  "web_start_time": "2026-10-03T11:47:38.772078+00:00",
+  "web_end_time": "2026-10-03T11:48:33.773449+00:00",
+  "end_time": "2026-10-03T11:48:39.532025+00:00",
+  "post_session_delay_s": 3.228,
+  "status": "failed",
+  "failure_category": "web_failure",
+  "failure_reason": "curl_error",
+  "connection_success": true,
+  "web_attempts": 10,
+  "web_successes": 9,
+  "web_failures": 1,
+  "web_sites_planned": [
+    "https://afternic.com/",
+    "https://actify.nl/",
+    "https://discord.com/",
+    "https://triplinkintl.com/",
+    "https://ipify.org/",
+    "https://apache.org/",
+    "https://ipify.org/",
+    "https://ipify.org/",
+    "https://webex.com/",
+    "https://stripe.com/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 40,
+  "session_seconds_planned": 60.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://afternic.com/",
+      "effective_url": "https://afternic.com/",
+      "remote_ip": "",
+      "http_code": "000",
+      "curl_exit_code": 35,
+      "response_bytes": 0,
+      "success": false,
+      "failure_reason": "curl_error"
+    },
+    {
+      "requested_url": "https://actify.nl/",
+      "effective_url": "https://www.zilverenkruis.nl/gezonder-leven/actify/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 405300,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://discord.com/",
+      "effective_url": "https://discord.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 170386,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://triplinkintl.com/",
+      "effective_url": "https://www.triplinkintl.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 41919,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://ipify.org/",
+      "effective_url": "https://www.ipify.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 34323,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://apache.org/",
+      "effective_url": "https://apache.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 52676,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://ipify.org/",
+      "effective_url": "https://www.ipify.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 34323,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://ipify.org/",
+      "effective_url": "https://www.ipify.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 34323,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://webex.com/",
+      "effective_url": "https://www.webex.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 151692,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://stripe.com/",
+      "effective_url": "https://stripe.com/in",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 701599,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.363,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 0.9,
+  "tunnel_duration_s": 60.064,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 62.123,
+  "capture_duration_s": 61.013,
+  "renegotiation_events": 1,
+  "renegotiation_log_times": [
+    "2026-10-03 17:18:17 us=981710"
+  ],
+  "stats": {
+    "packet_count": 1255,
+    "captured_bytes": 671451,
+    "pcap_size": 709125,
+    "client_to_server_packets": 570,
+    "client_to_server_bytes": 103062,
+    "server_to_client_packets": 685,
+    "server_to_client_bytes": 568389,
+    "capture_duration_s": 56.565,
+    "packets_per_sec": 22.19,
+    "bytes_per_sec": 11870.38,
+    "packet_size": {
+      "mean": 535.02,
+      "median": 143,
+      "min": 42,
+      "max": 1492,
+      "p25": 104,
+      "p75": 1492,
+      "p90": 1492,
+      "p95": 1492
+    }
+  }
+}

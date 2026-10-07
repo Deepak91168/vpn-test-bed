@@ -1,0 +1,28 @@
+{
+  "experiment_id": "name-check_26_10_03_1739_1_0852",
+  "label": "name-check",
+  "seed": 1889740646,
+  "protocol": "openvpn",
+  "schedule_count": 1,
+  "sessions_requested": 1,
+  "sessions_per_config": null,
+  "transport": "udp",
+  "control_protection": "vanilla",
+  "obfuscation": "none",
+  "web_workload": {
+    "sites_file": "traffic/web/smoke-sites.txt",
+    "sites_sha256": "63e28fd3499b256d1a4d8494b02394f3877d1712820fa199eadff2a75a041cf6",
+    "visits": 1,
+    "proxy": "http://proxy21.iitd.ac.in:3128",
+    "dns": "10.208.20.2"
+  },
+  "reneg_sec": null,
+  "mixed_rekeys": false,
+  "session_seconds": 0,
+  "delay_range_s": [
+    2,
+    6
+  ],
+  "start_time": "2026-10-03T12:09:52.438279+00:00",
+  "result_timezone": "Asia/Kolkata"
+}
