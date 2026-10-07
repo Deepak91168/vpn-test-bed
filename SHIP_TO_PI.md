@@ -1,6 +1,75 @@
 # Copy V2 to the Pi
 
-Your Pi is `pi@10.184.121.210`. Run the first block **on the laptop**. `-J netmon` uses your laptop's `netmon` SSH alias as the jump host; you do not need to copy files manually on netmon. This copies only the V2 code, configs, and client credentials, leaving laptop experiment results behind.
+For the current port update, the Pi is reachable directly from the laptop at `pi@10.42.0.120`. The older sections below use `pi@10.184.121.210` through the `netmon` jump host for the other network. The initial-install block copies only V2 code, configs, and client credentials, leaving laptop experiment results behind.
+
+## TCP and UDP on port 1194
+
+For the existing Pi you described, use this section for the current update. The later sections cover older updates and first-time installation.
+
+The four laptop TCP client profiles now use `remote 10.208.23.185 1194`; the four UDP profiles already use UDP/1194. From the laptop, connect directly to the Pi:
+
+```bash
+ssh pi@10.42.0.120
+hostname
+cd ~/vpn-testbed-v2 && pwd
+exit
+```
+
+The `exit` returns to the laptop. This direct link routes the Pi's desktop traffic through the laptop, so keep the laptop connected during the Pi check.
+
+The Pi tree you supplied already has the V2 runner and smoke-site file. Copy the four TCP profiles, the new audit helper, and current guidance **from the laptop** in one transfer. This does not copy the laptop runner, `run.json`, host settings, credentials, or results:
+
+```bash
+cd /home/deepak/vpn-testbed-v2
+rsync -avR --checksum -e ssh \
+  runner/audit_pcaps.py \
+  client/openvpn/vanilla/profiles/tcp.ovpn \
+  client/openvpn/control-protection/tls-auth/profiles/tcp.ovpn \
+  client/openvpn/control-protection/tls-crypt/profiles/tcp.ovpn \
+  client/openvpn/control-protection/tls-crypt-v2/profiles/tcp.ovpn \
+  AGENTS.md README.md SHIP_TO_PI.md \
+  pi@10.42.0.120:~/vpn-testbed-v2/
+```
+
+The desktop's four matching `server/openvpn/**/profiles/tcp.conf` files and both server start scripts were updated and listener-tested on 2026-10-07. To audit that server again, run on the desktop:
+
+```bash
+cd /home/deepaksingh/vpn-testbed-v2
+find server/openvpn -path '*/profiles/tcp.conf' -exec grep -H -E '^(proto|port) ' {} +
+grep -nE '443|1194|proto|port' server/openvpn/scripts/select_profile.sh
+```
+
+Each TCP profile should say `port 1194` and `proto tcp-server`. The selector should check TCP and UDP sockets separately. The desktop's UFW is currently inactive, and its input policy accepts traffic; check any upstream network firewall if a Pi connection cannot reach TCP/1194.
+
+Reconnect to the Pi with `ssh pi@10.42.0.120`, then check its configuration. `run.json` must keep `"host_config": "hosts/raspberrypi.env"`; if it already does, no settings edit is needed. The port is in the copied profiles, and the runner reads it automatically. Check the desktop route and SSH key before starting:
+
+```bash
+cd ~/vpn-testbed-v2
+grep '"host_config"' experiments/openvpn/run.json
+test -f hosts/raspberrypi.env
+grep -H -E '^(proto|remote) ' client/openvpn/vanilla/profiles/tcp.ovpn client/openvpn/control-protection/*/profiles/tcp.ovpn
+ip route get 10.208.23.185
+ssh -o BatchMode=yes deepaksingh@10.208.23.185 hostname
+```
+
+All four TCP profiles should show `proto tcp-client` and `remote 10.208.23.185 1194`. If the Pi's `host_config` is wrong, change only that value to `hosts/raspberrypi.env` in its `run.json`; do not replace the entire file with the laptop version. No Pi firewall/NAT or certificate change is needed for this port change.
+
+Run a short four-mode TCP check and one UDP regression **on the Pi**:
+
+```bash
+sudo ./runner/vpnlab run openvpn --transport tcp --control all --sessions 4 --no-shuffle \
+  --visits 1 --sites-file traffic/web/smoke-sites.txt \
+  --host-config hosts/raspberrypi.env --delay-min 0 --delay-max 0 \
+  --purpose pi-tcp1194-check
+sudo ./runner/vpnlab run openvpn --transport udp --control vanilla --sessions 1 \
+  --visits 1 --sites-file traffic/web/smoke-sites.txt \
+  --host-config hosts/raspberrypi.env --delay-min 0 --delay-max 0 \
+  --purpose pi-udp1194-check
+```
+
+The runner asks for the Pi's sudo password and then the desktop sudo password. Expect 4/4 TCP and 1/1 UDP successful sessions, one successful Wikipedia HTTPS visit per session, and `transfer=True verified=True` on each run. Use the `local=` and `remote=` paths printed by the runner. Check each `transfer.json`, `summary.json`, and TCP session metadata for `server_port: 1194` and `host 10.208.23.185 and tcp port 1194`. The desktop has `/home/deepaksingh/vpn-testbed-v2/audit_pcaps.py`; run it against each `remote=` directory (omit the `deepaksingh@10.208.23.185:` prefix) to verify checksums, packet isolation, and OpenVPN decoding. On the Pi, `ip netns list` should not show `vpnlabv2` after the runs. Existing TCP/443 result folders keep their original metadata and captures.
+
+**Completed on 2026-10-08:** `pi-tcp1194-check_26_10_08_0119_4_5103` passed 4/4 TCP sessions and visits; `pi-udp1194-check_26_10_08_0119_1_6bf1` passed 1/1 UDP session and visit; `pi-udp1194-all-check_26_10_08_0126_4_4c96` passed all four UDP modes and visits. All desktop transfers verified. The desktop PCAP audits found no checksum, filter, or decode issues; each TCP capture contained one stream starting with SYN, SYN/ACK, ACK. The Pi namespace and OpenVPN process were gone afterward. No further Pi setting change was needed.
 
 **Already set up the Pi?** To copy just the revised default website list and current instructions, run on the laptop:
 

@@ -1,0 +1,9 @@
+session,transport,control_protection,rekey_target,reneg_sec,web_sites_json
+1,tcp,tls-crypt,,30,"[""https://doi.org/"", ""https://bing.com/"", ""https://taboola.com/"", ""https://twitch.tv/"", ""https://reddit.com/"", ""https://fastly.net/"", ""https://fastly.net/"", ""https://vungle.com/""]"
+2,udp,vanilla,,30,"[""https://mozilla.org/"", ""https://adobe.io/"", ""https://ubuntu.com/"", ""https://office.com/"", ""https://stripe.com/"", ""https://snapchat.com/"", ""https://sentry.io/"", ""https://gravatar.com/""]"
+3,udp,tls-crypt-v2,,30,"[""https://europa.eu/"", ""https://ui.com/"", ""https://applovin.com/"", ""https://netflix.com/"", ""https://facebook.com/"", ""https://opera.com/"", ""https://apache.org/"", ""https://vungle.com/""]"
+4,tcp,vanilla,,30,"[""https://vimeo.com/"", ""https://t.me/"", ""https://github.io/"", ""https://sourceforge.net/"", ""https://registrar-servers.com/"", ""https://t.me/"", ""https://wikipedia.org/"", ""https://amazonvideo.com/""]"
+5,udp,tls-crypt,,30,"[""https://soundcloud.com/"", ""https://rubiconproject.com/"", ""https://pinterest.com/"", ""https://vk.ru/"", ""https://google.com/"", ""https://actify.nl/"", ""https://twitch.tv/"", ""https://snapchat.com/""]"
+6,tcp,tls-crypt-v2,,30,"[""https://icloud.com/"", ""https://hosting24.com/"", ""https://twitter.com/"", ""https://opera.com/"", ""https://yuga.com/"", ""https://triplinkintl.com/"", ""https://dropbox.com/"", ""https://yuga.com/""]"
+7,udp,tls-auth,,30,"[""https://googledomains.com/"", ""https://theguardian.com/"", ""https://reddit.com/"", ""https://amazonvideo.com/"", ""https://crashlytics.com/"", ""https://cisco.com/"", ""https://bbc.com/"", ""https://whatsapp.net/""]"
+8,tcp,tls-auth,,30,"[""https://roblox.com/"", ""https://gandi.net/"", ""https://pki.goog/"", ""https://mozilla.org/"", ""https://netflix.com/"", ""https://gandi.net/"", ""https://spotify.com/"", ""https://w3.org/""]"

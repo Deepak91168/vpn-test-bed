@@ -106,7 +106,7 @@ On the laptop, the same relative path is `/home/deepak/vpn-testbed-v2/experiment
 
 | In `experiments/openvpn/run.json` | What it controls |
 | --- | --- |
-| `transport`: `udp`, `tcp`, or `all` | Which transport(s) to run. UDP uses server port 1194; TCP uses 443. |
+| `transport`: `udp`, `tcp`, or `all` | Which transport(s) to run. Both use server port 1194, with separate UDP and TCP sockets. |
 | `control`: `vanilla`, `tls-auth`, `tls-crypt`, `tls-crypt-v2`, or `all` | Control-channel protection. `vanilla` means no extra control protection. |
 | `sessions`: positive integer | **Total N** across the selected configurations. One mode gets all N; multiple modes divide N as evenly as possible. N must be at least the number of modes. |
 | `shuffle`: `true`/`false`; `seed`: integer or `null` | `true` randomizes session order. A fixed seed reproduces the assignment, order, URL draws, and delays. `null` selects and records a fresh seed. |
@@ -302,7 +302,7 @@ In `configuration_summary.csv`, each selected mode has its own `planned`, `start
 
 In `metadata.json`, `connection_success` says the VPN tunnel established. `web_visit_results` then records each `requested_url`, `effective_url`, HTTP code, curl exit code, response bytes, `success`, and `failure_reason`. All planned visits must pass for the session to be `successful`. A proxy login page or failed CONNECT is a web failure even if VPN packets were captured. Curl success means an HTTP(S) fetch passed the runner's checks; it is not browser rendering or interaction.
 
-`stats.json` separates `vpn`, `web`, and `capture`. The capture block includes packet count, measured packet bytes, direction totals (`client_to_server_*` and `server_to_client_*`), timing, packet sizes, and PCAP file size. Packet bytes and PCAP file size differ because the file has headers. These directions come from the **client capture**, not a second server capture. The PCAP filter is `host 10.208.23.185 and udp port 1194` or `host 10.208.23.185 and tcp port 443`, derived from the active profile. `P_DATA_V2` indicates encrypted tunnel data; use URL metadata and web logs to judge web requests.
+`stats.json` separates `vpn`, `web`, and `capture`. The capture block includes packet count, measured packet bytes, direction totals (`client_to_server_*` and `server_to_client_*`), timing, packet sizes, and PCAP file size. Packet bytes and PCAP file size differ because the file has headers. These directions come from the **client capture**, not a second server capture. The PCAP filter is `host 10.208.23.185 and udp port 1194` or `host 10.208.23.185 and tcp port 1194`, derived from the active profile. Older TCP results retain their original port 443 metadata and captures. `P_DATA_V2` indicates encrypted tunnel data; use URL metadata and web logs to judge web requests.
 
 `renegotiation_events` counts observed later control-channel TLS handshakes after the initial VPN connection. Terminal `rekeys=N` is that count, **not seconds**. `rekey_target` is the mixed schedule's aim; `reneg_sec=R` is the actual requested interval for that session. If observed and target differ, use the observed value in analysis. `transfer.json` has `transfer_success` and `checksum_verification_success`; both should be true for a verified desktop copy. If transfer fails, the local partial result remains for recovery.
 
@@ -364,6 +364,8 @@ PY
 ```
 
 For a completed nine-session run, expect `PCAPs matching their VPN filters: 9`. This checks isolation of the capture, while the website fields above check the actual HTTPS fetches.
+
+For a full PCAP and checksum audit, run `python3 runner/audit_pcaps.py "$RUN_DIR" --output /tmp/vpnlab-pcap-audit.json` on the client. The desktop has the same auditor at `/home/deepaksingh/vpn-testbed-v2/audit_pcaps.py`; run it against the permanent experiment directory printed after transfer. It reads every PCAP with TShark, verifies each frame's desktop endpoint, transport, and port, counts decoded OpenVPN and `P_DATA_V2` frames, checks recorded packet totals, and verifies `checksums.sha256`. A valid completed run has empty `issue_sessions`, `checksum_failures`, `missing_manifests`, `unprotected_files`, and `orphan_captures`. `note_sessions` lists sessions stopped before any capture could be made. For a new TCP/1194 run, confirm every session reports `transport: tcp` and `port: 1194` with OpenVPN data frames.
 
 ### Independently check the desktop copy
 

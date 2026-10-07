@@ -1,0 +1,9 @@
+session,transport,control_protection,rekey_target,reneg_sec,web_sites_json
+1,udp,vanilla,,30,"[""https://bing.com/"", ""https://crashlytics.com/"", ""https://pinterest.com/"", ""https://dropbox.com/"", ""https://criteo.com/"", ""https://one.one/"", ""https://gandi.net/"", ""https://one.one/""]"
+2,udp,tls-auth,,30,"[""https://xiaomi.com/"", ""https://triplinkintl.com/"", ""https://twitch.tv/"", ""https://google.com/"", ""https://tumblr.com/"", ""https://mozilla.org/"", ""https://spotify.com/"", ""https://reddit.com/""]"
+3,udp,tls-crypt,,30,"[""https://samsung.com/"", ""https://facebook.com/"", ""https://actify.nl/"", ""https://pki.goog/"", ""https://tiktok.com/"", ""https://instagram.com/"", ""https://vimeo.com/"", ""https://pki.goog/""]"
+4,tcp,tls-crypt,,30,"[""https://twitter.com/"", ""https://facebook.com/"", ""https://kaspersky.com/"", ""https://skype.com/"", ""https://amazonvideo.com/"", ""https://msn.com/"", ""https://netflix.com/"", ""https://azure.com/""]"
+5,tcp,tls-crypt-v2,,30,"[""https://android.com/"", ""https://pinterest.com/"", ""https://blogspot.com/"", ""https://webex.com/"", ""https://ntp.org/"", ""https://theguardian.com/"", ""https://icloud.com/"", ""https://ui.com/""]"
+6,tcp,tls-auth,,30,"[""https://blogspot.com/"", ""https://apple.com/"", ""https://crashlytics.com/"", ""https://vk.com/"", ""https://rubiconproject.com/"", ""https://flickr.com/"", ""https://taboola.com/"", ""https://opera.com/""]"
+7,udp,tls-crypt-v2,,30,"[""https://discord.com/"", ""https://one.one/"", ""https://hosting24.com/"", ""https://wikimedia.org/"", ""https://webex.com/"", ""https://afternic.com/"", ""https://triplinkintl.com/"", ""https://whatsapp.net/""]"
+8,tcp,vanilla,,30,"[""https://cnn.com/"", ""https://mts.ru/"", ""https://ubuntu.com/"", ""https://w3.org/"", ""https://creativecommons.org/"", ""https://google.com/"", ""https://wikipedia.org/"", ""https://adobe.io/""]"

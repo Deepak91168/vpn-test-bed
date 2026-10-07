@@ -1,0 +1,10 @@
+session,transport,control_protection,rekey_target,reneg_sec,web_sites_json
+1,tcp,tls-crypt,1,9,"[""https://www.wikipedia.org/""]"
+2,udp,tls-crypt,0,,"[""https://www.wikipedia.org/""]"
+3,udp,tls-auth,1,9,"[""https://www.wikipedia.org/""]"
+4,tcp,tls-crypt-v2,0,,"[""https://www.wikipedia.org/""]"
+5,tcp,vanilla,2,6,"[""https://www.wikipedia.org/""]"
+6,tcp,tls-auth,1,9,"[""https://www.wikipedia.org/""]"
+7,udp,tls-auth,2,6,"[""https://www.wikipedia.org/""]"
+8,udp,tls-crypt-v2,0,,"[""https://www.wikipedia.org/""]"
+9,udp,vanilla,2,6,"[""https://www.wikipedia.org/""]"

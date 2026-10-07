@@ -1,0 +1,2 @@
+session,transport,control_protection,rekey_target,reneg_sec,web_sites_json
+1,udp,vanilla,,,"[""https://www.wikipedia.org/""]"

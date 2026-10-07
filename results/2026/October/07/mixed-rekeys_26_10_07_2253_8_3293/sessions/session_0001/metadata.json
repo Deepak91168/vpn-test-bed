@@ -1,0 +1,160 @@
+{
+  "session_id": 1,
+  "transport": "tcp",
+  "control_protection": "tls-crypt",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 443,
+  "capture_interface": "eth0",
+  "capture_filter": "host 10.208.23.185 and tcp port 443",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-crypt/profiles/tcp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-07T17:23:37.974529+00:00",
+  "vpn_established_time": "2026-10-07T17:23:39.894840+00:00",
+  "web_start_time": "2026-10-07T17:23:39.895089+00:00",
+  "web_end_time": "2026-10-07T17:25:05.621961+00:00",
+  "end_time": "2026-10-07T17:25:15.594916+00:00",
+  "post_session_delay_s": 5.481,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 8,
+  "web_successes": 8,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://doi.org/",
+    "https://bing.com/",
+    "https://taboola.com/",
+    "https://twitch.tv/",
+    "https://reddit.com/",
+    "https://fastly.net/",
+    "https://fastly.net/",
+    "https://vungle.com/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": 30,
+  "session_seconds_planned": 95.0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://doi.org/",
+      "effective_url": "https://www.doi.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 24206,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://bing.com/",
+      "effective_url": "https://www.bing.com:443/?toWww=1&redig=9AE9735A864E4753AD33BFFCC60231C3",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 68615,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://taboola.com/",
+      "effective_url": "https://www.taboola.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 157970,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://twitch.tv/",
+      "effective_url": "https://www.twitch.tv/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 203387,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://reddit.com/",
+      "effective_url": "https://www.reddit.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 8397,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://fastly.net/",
+      "effective_url": "https://www.fastly.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 227022,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://fastly.net/",
+      "effective_url": "https://www.fastly.com/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 227022,
+      "success": true,
+      "failure_reason": null
+    },
+    {
+      "requested_url": "https://vungle.com/",
+      "effective_url": "https://liftoff.ai/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 154202,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.92,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 95.032,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 97.62,
+  "capture_duration_s": 95.953,
+  "renegotiation_events": 3,
+  "renegotiation_log_times": [
+    "2026-10-07 22:54:09 us=585326",
+    "2026-10-07 22:54:39 us=233898",
+    "2026-10-07 22:55:09 us=634794"
+  ],
+  "stats": {
+    "packet_count": 1355,
+    "captured_bytes": 717855,
+    "pcap_size": 758529,
+    "client_to_server_packets": 527,
+    "client_to_server_bytes": 116124,
+    "server_to_client_packets": 828,
+    "server_to_client_bytes": 601731,
+    "capture_duration_s": 90.024,
+    "packets_per_sec": 15.05,
+    "bytes_per_sec": 7974.06,
+    "packet_size": {
+      "mean": 529.78,
+      "median": 156,
+      "min": 52,
+      "max": 7416,
+      "p25": 52,
+      "p75": 955,
+      "p90": 1400,
+      "p95": 1608
+    }
+  }
+}

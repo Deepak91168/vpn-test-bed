@@ -1,0 +1,79 @@
+{
+  "session_id": 4,
+  "transport": "udp",
+  "control_protection": "tls-crypt-v2",
+  "obfuscation": "none",
+  "server_ip": "10.208.23.185",
+  "server_port": 1194,
+  "capture_interface": "eth0",
+  "capture_filter": "host 10.208.23.185 and udp port 1194",
+  "profile": "/home/pi/vpn-testbed-v2/client/openvpn/control-protection/tls-crypt-v2/profiles/udp.ovpn",
+  "host": "raspberrypi",
+  "start_time": "2026-10-07T19:57:02.695363+00:00",
+  "vpn_established_time": "2026-10-07T19:57:04.036331+00:00",
+  "web_start_time": "2026-10-07T19:57:04.036519+00:00",
+  "web_end_time": "2026-10-07T19:57:04.637456+00:00",
+  "end_time": "2026-10-07T19:57:05.340748+00:00",
+  "post_session_delay_s": null,
+  "status": "successful",
+  "failure_category": null,
+  "failure_reason": null,
+  "connection_success": true,
+  "web_attempts": 1,
+  "web_successes": 1,
+  "web_failures": 0,
+  "web_sites_planned": [
+    "https://www.wikipedia.org/"
+  ],
+  "rekey_target": null,
+  "reneg_sec": null,
+  "session_seconds_planned": 0,
+  "web_visit_results": [
+    {
+      "requested_url": "https://www.wikipedia.org/",
+      "effective_url": "https://www.wikipedia.org/",
+      "remote_ip": "10.10.78.21",
+      "http_code": "200",
+      "curl_exit_code": 0,
+      "response_bytes": 93955,
+      "success": true,
+      "failure_reason": null
+    }
+  ],
+  "vpn_connect_time_s": 1.341,
+  "tunnel_info": {
+    "dev": "tunvpn",
+    "vpn_ip": "10.8.0.2",
+    "gateway": "10.8.0.1"
+  },
+  "web_success_rate": 1.0,
+  "tunnel_duration_s": 0.632,
+  "server_stop_ok": true,
+  "openvpn_exit_code": 0,
+  "session_duration_s": 2.645,
+  "capture_duration_s": 1.557,
+  "renegotiation_events": 0,
+  "renegotiation_log_times": [],
+  "stats": {
+    "packet_count": 109,
+    "captured_bytes": 51996,
+    "pcap_size": 55290,
+    "client_to_server_packets": 50,
+    "client_to_server_bytes": 11953,
+    "server_to_client_packets": 59,
+    "server_to_client_bytes": 40043,
+    "capture_duration_s": 0.653,
+    "packets_per_sec": 166.82,
+    "bytes_per_sec": 79577.83,
+    "packet_size": {
+      "mean": 477.03,
+      "median": 164,
+      "min": 90,
+      "max": 1492,
+      "p25": 104,
+      "p75": 770,
+      "p90": 1492,
+      "p95": 1492
+    }
+  }
+}
